@@ -10,7 +10,7 @@ import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
-
+//TODO refresh connections, take or poll?
 public class ConnectionPool {
     private static final int MAX_CON = 10;
     private static final String URL = "jdbc:h2:~/test";
