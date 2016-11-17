@@ -26,8 +26,8 @@ class MyThread extends Thread{
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         try {
             Connection connection = connectionPool.getConnection();
-            System.out.println(connectionPool.freeConn.size());
-            this.sleep(1000);
+            System.out.println(connection);
+            this.sleep(10000);
             connection.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());

@@ -12,7 +12,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
-//TODO refresh connections, take or poll?
 public class ConnectionPool {
     private static final int MAX_CON = 10;
     private static final String URL = "jdbc:h2:~/test";
@@ -23,8 +22,8 @@ public class ConnectionPool {
     private static final TimeUnit TIME_UNIT = TimeUnit.MILLISECONDS;
 
     private static final Logger log = LoggerFactory.getLogger(ConnectionPool.class);
-    public BlockingQueue<PooledConnection> freeConn;//FIXME private
-    public int ConnectionCount;//FIXME private
+    private BlockingQueue<PooledConnection> freeConn;
+    private int ConnectionCount;
 
     private ConnectionPool() {
         freeConn = new ArrayBlockingQueue<>(MAX_CON,true);
@@ -56,15 +55,26 @@ public class ConnectionPool {
     }
 
     public Connection getConnection() throws PoolException {
-        if (freeConn.size() == 0){
-                throw new PoolException("Zero connections");
-        }else
-            try {
-                return freeConn.poll(TIME_OUT, TIME_UNIT);
+        PooledConnection connection;
+        try {
+            connection = freeConn.poll(TIME_OUT, TIME_UNIT);
             } catch (InterruptedException e) {
                 log.error("Error when trying to get connection",e);
                 throw new PoolException("Error when trying to get connection",e);
             }
+
+        if (connection == null) throw new PoolException("zero connections");
+
+        try {
+            if (connection.isClosed()) {
+                return newConnection();
+            }
+        } catch (SQLException e) {
+            log.error("Creating new connection was failed");
+            throw new PoolException(e);
+        }
+
+        return connection;
     }
     private static class InstanceHolder{
         public static final ConnectionPool instance = new ConnectionPool();
