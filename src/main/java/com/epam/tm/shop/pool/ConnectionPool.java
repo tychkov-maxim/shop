@@ -10,17 +10,21 @@ import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
+
 //TODO refresh connections, take or poll?
 public class ConnectionPool {
     private static final int MAX_CON = 10;
     private static final String URL = "jdbc:h2:~/test";
     private static final String USERNAME = "shop";
     private static final String PASSWORD = "shop";
-    public static final String DRIVER_NAME = "org.h2.Driver";
+    private static final String DRIVER_NAME = "org.h2.Driver";
+    private static final long TIME_OUT = 1000;
+    private static final TimeUnit TIME_UNIT = TimeUnit.MILLISECONDS;
 
     private static final Logger log = LoggerFactory.getLogger(ConnectionPool.class);
-    public BlockingQueue<PooledConnection> freeConn;
-    public int ConnectionCount;
+    public BlockingQueue<PooledConnection> freeConn;//FIXME private
+    public int ConnectionCount;//FIXME private
 
     private ConnectionPool() {
         freeConn = new ArrayBlockingQueue<>(MAX_CON,true);
@@ -46,27 +50,22 @@ public class ConnectionPool {
            return new PooledConnection(DriverManager.getConnection(URL,USERNAME,PASSWORD));
         } catch (SQLException e) {
             log.error("when trying to create new connection",e);
-            //TODO something else
+            //FIXME throw new PoolException("when trying to create new connection",e);
+            return null;
         }
-
-        return null;
     }
 
     public Connection getConnection() throws PoolException {
         if (freeConn.size() == 0){
-            if (ConnectionCount < MAX_CON) {
-                return newConnection();
-            }else
                 throw new PoolException("Zero connections");
         }else
             try {
-                return freeConn.take();
+                return freeConn.poll(TIME_OUT, TIME_UNIT);
             } catch (InterruptedException e) {
                 log.error("Error when trying to get connection",e);
                 throw new PoolException("Error when trying to get connection",e);
             }
     }
-
     private static class InstanceHolder{
         public static final ConnectionPool instance = new ConnectionPool();
     }
@@ -79,12 +78,12 @@ public class ConnectionPool {
         }
 
         @Override
-        public void close() throws SQLException {
+        public void close() throws PoolException {
             try {
                 freeConn.put(this);
             } catch (InterruptedException e) {
-                log.error("Error when trying to put connection to pool",e);
-                //TODO need except here
+                log.error("When trying to put connection to pool",e);
+                throw new PoolException("When trying to put connection to pool",e);
             }
         }
 

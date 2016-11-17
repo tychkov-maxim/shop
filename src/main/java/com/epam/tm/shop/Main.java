@@ -14,6 +14,7 @@ public class Main {
     }
 }
 
+
 class MyThread extends Thread{
     public MyThread() {
 
@@ -25,9 +26,9 @@ class MyThread extends Thread{
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         try {
             Connection connection = connectionPool.getConnection();
+            System.out.println(connectionPool.freeConn.size());
             this.sleep(1000);
             connection.close();
-            System.out.println(connectionPool.freeConn.size());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

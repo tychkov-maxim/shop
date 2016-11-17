@@ -1,6 +1,8 @@
 package com.epam.tm.shop.pool;
 
-public class PoolException extends Exception{
+import java.sql.SQLException;
+
+public class PoolException extends SQLException{
 
     public PoolException(String message) {
         super(message);

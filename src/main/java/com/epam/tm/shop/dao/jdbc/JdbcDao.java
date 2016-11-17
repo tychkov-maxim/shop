@@ -30,6 +30,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             ps = connection.prepareStatement(query);
             setPsFields(ps,entity);
             ps.executeUpdate();
+            ps.close();
         } catch (SQLException e) {
             log.error("SQLException, when trying to save {}",entity,e);
             throw new JdbcException(e);
