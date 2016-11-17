@@ -77,7 +77,7 @@ public class ConnectionPool {
         return connection;
     }
     private static class InstanceHolder{
-        public static final ConnectionPool instance = new ConnectionPool();
+        private static final ConnectionPool instance = new ConnectionPool();
     }
 
     private class PooledConnection implements Connection{
