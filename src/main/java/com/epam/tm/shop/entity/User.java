@@ -14,11 +14,11 @@ public class User extends BaseEntity{
     public User() {
     }
 
-    public User(String firstName, String lastName, String login, String password, Role role, Money account) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String login, String password, String firstName, String lastName,  Role role, Money account) {
         this.login = login;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.role = role;
         this.account = account;
     }

@@ -14,9 +14,9 @@ import java.util.concurrent.TimeUnit;
 
 public class ConnectionPool {
     private static final int MAX_CON = 10;
-    private static final String URL = "jdbc:h2:~/test";
-    private static final String USERNAME = "shop";
-    private static final String PASSWORD = "shop";
+    private static final String URL = "jdbc:h2:tcp://localhost:9092/default";
+    private static final String USERNAME = "";
+    private static final String PASSWORD = "";
     private static final String DRIVER_NAME = "org.h2.Driver";
     private static final long TIME_OUT = 1000;
     private static final TimeUnit TIME_UNIT = TimeUnit.MILLISECONDS;

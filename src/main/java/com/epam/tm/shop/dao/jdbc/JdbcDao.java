@@ -30,6 +30,9 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             ps = connection.prepareStatement(query);
             setPsFields(ps,entity);
             ps.executeUpdate();
+            ResultSet generatedKeys = ps.getGeneratedKeys();
+            generatedKeys.next();
+            entity.setId(generatedKeys.getInt(1));
             ps.close();
         } catch (SQLException e) {
             log.error("SQLException, when trying to save {}",entity,e);
@@ -57,7 +60,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     }
 
-    abstract void setPsFields(PreparedStatement ps,T entity);
+    abstract void setPsFields(PreparedStatement ps,T entity) throws JdbcException;
     abstract String getInsertQuery();
     abstract String getUpdateQuery();
     abstract String getSelectQueryById(int id);
