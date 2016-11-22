@@ -70,4 +70,16 @@ public class User extends BaseEntity{
     public void setAccount(Money account) {
         this.account = account;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                ", account=" + account +
+                "} " + super.toString();
+    }
 }

@@ -45,8 +45,9 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     public T findById(int id) throws JdbcException {
         T entity = null;
         try {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(getSelectQueryById(id));
+            PreparedStatement ps = connection.prepareStatement(getSelectQueryById());
+            ps.setInt(1,id);
+            ResultSet rs = ps.executeQuery();
             entity = createEntityFromResultSet(rs);
         } catch (SQLException e) {
             log.error("SQLException, when trying to find entity by id {}",id,e);
@@ -63,6 +64,6 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     abstract void setPsFields(PreparedStatement ps,T entity) throws JdbcException;
     abstract String getInsertQuery();
     abstract String getUpdateQuery();
-    abstract String getSelectQueryById(int id);
-    abstract T createEntityFromResultSet(ResultSet rs);
+    abstract String getSelectQueryById();
+    abstract T createEntityFromResultSet(ResultSet rs) throws SQLException, JdbcException;
 }

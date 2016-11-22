@@ -20,6 +20,7 @@ public class Role extends BaseEntity{
         this.name = name;
     }
 
+
     public static Role getAdministratorRole(){
         return new Role("Administrator",2);
     }
@@ -28,5 +29,12 @@ public class Role extends BaseEntity{
     }
     public static Role getAnonymousRole(){
         return new Role("Anonymous",0);
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "name='" + name + '\'' +
+                "} ";
     }
 }
