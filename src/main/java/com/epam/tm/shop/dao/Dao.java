@@ -6,5 +6,6 @@ import com.epam.tm.shop.entity.BaseEntity;
 public interface Dao<T extends BaseEntity> {
     T save(T entity) throws JdbcException;
     T findById(int id) throws JdbcException;
-    void delete(T entity);
+    void delete(T entity) throws JdbcException;
+    void deleteById(int id) throws JdbcException;
 }

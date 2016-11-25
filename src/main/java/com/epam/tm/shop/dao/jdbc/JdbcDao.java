@@ -35,7 +35,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             entity.setId(generatedKeys.getInt(1));
             ps.close();
         } catch (SQLException e) {
-            log.error("SQLException, when trying to save {}",entity,e);
+            log.error("saving entity:{} was failed",entity,e);
             throw new JdbcException(e);
         }
         return entity;
@@ -49,21 +49,36 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             ps.setInt(1,id);
             ResultSet rs = ps.executeQuery();
             entity = createEntityFromResultSet(rs);
+            ps.close();
         } catch (SQLException e) {
-            log.error("SQLException, when trying to find entity by id {}",id,e);
+            log.error("finding entity by id = {} was failed",id,e);
             throw new JdbcException(e);
         }
         return entity;
     }
 
     @Override
-    public void delete(T entity) {
-
+    public void delete(T entity) throws JdbcException {
+        deleteById(entity.getId());
     }
 
-    abstract void setPsFields(PreparedStatement ps,T entity) throws JdbcException;
-    abstract String getInsertQuery();
-    abstract String getUpdateQuery();
-    abstract String getSelectQueryById();
-    abstract T createEntityFromResultSet(ResultSet rs) throws SQLException, JdbcException;
+    @Override
+    public void deleteById(int id) throws JdbcException {
+        try {
+            PreparedStatement ps = connection.prepareStatement(getDeleteQuery());
+            ps.setInt(1,id);
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            log.error("deleting entity by id = {} was failed",id,e);
+            throw new JdbcException(e);
+        }
+    }
+
+    protected abstract String getDeleteQuery();
+    protected abstract void setPsFields(PreparedStatement ps,T entity) throws JdbcException;
+    protected abstract String getInsertQuery();
+    protected abstract String getUpdateQuery();
+    protected abstract String getSelectQueryById();
+    protected abstract T createEntityFromResultSet(ResultSet rs) throws SQLException, JdbcException;
 }

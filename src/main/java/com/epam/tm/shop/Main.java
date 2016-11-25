@@ -25,14 +25,14 @@ public class Main {
         UserDao userDao = factory.getUserDao();
         userDao.setCon(connection);
 
-        //User user = new User("login","pass","Max","fam", Role.getAdministratorRole(), Money.of(CurrencyUnit.USD, 6666666.66));
+        User user = new User("login","pass","Max","fam", Role.getAdministratorRole(), Money.of(CurrencyUnit.USD, 6666666.66));
 
 
         try {
-            User user = userDao.findById(2);
-            System.out.println(user);
+            System.out.println(userDao.save(user));
+
         } catch (JdbcException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 

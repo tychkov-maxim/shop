@@ -14,13 +14,16 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     private static final String INSERT_QUERY = "INSERT INTO users VALUES(DEFAULT,?,?,?,?,?,?,?)";
     private static final String UPDATE_QUERY = "UPDATE users  SET WHERE id = ?";
     private static final String SELECT_QUERY = "SELECT * FROM users JOIN roles ON users.role = roles.id WHERE users.id = ?";
+    private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?";
 
     public JdbcUserDao(Connection connection) {
         super(connection);
     }
 
+
+
     @Override
-    void setPsFields(PreparedStatement ps, User entity) throws JdbcException {
+    protected void setPsFields(PreparedStatement ps, User entity) throws JdbcException {
 
         try {
             ps.setString(1,entity.getLogin());
@@ -38,22 +41,26 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     }
 
     @Override
-    String getInsertQuery() {
+    protected String getInsertQuery() {
         return INSERT_QUERY;
     }
 
     @Override
-    String getUpdateQuery() {
+    protected String getUpdateQuery() {
         return UPDATE_QUERY;
     }
 
     @Override
-    String getSelectQueryById() {
+    protected String getSelectQueryById() {
         return SELECT_QUERY;
     }
 
     @Override
-    User createEntityFromResultSet(ResultSet rs) throws JdbcException {
+    protected String getDeleteQuery() {
+        return DELETE_QUERY;
+    }
+    @Override
+    protected User createEntityFromResultSet(ResultSet rs) throws JdbcException {
         try {
             if (rs.next()){
                 User user = new User();
