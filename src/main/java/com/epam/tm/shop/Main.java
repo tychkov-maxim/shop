@@ -27,13 +27,13 @@ public class Main {
         UserDao userDao = factory.getUserDao();
         userDao.setCon(connection);
 
-        User user = new User("Max","pass","Максим","fam", Role.getAdministratorRole(), Money.of(CurrencyUnit.USD, 6666666.66),"");
+        User user = new User("Maximus","pass","Максим","fam", Role.getAdministratorRole(), Money.of(CurrencyUnit.USD, 6666666.66),"");
 
 
         try {
-//            System.out.println(userDao.save(user));
-            User byId = userDao.findById(7);
-            System.out.println(byId.getAddress());
+            user = userDao.save(user);
+            System.out.println(user);
+
         } catch (JdbcException e) {
             //e.printStackTrace();
         }

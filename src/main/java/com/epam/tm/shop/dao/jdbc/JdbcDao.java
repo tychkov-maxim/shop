@@ -31,8 +31,8 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             setPsFields(ps,entity);
             ps.executeUpdate();
             ResultSet generatedKeys = ps.getGeneratedKeys();
-            generatedKeys.next();
-            entity.setId(generatedKeys.getInt(1));
+            if (generatedKeys.next())
+                entity.setId(generatedKeys.getInt(1));
             ps.close();
         } catch (SQLException e) {
             log.error("saving entity:{} was failed",entity,e);

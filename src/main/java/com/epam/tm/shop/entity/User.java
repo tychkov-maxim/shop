@@ -91,6 +91,7 @@ public class User extends BaseEntity{
                 ", password='" + password + '\'' +
                 ", role=" + role +
                 ", account=" + account +
+                ", address='" + address + '\'' +
                 "} " + super.toString();
     }
 }

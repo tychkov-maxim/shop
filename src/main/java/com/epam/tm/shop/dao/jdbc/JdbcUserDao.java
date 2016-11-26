@@ -12,7 +12,7 @@ import java.sql.*;
 public class JdbcUserDao extends JdbcDao<User> implements UserDao {
 
     private static final String INSERT_QUERY = "INSERT INTO users VALUES(DEFAULT,?,?,?,?,?,?,?,?)";
-    private static final String UPDATE_QUERY = "UPDATE users SET WHERE id = ?";//// FIXME: 26.11.2016 
+    private static final String UPDATE_QUERY = "UPDATE users SET login = ?, password = ?, first_name = ?, last_name = ?, role = ?, account = ?, account_unit = ?, address = ? WHERE id = ?";
     private static final String SELECT_QUERY = "SELECT * FROM users JOIN roles ON users.role = roles.id WHERE users.id = ?";
     private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?";
 
@@ -34,6 +34,10 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
             ps.setBigDecimal(6,entity.getAccount().getAmount());
             ps.setString(7,entity.getAccount().getCurrencyUnit().toString());
             ps.setString(8,entity.getAddress());
+
+            Integer id = entity.getId();
+            if (id != null)
+                ps.setInt(9,entity.getId());
 
         } catch (SQLException e) {
             throw new JdbcException(e);
