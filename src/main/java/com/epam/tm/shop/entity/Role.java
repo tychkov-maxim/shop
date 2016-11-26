@@ -22,13 +22,13 @@ public class Role extends BaseEntity{
 
 
     public static Role getAdministratorRole(){
-        return new Role("Administrator",2);
+        return new Role("Administrator",3);
     }
     public static Role getUserRole(){
-        return new Role("User",1);
+        return new Role("User",2);
     }
     public static Role getAnonymousRole(){
-        return new Role("Anonymous",0);
+        return new Role("Anonymous",1);
     }
 
     @Override
