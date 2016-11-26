@@ -9,18 +9,20 @@ public class User extends BaseEntity{
     private String password;
     private Role role;
     private Money account;
+    private String address;
 
 
     public User() {
     }
 
-    public User(String login, String password, String firstName, String lastName,  Role role, Money account) {
-        this.login = login;
-        this.password = password;
+    public User(String firstName, String lastName, String login, String password, Role role, Money account, String address) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.login = login;
+        this.password = password;
         this.role = role;
         this.account = account;
+        this.address = address;
     }
 
     public String getFirstName() {
@@ -70,6 +72,15 @@ public class User extends BaseEntity{
     public void setAccount(Money account) {
         this.account = account;
     }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
 
     @Override
     public String toString() {

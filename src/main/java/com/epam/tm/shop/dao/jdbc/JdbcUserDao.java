@@ -11,8 +11,8 @@ import java.sql.*;
 
 public class JdbcUserDao extends JdbcDao<User> implements UserDao {
 
-    private static final String INSERT_QUERY = "INSERT INTO users VALUES(DEFAULT,?,?,?,?,?,?,?)";
-    private static final String UPDATE_QUERY = "UPDATE users  SET WHERE id = ?";
+    private static final String INSERT_QUERY = "INSERT INTO users VALUES(DEFAULT,?,?,?,?,?,?,?,?)";
+    private static final String UPDATE_QUERY = "UPDATE users SET WHERE id = ?";//// FIXME: 26.11.2016 
     private static final String SELECT_QUERY = "SELECT * FROM users JOIN roles ON users.role = roles.id WHERE users.id = ?";
     private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?";
 
@@ -33,6 +33,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
             ps.setInt(5,entity.getRole().getId());
             ps.setBigDecimal(6,entity.getAccount().getAmount());
             ps.setString(7,entity.getAccount().getCurrencyUnit().toString());
+            ps.setString(8,entity.getAddress());
 
         } catch (SQLException e) {
             throw new JdbcException(e);
@@ -71,7 +72,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
                 user.setLastName(rs.getString("last_name"));
                 user.setRole(new Role(rs.getString("roles.name"),rs.getInt("role")));
                 user.setAccount(Money.of(CurrencyUnit.getInstance(rs.getString("account_unit")),rs.getBigDecimal("account")));
-
+                user.setAddress(rs.getString("address"));
                 return user;
             }else {
                 throw new JdbcException("no one user was found");

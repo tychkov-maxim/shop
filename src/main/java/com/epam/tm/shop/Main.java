@@ -13,6 +13,7 @@ import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
 import java.sql.Connection;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws PoolException {
@@ -21,16 +22,18 @@ public class Main {
         Connection connection = connectionPool.getConnection();
 
 
+
         DaoFactory factory = DaoFactory.createFactory();
         UserDao userDao = factory.getUserDao();
         userDao.setCon(connection);
 
-        User user = new User("login","pass","Max","fam", Role.getAdministratorRole(), Money.of(CurrencyUnit.USD, 6666666.66));
+        User user = new User("Max","pass","Максим","fam", Role.getAdministratorRole(), Money.of(CurrencyUnit.USD, 6666666.66),"");
 
 
         try {
-            System.out.println(userDao.save(user));
-
+//            System.out.println(userDao.save(user));
+            User byId = userDao.findById(7);
+            System.out.println(byId.getAddress());
         } catch (JdbcException e) {
             //e.printStackTrace();
         }

@@ -14,8 +14,9 @@ CREATE TABLE PUBLIC.users
     first_name CHAR(255) NOT NULL,
     last_name CHAR(255) NOT NULL,
     role INT,
-    account DECIMAL NOT NULL,
+    account DECIMAL(11,2) NOT NULL,
     account_unit CHAR(3) NOT NULL,
+    address CHAR(255) NULL,
     CONSTRAINT users_ROLES_ID_fk FOREIGN KEY (role) REFERENCES roles (ID)
 );
 
@@ -24,4 +25,4 @@ CREATE UNIQUE INDEX "users_login_uindex" ON PUBLIC.users (login);
 insert into roles VALUES (0,'Anonymous');
 insert into roles VALUES (1,'User');
 insert into roles VALUES (2,'Administrator');
-INSERT INTO users VALUES (DEFAULT, 'hello','world','Max','Last Name',2,0.0,'USD');
+INSERT INTO users VALUES (DEFAULT, 'hello','world','Max','Last Name',2,0.0,'USD','');
