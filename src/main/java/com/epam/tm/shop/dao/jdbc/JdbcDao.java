@@ -31,7 +31,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             setPsFields(ps,entity);
             ps.executeUpdate();
             ResultSet generatedKeys = ps.getGeneratedKeys();
-            if (generatedKeys.next())
+            if (generatedKeys.next())//fixme need to know
                 entity.setId(generatedKeys.getInt(1));
             ps.close();
         } catch (SQLException e) {

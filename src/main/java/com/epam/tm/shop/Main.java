@@ -31,7 +31,7 @@ public class Main {
 
 
         try {
-            user = userDao.save(user);
+            user = userDao.findByLogin("Максим");
             System.out.println(user);
 
         } catch (JdbcException e) {

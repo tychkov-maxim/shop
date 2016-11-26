@@ -8,6 +8,8 @@ import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JdbcUserDao extends JdbcDao<User> implements UserDao {
 
@@ -15,12 +17,12 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     private static final String UPDATE_QUERY = "UPDATE users SET login = ?, password = ?, first_name = ?, last_name = ?, role = ?, account = ?, account_unit = ?, address = ? WHERE id = ?";
     private static final String SELECT_QUERY = "SELECT * FROM users JOIN roles ON users.role = roles.id WHERE users.id = ?";
     private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?";
+    private static final String SELECT_QUERY_BY_LOGIN = "SELECT * FROM users JOIN roles ON users.role = roles.id WHERE users.login = ?";
+
 
     public JdbcUserDao(Connection connection) {
         super(connection);
     }
-
-
 
     @Override
     protected void setPsFields(PreparedStatement ps, User entity) throws JdbcException {
@@ -85,6 +87,38 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
             log.error("creating user entity from result set was failed");
             throw new JdbcException(e);
         }
+    }
+
+    private List<User> findByString(String key, String query) throws JdbcException {
+        List<User> users = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1,key);
+            ResultSet rs = ps.executeQuery();
+            while(!rs.isLast())
+                users.add(createEntityFromResultSet(rs));
+            ps.close();
+        } catch (SQLException e) {
+            throw new JdbcException(e);
+        }
+
+        return users;
+
+    }
+
+    @Override
+    public User findByLogin(String login) throws JdbcException {
+        List<User> users;
+
+        try {
+            users = findByString(login, SELECT_QUERY_BY_LOGIN);
+        } catch (JdbcException e) {
+            log.error("finding user by login = {} was failed",login);
+            throw new JdbcException(e);
+        }
+
+        return users.get(0);
     }
 
     // FIXME: 22.11.2016
