@@ -16,11 +16,10 @@ import java.util.List;
 public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
 
 
-    private static final String INSERT_QUERY = "INSERT INTO users VALUES(DEFAULT,?,?,?,?,?,?,?,?)";
-    private static final String UPDATE_QUERY = "UPDATE users SET login = ?, password = ?, first_name = ?, last_name = ?, role = ?, account = ?, account_unit = ?, address = ? WHERE id = ?";
+    private static final String INSERT_QUERY = "INSERT INTO products VALUES(DEFAULT,?,?,?,?,?,?,?)";
+    private static final String UPDATE_QUERY = "UPDATE products SET name = ?, description = ?, price = ?, price_unit = ?, category_id = ?, image_path = ?, quantity = ? WHERE id = ?";
     private static final String SELECT_QUERY = "SELECT * FROM products JOIN categories ON products.category_id = categories.id WHERE products.id = ?";
-    private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?";
-    private static final String SELECT_QUERY_BY_LOGIN = "SELECT * FROM users JOIN roles ON users.role = roles.id WHERE users.login = ?";
+    private static final String DELETE_QUERY = "DELETE FROM products WHERE id = ?";
 
     public JdbcProductDao(Connection connection) {
         super(connection);
@@ -55,7 +54,23 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
 
     @Override
     protected void setPsFields(PreparedStatement ps, Product entity) throws JdbcException {
+        try {
+            ps.setString(1,entity.getName());
+            ps.setString(2,entity.getDescription());
+            ps.setBigDecimal(3,entity.getPrice().getAmount());
+            ps.setString(4,entity.getPrice().getCurrencyUnit().toString());
+            ps.setInt(5,entity.getProductCategory().getId());
+            ps.setString(6,entity.getImagePath());
+            ps.setInt(7,entity.getQuantity());
 
+            Integer id = entity.getId();
+            if (id != null)
+                ps.setInt(8,entity.getId());
+
+        } catch (SQLException e) {
+            log.error("set product entity to ps was failed");
+            throw new JdbcException(e);
+        }
     }
 
     @Override
@@ -65,17 +80,17 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
 
     @Override
     protected String getUpdateQuery() {
-        return null;
+        return UPDATE_QUERY;
     }
 
     @Override
     protected String getInsertQuery() {
-        return null;
+        return INSERT_QUERY;
     }
 
     @Override
     protected String getDeleteQuery() {
-        return null;
+        return DELETE_QUERY;
     }
 
     // FIXME: 22.11.2016
