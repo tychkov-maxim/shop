@@ -39,4 +39,9 @@ public class JdbcDaoFactory extends DaoFactory{
     public CartDao getCartDao() {
         return new JdbcCartDao(connection);
     }
+
+    @Override
+    public OrderDao getOrderDao() {
+        return new JdbcOrderDao(connection);
+    }
 }

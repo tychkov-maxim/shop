@@ -12,5 +12,6 @@ public abstract class DaoFactory {
     public abstract ProductDao getProductDao();
     public abstract ProductCategoryDao getProductCategoryDao();
     public abstract CartDao getCartDao();
+    public abstract OrderDao getOrderDao();
 
 }
