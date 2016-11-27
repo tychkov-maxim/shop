@@ -95,8 +95,4 @@ public class JdbcProductCategory extends JdbcDao<ProductCategory> implements Pro
         return ProductCategories.get(0);
     }
 
-    // FIXME: 22.11.2016
-    public void setCon(Connection con) {
-        this.connection = con;
-    }
 }

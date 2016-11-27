@@ -112,9 +112,4 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
     }
 
 
-    // FIXME: 22.11.2016
-    public void setCon(Connection con){
-        this.connection = con;
-    }
-
 }

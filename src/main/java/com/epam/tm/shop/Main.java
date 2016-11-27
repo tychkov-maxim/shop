@@ -16,14 +16,8 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws PoolException {
 
-        ConnectionPool connectionPool = ConnectionPool.getInstance();
-        Connection connection = connectionPool.getConnection();
-
-
-
         DaoFactory factory = DaoFactory.createFactory();
         CartDao cartDao = factory.getCartDao();
-        cartDao.setCon(connection);
 
 
 

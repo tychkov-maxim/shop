@@ -93,8 +93,4 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
         return DELETE_QUERY;
     }
 
-    // FIXME: 22.11.2016
-    public void setCon(Connection con){
-        this.connection = con;
-    }
 }

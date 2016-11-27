@@ -8,5 +8,4 @@ import java.util.List;
 
 public interface ProductCategoryDao extends Dao<ProductCategory>{
     ProductCategory findProductCategoryByName(String name) throws JdbcException;
-    void setCon(Connection con);// FIXME: 22.11.2016
 }
