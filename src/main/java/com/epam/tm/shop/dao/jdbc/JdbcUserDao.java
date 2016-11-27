@@ -124,8 +124,5 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         return users.get(0);
     }
 
-    // FIXME: 22.11.2016
-    public void setCon(Connection con){
-        this.connection = con;
-    }
+
 }

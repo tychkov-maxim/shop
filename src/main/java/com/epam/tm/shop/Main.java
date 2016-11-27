@@ -1,10 +1,12 @@
 package com.epam.tm.shop;
 
 import com.epam.tm.shop.dao.DaoFactory;
+import com.epam.tm.shop.dao.ProductDao;
 import com.epam.tm.shop.dao.UserDao;
 import com.epam.tm.shop.dao.jdbc.JdbcDao;
 import com.epam.tm.shop.dao.jdbc.JdbcException;
 import com.epam.tm.shop.dao.jdbc.JdbcUserDao;
+import com.epam.tm.shop.entity.Product;
 import com.epam.tm.shop.entity.Role;
 import com.epam.tm.shop.entity.User;
 import com.epam.tm.shop.pool.ConnectionPool;
@@ -24,15 +26,14 @@ public class Main {
 
 
         DaoFactory factory = DaoFactory.createFactory();
-        UserDao userDao = factory.getUserDao();
-        userDao.setCon(connection);
+        ProductDao productDao = factory.getProductDao();
+        productDao.setCon(connection);
 
-        User user = new User("Maximus","pass","Максим","fam", Role.getAdministratorRole(), Money.of(CurrencyUnit.USD, 6666666.66),"");
 
 
         try {
-            user = userDao.findByLogin("Максим");
-            System.out.println(user);
+            Product product = productDao.findById(1);
+            System.out.println(product);
 
         } catch (JdbcException e) {
             e.printStackTrace();

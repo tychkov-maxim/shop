@@ -11,7 +11,8 @@ public class ProductCategory extends BaseEntity{
     public ProductCategory() {
     }
 
-    public ProductCategory(String name, String description) {
+    public ProductCategory(int id,String name, String description) {
+        this.setId(id);
         this.name = name;
         this.description = description;
     }
