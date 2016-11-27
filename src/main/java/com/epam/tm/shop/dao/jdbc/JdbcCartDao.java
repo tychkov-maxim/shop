@@ -9,25 +9,29 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
 
     private static final String INSERT_QUERY = "INSERT INTO carts VALUES(?,?,?)";
-    private static final String UPDATE_QUERY = "UPDATE users SET login = ?, password = ?, first_name = ?, last_name = ?, role = ?, account = ?, account_unit = ?, address = ? WHERE id = ?";
-    private static final String SELECT_QUERY = "SELECT * FROM users JOIN roles ON users.role = roles.id WHERE users.id = ?";
-    private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?";
+    private static final String SELECT_QUERY = "SELECT * FROM carts WHERE cart_id = ?";
+    private static final String DELETE_QUERY = "DELETE FROM carts WHERE cart_id = ?";
 
 
     public JdbcCartDao(Connection connection) {
         super(connection);
     }
 
+    @Override
+    public Cart save(Cart entity) throws JdbcException {
+        throw new UnsupportedOperationException("not supported, we have insert and update");
+    }
+
     //// FIXME: 27.11.2016
     @Override
     public Cart insert(Cart cart, int id) throws JdbcException {
-
         PreparedStatement ps;
         try {
             ps = connection.prepareStatement(INSERT_QUERY);
@@ -49,8 +53,16 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
     }
 
     @Override
+    public Cart update(Cart cart) throws JdbcException {
+        deleteById(cart.getId());
+        return insert(cart,cart.getId());
+    }
+
+
+    @Override
     protected void setPsFields(PreparedStatement ps, Cart entity) throws JdbcException {
     }
+
 
     @Override
     protected String getInsertQuery() {
@@ -59,7 +71,7 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
 
     @Override
     protected String getUpdateQuery() {
-        return UPDATE_QUERY;
+        return "";
     }
 
     @Override
@@ -73,30 +85,30 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
     }
     @Override
     protected List<Cart> createEntityFromResultSet(ResultSet rs) throws JdbcException {
-        /*List<User> users = new ArrayList<>();
+        List<Cart> carts = new ArrayList<>();
+        Cart cart = new Cart();
+        Map<Product,Integer> map = new HashMap<>();
+        Integer id = null;
         try {
             while (rs.next()){
-                User user = new User();
-                user.setId(rs.getInt("id"));
-                user.setLogin(rs.getString("login"));
-                user.setPassword(rs.getString("password"));
-                user.setFirstName(rs.getString("first_name"));
-                user.setLastName(rs.getString("last_name"));
-                user.setRole(new Role(rs.getString("roles.name"),rs.getInt("role")));
-                user.setAccount(Money.of(CurrencyUnit.getInstance(rs.getString("account_unit")),rs.getBigDecimal("account")));
-                user.setAddress(rs.getString("address"));
-                users.add(user);
+                Product product = new Product();
+                product.setId(rs.getInt("product_id"));
+                map.put(product,rs.getInt("quantity"));
+                id = rs.getInt("cart_id");
             }
         } catch (SQLException e) {
-            log.error("creating user entity from result set was failed");
+            log.error("creating cart entity from result set was failed");
             throw new JdbcException(e);
         }
 
-        if (users.size() == 0)
-            throw new JdbcException("no one user was found");
+        cart.setId(id);
+        cart.setCart(map);
 
-        return users;*/
-        return new ArrayList<>();
+        if (cart.getCart().size() == 0)
+            throw new JdbcException("no one cart was found");
+
+        carts.add(cart);
+        return carts;
     }
 
 

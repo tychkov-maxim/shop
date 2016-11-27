@@ -12,7 +12,6 @@ public class Cart extends BaseEntity{
 
     public boolean addProduct(Product product, Integer quantity) {
         if (!HaveEnoughProduct(product, quantity)) return false;
-
         cart.put(product,quantity);
         return true;
     }

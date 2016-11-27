@@ -16,15 +16,6 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws PoolException {
 
-        Cart cart = new Cart();
-        Product product = new Product();
-        product.setId(555);
-        product.setQuantity(100);
-        System.out.println(cart.addProduct(product, 55));
-        product = new Product();
-        product.setId(666);
-        product.setQuantity(100);
-        System.out.println(cart.addProduct(product, 55));
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         Connection connection = connectionPool.getConnection();
 
@@ -38,9 +29,11 @@ public class Main {
 
         try {
 
-            cart = cartDao.insert(cart, 1);
+            Cart cart = cartDao.findById(1);
+            for (Map.Entry<Product, Integer> entry : cart.getCart().entrySet()) {
+                System.out.println(entry);
+            }
 
-            System.out.println(cart);
 
         } catch (JdbcException e) {
             e.printStackTrace();
