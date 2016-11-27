@@ -69,4 +69,16 @@ public class Product extends BaseEntity{
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", productCategory=" + productCategory +
+                ", imagePath='" + imagePath + '\'' +
+                ", quantity=" + quantity +
+                "} " + super.toString();
+    }
 }

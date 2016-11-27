@@ -7,6 +7,7 @@ import com.epam.tm.shop.dao.jdbc.JdbcDao;
 import com.epam.tm.shop.dao.jdbc.JdbcException;
 import com.epam.tm.shop.dao.jdbc.JdbcUserDao;
 import com.epam.tm.shop.entity.Product;
+import com.epam.tm.shop.entity.ProductCategory;
 import com.epam.tm.shop.entity.Role;
 import com.epam.tm.shop.entity.User;
 import com.epam.tm.shop.pool.ConnectionPool;
@@ -29,11 +30,12 @@ public class Main {
         ProductDao productDao = factory.getProductDao();
         productDao.setCon(connection);
 
+        //Product product = new Product("Toshiba TV","",Money.of(CurrencyUnit.USD, 25), new ProductCategory(1,"",""),"/sam.png",5);
+
 
 
         try {
-            Product product = productDao.findById(1);
-            System.out.println(product);
+            productDao.deleteById(1);
 
         } catch (JdbcException e) {
             e.printStackTrace();
