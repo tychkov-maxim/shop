@@ -1,6 +1,7 @@
 package com.epam.tm.shop;
 
 import com.epam.tm.shop.dao.DaoFactory;
+import com.epam.tm.shop.dao.ProductCategoryDao;
 import com.epam.tm.shop.dao.ProductDao;
 import com.epam.tm.shop.dao.UserDao;
 import com.epam.tm.shop.dao.jdbc.JdbcDao;
@@ -27,15 +28,16 @@ public class Main {
 
 
         DaoFactory factory = DaoFactory.createFactory();
-        ProductDao productDao = factory.getProductDao();
-        productDao.setCon(connection);
+        ProductCategoryDao productCategoryDao = factory.getProductCategoryDao();
+        productCategoryDao.setCon(connection);
 
-        //Product product = new Product("Toshiba TV","",Money.of(CurrencyUnit.USD, 25), new ProductCategory(1,"",""),"/sam.png",5);
-
-
+        ProductCategory productCategory = new ProductCategory("T-Shirts","Here is a lot of T-Shirts");
 
         try {
-            productDao.deleteById(1);
+            productCategory = productCategoryDao.findById(5);
+            productCategory.setDescription("T-shirts almost for free");
+            productCategory = productCategoryDao.save(productCategory);
+            System.out.println(productCategory);
 
         } catch (JdbcException e) {
             e.printStackTrace();

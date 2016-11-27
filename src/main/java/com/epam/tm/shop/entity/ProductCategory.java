@@ -11,7 +11,12 @@ public class ProductCategory extends BaseEntity{
     public ProductCategory() {
     }
 
-    public ProductCategory(int id,String name, String description) {
+    public ProductCategory(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public ProductCategory(int id, String name, String description) {
         this.setId(id);
         this.name = name;
         this.description = description;
@@ -31,5 +36,13 @@ public class ProductCategory extends BaseEntity{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductCategory{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                "} " + super.toString();
     }
 }

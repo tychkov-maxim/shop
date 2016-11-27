@@ -14,7 +14,7 @@ public class JdbcProductCategory extends JdbcDao<ProductCategory> implements Pro
 
     private static final String INSERT_QUERY = "INSERT INTO categories VALUES(DEFAULT,?,?)";
     private static final String UPDATE_QUERY = "UPDATE categories SET name = ?, description = ? WHERE id = ?";
-    private static final String SELECT_QUERY = "SELECT * FROM categories WHERE products.id = ?";
+    private static final String SELECT_QUERY = "SELECT * FROM categories WHERE id = ?";
     private static final String DELETE_QUERY = "DELETE FROM categories WHERE id = ?";
 
     public JdbcProductCategory(Connection connection) {
