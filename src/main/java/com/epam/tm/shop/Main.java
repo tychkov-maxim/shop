@@ -1,14 +1,11 @@
 package com.epam.tm.shop;
 
 import com.epam.tm.shop.dao.*;
-import com.epam.tm.shop.dao.jdbc.JdbcDao;
 import com.epam.tm.shop.dao.jdbc.JdbcException;
-import com.epam.tm.shop.dao.jdbc.JdbcUserDao;
 import com.epam.tm.shop.entity.*;
 import com.epam.tm.shop.pool.ConnectionPool;
 import com.epam.tm.shop.pool.PoolException;
-import org.joda.money.CurrencyUnit;
-import org.joda.money.Money;
+import com.epam.tm.shop.service.CartService;
 
 import java.sql.Connection;
 import java.util.*;
@@ -19,11 +16,11 @@ public class Main {
         DaoFactory factory = DaoFactory.createFactory();
         CartDao cartDao = factory.getCartDao();
 
-
+        CartService cartService = new CartService();
 
         try {
 
-            Cart cart = cartDao.findById(1);
+            Cart cart = cartService.getCartById(1);
             for (Map.Entry<Product, Integer> entry : cart.getCart().entrySet()) {
                 System.out.println(entry);
             }

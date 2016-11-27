@@ -12,7 +12,7 @@ public class JdbcDaoFactory extends DaoFactory{
 
     public static final Logger log = LoggerFactory.getLogger(JdbcDaoFactory.class);
     private Connection connection;
-    //// FIXME: 27.11.2016 need to know where connection pool will be
+    //// FIXME: 27.11.2016 need to know where connection pool should be
     public JdbcDaoFactory() {
         try {
             connection = ConnectionPool.getInstance().getConnection();
