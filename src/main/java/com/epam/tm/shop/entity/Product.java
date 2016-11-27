@@ -6,17 +6,17 @@ public class Product extends BaseEntity{
     private String name;
     private String description;
     private Money price;
-    private Category category;
+    private ProductCategory productCategory;
     private String imagePath;
 
     public Product() {
     }
 
-    public Product(String name, String description, Money price, Category category, String imagePath) {
+    public Product(String name, String description, Money price, ProductCategory productCategory, String imagePath) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.category = category;
+        this.productCategory = productCategory;
         this.imagePath = imagePath;
     }
 
@@ -44,12 +44,12 @@ public class Product extends BaseEntity{
         this.price = price;
     }
 
-    public Category getCategory() {
-        return category;
+    public ProductCategory getProductCategory() {
+        return productCategory;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setProductCategory(ProductCategory productCategory) {
+        this.productCategory = productCategory;
     }
 
     public String getImagePath() {

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.util.List;
 
 public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     public static final Logger log = LoggerFactory.getLogger(JdbcDao.class);
@@ -48,7 +49,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             PreparedStatement ps = connection.prepareStatement(getSelectQueryById());
             ps.setInt(1,id);
             ResultSet rs = ps.executeQuery();
-            entity = createEntityFromResultSet(rs);
+            entity = createEntityFromResultSet(rs).get(0);
             ps.close();
         } catch (SQLException e) {
             log.error("finding entity by id = {} was failed",id,e);
@@ -75,7 +76,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         }
     }
 
-    protected abstract T createEntityFromResultSet(ResultSet rs) throws SQLException, JdbcException;
+    protected abstract List<T> createEntityFromResultSet(ResultSet rs) throws SQLException, JdbcException;
     protected abstract void setPsFields(PreparedStatement ps,T entity) throws JdbcException;
     protected abstract String getSelectQueryById();
     protected abstract String getUpdateQuery();

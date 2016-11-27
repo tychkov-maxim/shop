@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
 
@@ -15,20 +17,24 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
     }
 
     @Override
-    protected Product createEntityFromResultSet(ResultSet rs) throws SQLException, JdbcException {
+    protected List<Product> createEntityFromResultSet(ResultSet rs) throws SQLException, JdbcException {
+        List<Product> products = new ArrayList<>();
         try {
-            if (rs.next()){
-
-            }else {
-                throw new JdbcException("no one product was found");
+            while (rs.next()){
+                Product product = new Product();
+                product.setId(rs.getInt("id"));
             }
         } catch (SQLException e) {
-            log.error("creating product entity from result set was failed");
+            log.error("creating user entity from result set was failed");
             throw new JdbcException(e);
         }
 
-        return new Product();
+        if (products.size() == 0)
+            throw new JdbcException("no one user was found");
+
+        return products;
     }
+
 
     @Override
     protected void setPsFields(PreparedStatement ps, Product entity) throws JdbcException {

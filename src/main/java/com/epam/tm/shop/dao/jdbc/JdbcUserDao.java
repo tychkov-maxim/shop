@@ -67,9 +67,10 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         return DELETE_QUERY;
     }
     @Override
-    protected User createEntityFromResultSet(ResultSet rs) throws JdbcException {
+    protected List<User> createEntityFromResultSet(ResultSet rs) throws JdbcException {
+        List<User> users = new ArrayList<>();
         try {
-            if (rs.next()){
+            while (rs.next()){
                 User user = new User();
                 user.setId(rs.getInt("id"));
                 user.setLogin(rs.getString("login"));
@@ -79,27 +80,27 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
                 user.setRole(new Role(rs.getString("roles.name"),rs.getInt("role")));
                 user.setAccount(Money.of(CurrencyUnit.getInstance(rs.getString("account_unit")),rs.getBigDecimal("account")));
                 user.setAddress(rs.getString("address"));
-                return user;
-            }else {
-                throw new JdbcException("no one user was found");
+                users.add(user);
             }
         } catch (SQLException e) {
             log.error("creating user entity from result set was failed");
             throw new JdbcException(e);
         }
+
+        if (users.size() == 0)
+            throw new JdbcException("no one user was found");
+
+        return users;
     }
 
     private List<User> findByString(String key, String query) throws JdbcException {
-        List<User> users = new ArrayList<>();
+        List<User> users;
 
         try {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1,key);
             ResultSet rs = ps.executeQuery();
-            do {
-                users.add(createEntityFromResultSet(rs));
-            }while (!rs.isLast());
-
+            users = createEntityFromResultSet(rs);
             ps.close();
         } catch (SQLException e) {
             throw new JdbcException(e);

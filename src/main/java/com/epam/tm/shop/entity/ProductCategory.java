@@ -3,12 +3,12 @@ package com.epam.tm.shop.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Category extends BaseEntity{
+public class ProductCategory extends BaseEntity{
 
     private List<String> categories;
     private int i;
 
-    public Category() {
+    public ProductCategory() {
         categories = new ArrayList<>();
         i = 1;
     }
