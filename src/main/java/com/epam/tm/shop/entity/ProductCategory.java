@@ -5,25 +5,30 @@ import java.util.List;
 
 public class ProductCategory extends BaseEntity{
 
-    private List<String> categories;
-    private int i;
+    private String name;
+    private String description;
 
     public ProductCategory() {
-        categories = new ArrayList<>();
-        i = 1;
     }
 
-    public String getCategory(){
-        return categories.get(0);
+    public ProductCategory(String name, String description) {
+        this.name = name;
+        this.description = description;
     }
 
-    public String getSubCategory(){
-        if (categories.size() >= i) i = 1;
-        if (categories.size() == 1) i = 0;
-        return categories.get(i++);
+    public String getName() {
+        return name;
     }
 
-    public int getAmountSubCategory(){
-        return categories.size()-1;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
