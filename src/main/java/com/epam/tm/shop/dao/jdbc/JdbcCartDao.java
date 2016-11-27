@@ -18,7 +18,6 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
     private static final String UPDATE_QUERY = "UPDATE users SET login = ?, password = ?, first_name = ?, last_name = ?, role = ?, account = ?, account_unit = ?, address = ? WHERE id = ?";
     private static final String SELECT_QUERY = "SELECT * FROM users JOIN roles ON users.role = roles.id WHERE users.id = ?";
     private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?";
-    private static final String SELECT_QUERY_BY_LOGIN = "SELECT * FROM users JOIN roles ON users.role = roles.id WHERE users.login = ?";
 
 
     public JdbcCartDao(Connection connection) {
@@ -26,6 +25,7 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
     }
 
     //// FIXME: 27.11.2016
+    @Override
     public Cart insert(Cart cart, int id) throws JdbcException {
 
         PreparedStatement ps;

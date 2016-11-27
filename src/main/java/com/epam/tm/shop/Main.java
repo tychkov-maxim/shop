@@ -1,9 +1,6 @@
 package com.epam.tm.shop;
 
-import com.epam.tm.shop.dao.DaoFactory;
-import com.epam.tm.shop.dao.ProductCategoryDao;
-import com.epam.tm.shop.dao.ProductDao;
-import com.epam.tm.shop.dao.UserDao;
+import com.epam.tm.shop.dao.*;
 import com.epam.tm.shop.dao.jdbc.JdbcDao;
 import com.epam.tm.shop.dao.jdbc.JdbcException;
 import com.epam.tm.shop.dao.jdbc.JdbcUserDao;
@@ -34,15 +31,16 @@ public class Main {
 
 
         DaoFactory factory = DaoFactory.createFactory();
-        UserDao userDao = factory.getUserDao();
-        userDao.setCon(connection);
+        CartDao cartDao = factory.getCartDao();
+        cartDao.setCon(connection);
 
 
 
         try {
 
-            User user = userDao.findById(1);
-            System.out.println(user);
+            cart = cartDao.insert(cart, 1);
+
+            System.out.println(cart);
 
         } catch (JdbcException e) {
             e.printStackTrace();
