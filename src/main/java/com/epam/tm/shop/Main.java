@@ -7,10 +7,7 @@ import com.epam.tm.shop.dao.UserDao;
 import com.epam.tm.shop.dao.jdbc.JdbcDao;
 import com.epam.tm.shop.dao.jdbc.JdbcException;
 import com.epam.tm.shop.dao.jdbc.JdbcUserDao;
-import com.epam.tm.shop.entity.Product;
-import com.epam.tm.shop.entity.ProductCategory;
-import com.epam.tm.shop.entity.Role;
-import com.epam.tm.shop.entity.User;
+import com.epam.tm.shop.entity.*;
 import com.epam.tm.shop.pool.ConnectionPool;
 import com.epam.tm.shop.pool.PoolException;
 import org.joda.money.CurrencyUnit;
@@ -22,7 +19,13 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws PoolException {
 
-        ConnectionPool connectionPool = ConnectionPool.getInstance();
+        Cart cart = new Cart();
+        Product product = new Product();
+        product.setId(555);
+        product.setQuantity(100);
+        System.out.println(cart.addProduct(product, 55));
+
+   /*     ConnectionPool connectionPool = ConnectionPool.getInstance();
         Connection connection = connectionPool.getConnection();
 
 
@@ -42,7 +45,8 @@ public class Main {
             e.printStackTrace();
         }
     }
-
+*/
+    }
 
     class MyThread extends Thread {
         public MyThread() {
