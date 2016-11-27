@@ -19,6 +19,6 @@ public class JdbcDaoFactory extends DaoFactory{
 
     @Override
     public ProductDao getProductDao() {
-        return null;
+        return new JdbcProductDao(connection);
     }
 }

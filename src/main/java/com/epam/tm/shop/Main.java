@@ -35,7 +35,7 @@ public class Main {
             System.out.println(user);
 
         } catch (JdbcException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
     }
 

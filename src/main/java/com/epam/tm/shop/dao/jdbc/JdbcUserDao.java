@@ -96,8 +96,10 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1,key);
             ResultSet rs = ps.executeQuery();
-            while(!rs.isLast())
+            do {
                 users.add(createEntityFromResultSet(rs));
+            }while (!rs.isLast());
+
             ps.close();
         } catch (SQLException e) {
             throw new JdbcException(e);

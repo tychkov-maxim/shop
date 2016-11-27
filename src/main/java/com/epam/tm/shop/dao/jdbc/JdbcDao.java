@@ -75,10 +75,11 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         }
     }
 
-    protected abstract String getDeleteQuery();
-    protected abstract void setPsFields(PreparedStatement ps,T entity) throws JdbcException;
-    protected abstract String getInsertQuery();
-    protected abstract String getUpdateQuery();
-    protected abstract String getSelectQueryById();
     protected abstract T createEntityFromResultSet(ResultSet rs) throws SQLException, JdbcException;
+    protected abstract void setPsFields(PreparedStatement ps,T entity) throws JdbcException;
+    protected abstract String getSelectQueryById();
+    protected abstract String getUpdateQuery();
+    protected abstract String getInsertQuery();
+    protected abstract String getDeleteQuery();
+
 }
