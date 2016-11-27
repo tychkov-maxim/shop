@@ -2,16 +2,19 @@ package com.epam.tm.shop.dao.jdbc;
 
 import com.epam.tm.shop.dao.CartDao;
 import com.epam.tm.shop.entity.Cart;
+import com.epam.tm.shop.entity.Product;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
 
-    private static final String INSERT_QUERY = "INSERT INTO users VALUES(DEFAULT,?,?,?,?,?,?,?,?)";
+    private static final String INSERT_QUERY = "INSERT INTO carts VALUES(?,?,?)";
     private static final String UPDATE_QUERY = "UPDATE users SET login = ?, password = ?, first_name = ?, last_name = ?, role = ?, account = ?, account_unit = ?, address = ? WHERE id = ?";
     private static final String SELECT_QUERY = "SELECT * FROM users JOIN roles ON users.role = roles.id WHERE users.id = ?";
     private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?";
@@ -22,15 +25,31 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
         super(connection);
     }
 
+    //// FIXME: 27.11.2016
+    public Cart insert(Cart cart, int id) throws JdbcException {
 
-    @Override
-    public Cart save(Cart entity) throws JdbcException {
-        return super.save(entity);
+        PreparedStatement ps;
+        try {
+            ps = connection.prepareStatement(INSERT_QUERY);
+
+            for (Map.Entry<Product, Integer> entry : cart.getCart().entrySet()) {
+                ps.setInt(1,id);
+                ps.setInt(2,entry.getKey().getId());
+                ps.setInt(3,entry.getValue());
+                ps.executeUpdate();
+            }
+            ps.close();
+        } catch (SQLException e) {
+            log.error("inserting cart:{} was failed",cart,e);
+            throw new JdbcException(e);
+        }
+
+        cart.setId(id);
+        return cart;
     }
 
     @Override
     protected void setPsFields(PreparedStatement ps, Cart entity) throws JdbcException {
-
     }
 
     @Override

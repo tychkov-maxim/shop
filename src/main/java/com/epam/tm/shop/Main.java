@@ -24,8 +24,11 @@ public class Main {
         product.setId(555);
         product.setQuantity(100);
         System.out.println(cart.addProduct(product, 55));
-
-   /*     ConnectionPool connectionPool = ConnectionPool.getInstance();
+        product = new Product();
+        product.setId(666);
+        product.setQuantity(100);
+        System.out.println(cart.addProduct(product, 55));
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
         Connection connection = connectionPool.getConnection();
 
 
@@ -44,8 +47,6 @@ public class Main {
         } catch (JdbcException e) {
             e.printStackTrace();
         }
-    }
-*/
     }
 
     class MyThread extends Thread {
