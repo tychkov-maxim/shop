@@ -76,6 +76,22 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         }
     }
 
+    protected List<T> findByString(String key, String query) throws JdbcException {
+        List<T> entities;
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1,key);
+            ResultSet rs = ps.executeQuery();
+            entities = createEntityFromResultSet(rs);
+            ps.close();
+        } catch (SQLException e) {
+            throw new JdbcException(e);
+        }
+
+        return entities;
+
+    }
     protected abstract List<T> createEntityFromResultSet(ResultSet rs) throws SQLException, JdbcException;
     protected abstract void setPsFields(PreparedStatement ps,T entity) throws JdbcException;
     protected abstract String getSelectQueryById();

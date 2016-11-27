@@ -16,6 +16,7 @@ public class JdbcProductCategory extends JdbcDao<ProductCategory> implements Pro
     private static final String UPDATE_QUERY = "UPDATE categories SET name = ?, description = ? WHERE id = ?";
     private static final String SELECT_QUERY = "SELECT * FROM categories WHERE id = ?";
     private static final String DELETE_QUERY = "DELETE FROM categories WHERE id = ?";
+    private static final String SELECT_QUERY_BY_NAME = "SELECT * FROM categories WHERE name = ?";
 
     public JdbcProductCategory(Connection connection) {
         super(connection);
@@ -78,6 +79,20 @@ public class JdbcProductCategory extends JdbcDao<ProductCategory> implements Pro
     @Override
     protected String getDeleteQuery() {
         return DELETE_QUERY;
+    }
+
+    @Override
+    public ProductCategory findProductCategoryByName(String name) throws JdbcException {
+        List<ProductCategory> ProductCategories;
+
+        try {
+            ProductCategories = findByString(name, SELECT_QUERY_BY_NAME);
+        } catch (JdbcException e) {
+            log.debug("finding product category by name = {} was failed",name);
+            throw new JdbcException(e);
+        }
+
+        return ProductCategories.get(0);
     }
 
     // FIXME: 22.11.2016

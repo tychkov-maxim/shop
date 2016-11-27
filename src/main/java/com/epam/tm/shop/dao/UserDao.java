@@ -8,4 +8,5 @@ import java.sql.Connection;
 public interface UserDao extends Dao<User>{
 
     User findByLogin(String login) throws JdbcException;
+    void setCon(Connection con);// FIXME: 22.11.2016
 }

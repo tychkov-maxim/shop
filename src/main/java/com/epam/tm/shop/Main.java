@@ -28,16 +28,15 @@ public class Main {
 
 
         DaoFactory factory = DaoFactory.createFactory();
-        ProductCategoryDao productCategoryDao = factory.getProductCategoryDao();
-        productCategoryDao.setCon(connection);
+        UserDao userDao = factory.getUserDao();
+        userDao.setCon(connection);
 
-        ProductCategory productCategory = new ProductCategory("T-Shirts","Here is a lot of T-Shirts");
+
 
         try {
-            productCategory = productCategoryDao.findById(5);
-            productCategory.setDescription("T-shirts almost for free");
-            productCategory = productCategoryDao.save(productCategory);
-            System.out.println(productCategory);
+
+            User user = userDao.findById(1);
+            System.out.println(user);
 
         } catch (JdbcException e) {
             e.printStackTrace();

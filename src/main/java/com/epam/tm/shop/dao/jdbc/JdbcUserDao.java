@@ -94,22 +94,6 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         return users;
     }
 
-    private List<User> findByString(String key, String query) throws JdbcException {
-        List<User> users;
-
-        try {
-            PreparedStatement ps = connection.prepareStatement(query);
-            ps.setString(1,key);
-            ResultSet rs = ps.executeQuery();
-            users = createEntityFromResultSet(rs);
-            ps.close();
-        } catch (SQLException e) {
-            throw new JdbcException(e);
-        }
-
-        return users;
-
-    }
 
     @Override
     public User findByLogin(String login) throws JdbcException {
@@ -118,12 +102,17 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         try {
             users = findByString(login, SELECT_QUERY_BY_LOGIN);
         } catch (JdbcException e) {
-            log.error("finding user by login = {} was failed",login);
+            log.debug("finding user by login = {} was failed",login);
             throw new JdbcException(e);
         }
 
         return users.get(0);
     }
 
+
+    // FIXME: 22.11.2016
+    public void setCon(Connection con){
+        this.connection = con;
+    }
 
 }
