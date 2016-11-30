@@ -10,25 +10,16 @@ public class Cart extends BaseEntity{
         cart = new HashMap<>();
     }
 
-    public boolean addProduct(Product product, Integer quantity) {
-        if (!HaveEnoughProduct(product, quantity)) return false;
+    public void addProduct(Product product, Integer quantity) {
         cart.put(product,quantity);
-        return true;
     }
 
     public void removeProduct(Product product){
         cart.remove(product);
     }
 
-    public boolean changeQuantity(Product product, Integer quantity){
-
-        if (!HaveEnoughProduct(product, quantity)) return false;
-
-        if (cart.containsKey(product)) {
+    public void changeQuantity(Product product, Integer quantity){
             cart.replace(product, quantity);
-            return true;
-        }else
-            return false;
     }
 
     public Map<Product, Integer> getCart() {
@@ -39,7 +30,4 @@ public class Cart extends BaseEntity{
         this.cart = cart;
     }
 
-    private boolean HaveEnoughProduct(Product product, Integer quantity){
-        return product.getQuantity() >= quantity;
-    }
 }
