@@ -17,6 +17,9 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws PoolException {
 
+        ConnectionPool pool = new ConnectionPool();
+        DaoFactory.setPool(pool);
+
         DaoFactory factory = DaoFactory.createFactory();
         OrderDao orderDao = factory.getOrderDao();
         UserDao userDao = factory.getUserDao();
@@ -34,23 +37,4 @@ public class Main {
         }
     }
 
-    class MyThread extends Thread {
-        public MyThread() {
-
-            start();
-        }
-
-        @Override
-        public void run() {
-            ConnectionPool connectionPool = ConnectionPool.getInstance();
-            try {
-                Connection connection = connectionPool.getConnection();
-                System.out.println(connection);
-                this.sleep(10000);
-                connection.close();
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
 }

@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
-//// FIXME: 27.11.2016 strange service
+//// FIXME: 27.11.2016 strange service, FIX N+!
 public class CartService {
     public static final Logger log = LoggerFactory.getLogger(CartService.class);
     private DaoFactory factory;

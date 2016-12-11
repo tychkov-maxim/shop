@@ -25,13 +25,13 @@ public class ConnectionPool {
     private BlockingQueue<PooledConnection> freeConn;
     private int ConnectionCount;
 
-    private ConnectionPool() {
+    public ConnectionPool() throws PoolException {
         freeConn = new ArrayBlockingQueue<>(MAX_CON,true);
 
         try {
             Class.forName(DRIVER_NAME);
         } catch (ClassNotFoundException e) {
-            log.error("Can't find jdbc driver");
+            throw new PoolException("Can't find jdbc driver",e);
         }
 
         for (int i = 0; i < MAX_CON ; i++) {
@@ -39,18 +39,12 @@ public class ConnectionPool {
         }
     }
 
-    public static ConnectionPool getInstance(){
-        return InstanceHolder.instance;
-    }
-
-    private synchronized PooledConnection newConnection(){
+    private synchronized PooledConnection newConnection() throws PoolException {
         ConnectionCount++;
         try {
            return new PooledConnection(DriverManager.getConnection(URL,USERNAME,PASSWORD));
         } catch (SQLException e) {
-            log.error("when trying to create new connection",e);
-            //FIXME throw new PoolException("when trying to create new connection",e);
-            return null;
+            throw new PoolException("trying to create new connection was failed",e);
         }
     }
 
@@ -59,25 +53,31 @@ public class ConnectionPool {
         try {
             connection = freeConn.poll(TIME_OUT, TIME_UNIT);
             } catch (InterruptedException e) {
-                log.error("Error when trying to get connection",e);
-                throw new PoolException("Error when trying to get connection",e);
+                throw new PoolException("trying to get connection was failed",e);
             }
 
-        if (connection == null) throw new PoolException("zero connections");
+        if (connection == null) throw new PoolException("can't find any connections");
 
         try {
             if (connection.isClosed()) {
                 return newConnection();
             }
         } catch (SQLException e) {
-            log.error("Creating new connection was failed");
-            throw new PoolException(e);
+            throw new PoolException("Creating new connection was failed",e);
         }
 
         return connection;
     }
-    private static class InstanceHolder{
-        private static final ConnectionPool instance = new ConnectionPool();
+
+    public void close() throws PoolException {
+
+            try {
+                for (PooledConnection pooledConnection : freeConn) {
+                    pooledConnection.connection.close();
+                }
+            } catch (SQLException e) {
+                throw new PoolException("closing connection was failed",e);
+            }
     }
 
     private class PooledConnection implements Connection{
@@ -88,12 +88,11 @@ public class ConnectionPool {
         }
 
         @Override
-        public void close() throws PoolException {
+        public void close() throws PooledConnectionException{
             try {
                 freeConn.put(this);
             } catch (InterruptedException e) {
-                log.error("When trying to put connection to pool",e);
-                throw new PoolException("When trying to put connection to pool",e);
+                throw new PooledConnectionException("trying to put connection to the pool was failed",e);
             }
         }
 

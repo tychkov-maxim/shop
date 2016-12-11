@@ -11,11 +11,12 @@ import java.sql.Connection;
 public class JdbcDaoFactory extends DaoFactory{
 
     public static final Logger log = LoggerFactory.getLogger(JdbcDaoFactory.class);
+
     private Connection connection;
-    //// FIXME: 27.11.2016 need to know where connection pool should be
-    public JdbcDaoFactory() {
+
+    public JdbcDaoFactory(ConnectionPool pool) {
         try {
-            connection = ConnectionPool.getInstance().getConnection();
+            connection = pool.getConnection();
         } catch (PoolException e) {
             log.error("Can't get connection from connection pool");
         }

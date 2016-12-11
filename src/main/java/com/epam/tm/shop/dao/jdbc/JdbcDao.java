@@ -29,6 +29,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         PreparedStatement ps;
         try {
             ps = connection.prepareStatement(query);
+
             setPsFields(ps,entity);
             ps.executeUpdate();
             ResultSet generatedKeys = ps.getGeneratedKeys();
