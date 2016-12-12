@@ -14,11 +14,11 @@ public class JdbcDaoFactory extends DaoFactory{
 
     private Connection connection;
 
-    public JdbcDaoFactory(ConnectionPool pool) {
+    public JdbcDaoFactory(ConnectionPool pool) throws JdbcException {
         try {
             connection = pool.getConnection();
         } catch (PoolException e) {
-            log.error("Can't get connection from connection pool");
+            throw new JdbcException("Can't get connection from connection pool",e);
         }
     }
 

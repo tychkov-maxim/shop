@@ -51,23 +51,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     @Override
     public T findById(int id) throws JdbcException {
-        return findAllById(id).get(0);
-    }
-
-    public List<T> findAllById(int id) throws JdbcException {
-        List<T> entities;
-        log.trace("start to find entities by id {}", id);
-        try {
-            PreparedStatement ps = connection.prepareStatement(getSelectQueryById());
-            ps.setInt(1,id);
-            ResultSet rs = ps.executeQuery();
-            entities = createEntityFromResultSet(rs);
-            ps.close();
-            log.trace("finding entities by id {} was finished successfully", id);
-            return entities;
-        } catch (SQLException e) {
-            throw new JdbcException(MessageFormat.format("finding entities by id = {} was failed",id),e);
-        }
+        return findAllById(id, getSelectQueryById()).get(0);
     }
 
 
@@ -100,13 +84,29 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             entities = createEntityFromResultSet(rs);
             ps.close();
             log.trace("finding entities by parameter key {} was finished successfully", key);
+            return entities;
         } catch (SQLException e) {
             throw new JdbcException(MessageFormat.format("finding entity by parameter = {} was failed",key),e);
         }
-
-        return entities;
-
     }
+
+
+    protected List<T> findAllById(int id,String query) throws JdbcException {
+        List<T> entities;
+        log.trace("start to find entities by id {}", id);
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1,id);
+            ResultSet rs = ps.executeQuery();
+            entities = createEntityFromResultSet(rs);
+            ps.close();
+            log.trace("finding entities by id {} was finished successfully", id);
+            return entities;
+        } catch (SQLException e) {
+            throw new JdbcException(MessageFormat.format("finding entities by id = {} was failed",id),e);
+        }
+    }
+
     protected abstract List<T> createEntityFromResultSet(ResultSet rs) throws SQLException, JdbcException;
     protected abstract void setPsFields(PreparedStatement ps,T entity) throws JdbcException;
     protected abstract String getSelectQueryById();

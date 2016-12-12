@@ -1,6 +1,7 @@
 package com.epam.tm.shop;
 
 import com.epam.tm.shop.dao.*;
+import com.epam.tm.shop.dao.jdbc.JdbcDaoFactory;
 import com.epam.tm.shop.dao.jdbc.JdbcException;
 import com.epam.tm.shop.entity.*;
 import com.epam.tm.shop.pool.ConnectionPool;
@@ -22,25 +23,34 @@ import java.util.*;
 public class Main {
 
     public static final Logger log = LoggerFactory.getLogger(Main.class);
-    public static void main(String[] args) throws PropertyManagerException {
-/*    /*    ConnectionPool pool = new ConnectionPool();
-        DaoFactory.setPool(pool);
+    public static void main(String[] args) throws Exception {
+        String url,username,password,driverName;
+        int maxCon;
 
-        DaoFactory factory = DaoFactory.createFactory();
-        OrderDao orderDao = factory.getOrderDao();
-        UserDao userDao = factory.getUserDao();
-        ProductDao productDao = factory.getProductDao();
-        CartDao cartDao = factory.getCartDao();
+        try {
+            PropertyManager manager = new PropertyManager("connection-pool.properties");
+            url = manager.getPropertyKey("db.url");
+            username = manager.getPropertyKey("db.username");
+            password = manager.getPropertyKey("db.password");
+            maxCon = manager.getIntPropertyKey("max.connections");
+            driverName = manager.getPropertyKey("db.driverClassName");
+            ConnectionPool pool = new ConnectionPool(url, username, password, maxCon,driverName);
+            JdbcDaoFactory.setPool(pool);
+        } catch (PropertyManagerException e) {
+            log.error("getting properties was failed and connection pool was not created",e);
+        } catch (PoolException e) {
+            log.error("creating connection pool was failed",e);
+        }
 
         CartService cartService = new CartService();
-
         try {
             Cart cart = cartService.getCartById(1);
 
             System.out.println(cart);
         } catch (ServiceException e) {
             e.printStackTrace();
-        }*/
+        }
+
 
     }
 

@@ -20,6 +20,9 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
     private static final String UPDATE_QUERY = "UPDATE products SET name = ?, description = ?, price = ?, price_unit = ?, category_id = ?, image_path = ?, quantity = ? WHERE id = ?";
     private static final String SELECT_QUERY = "SELECT * FROM products JOIN categories ON products.category_id = categories.id WHERE products.id = ?";
     private static final String DELETE_QUERY = "DELETE FROM products WHERE id = ?";
+    private static final String SELECT_QUERY_BY_CART_ID = "SELECT * FROM carts " +
+            "JOIN products ON carts.product_id = products.id " +
+            "JOIN categories ON products.category_id = categories.id where cart_id = ?";
 
     public JdbcProductDao(Connection connection) {
         super(connection);
@@ -92,7 +95,11 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
     }
 
     @Override
-    public List<Product> getAllProductsByCartId(int cartId) {
-        return null;
+    public List<Product> getAllProductsByCartId(int cartId) throws JdbcException {
+        try {
+            return findAllById(cartId,SELECT_QUERY_BY_CART_ID);
+        } catch (JdbcException e) {
+            throw new JdbcException(e);
+        }
     }
 }
