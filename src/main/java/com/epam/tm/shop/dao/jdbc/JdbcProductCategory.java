@@ -34,8 +34,7 @@ public class JdbcProductCategory extends JdbcDao<ProductCategory> implements Pro
                 productCategories.add(productCategory);
             }
         } catch (SQLException e) {
-            log.error("creating product category entity from result set was failed");
-            throw new JdbcException(e);
+            throw new JdbcException("creating product category entity from result set was failed",e);
         }
 
         if (productCategories.size() == 0)
@@ -56,8 +55,7 @@ public class JdbcProductCategory extends JdbcDao<ProductCategory> implements Pro
                 ps.setInt(3, entity.getId());
 
         } catch (SQLException e) {
-            log.error("set product category entity to ps was failed");
-            throw new JdbcException(e);
+            throw new JdbcException("set product category entity to ps was failed",e);
         }
     }
 

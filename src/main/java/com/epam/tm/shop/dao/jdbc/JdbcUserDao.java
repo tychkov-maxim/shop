@@ -42,8 +42,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
                 ps.setInt(9,entity.getId());
 
         } catch (SQLException e) {
-            log.error("set user entity to ps was failed");
-            throw new JdbcException(e);
+            throw new JdbcException("set user entity to ps was failed",e);
         }
 
     }
@@ -84,8 +83,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
                 users.add(user);
             }
         } catch (SQLException e) {
-            log.error("creating user entity from result set was failed");
-            throw new JdbcException(e);
+            throw new JdbcException("creating user entity from result set was failed",e);
         }
 
         if (users.size() == 0)

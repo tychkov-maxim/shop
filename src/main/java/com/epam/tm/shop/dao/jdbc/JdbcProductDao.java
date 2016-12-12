@@ -41,8 +41,7 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
                 products.add(product);
             }
         } catch (SQLException e) {
-            log.error("creating product entity from result set was failed");
-            throw new JdbcException(e);
+            throw new JdbcException("creating product entity from result set was failed",e);
         }
 
         if (products.size() == 0)
@@ -68,8 +67,7 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
                 ps.setInt(8,entity.getId());
 
         } catch (SQLException e) {
-            log.error("set product entity to ps was failed");
-            throw new JdbcException(e);
+            throw new JdbcException("set product entity to ps was failed",e);
         }
     }
 

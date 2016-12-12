@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,8 +45,7 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
             }
             ps.close();
         } catch (SQLException e) {
-            log.error("inserting cart:{} was failed",cart,e);
-            throw new JdbcException(e);
+            throw new JdbcException(MessageFormat.format("inserting cart:{} was failed",cart),e);
         }
 
         cart.setId(id);
@@ -97,8 +97,7 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
                 id = rs.getInt("cart_id");
             }
         } catch (SQLException e) {
-            log.error("creating cart entity from result set was failed");
-            throw new JdbcException(e);
+            throw new JdbcException("creating cart entity from result set was failed",e);
         }
 
         cart.setId(id);

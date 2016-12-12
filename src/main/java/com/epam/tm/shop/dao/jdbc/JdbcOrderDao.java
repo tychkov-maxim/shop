@@ -39,8 +39,7 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
                 ps.setInt(6,entity.getId());
 
         } catch (SQLException e) {
-            log.error("set order entity to ps was failed");
-            throw new JdbcException(e);
+            throw new JdbcException("set order entity to ps was failed",e);
         }
 
     }
@@ -80,8 +79,7 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
                 orders.add(order);
             }
         } catch (SQLException e) {
-            log.error("creating order entity from result set was failed");
-            throw new JdbcException(e);
+            throw new JdbcException("creating order entity from result set was failed",e);
         }
 
         if (orders.size() == 0)
