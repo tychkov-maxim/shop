@@ -1,11 +1,10 @@
 package com.epam.tm.shop.action;
 
-
-import com.sun.deploy.net.HttpRequest;
-import com.sun.deploy.net.HttpResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public interface Action{
 
-    String execute(HttpRequest req, HttpResponse res);
+    String execute(HttpServletRequest req, HttpServletResponse res);
 
 }

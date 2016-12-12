@@ -42,13 +42,25 @@ public class Main {
             log.error("creating connection pool was failed",e);
         }
 
-        CartService cartService = new CartService();
+
         try {
+            ProductDao productDao = DaoFactory.createFactory().getProductDao();
+
+            Product product = productDao.findById(3);
+
+
+
+            CartService cartService = new CartService();
             Cart cart = cartService.getCartById(1);
 
-            System.out.println(cart);
+            cart.addProduct(product,10);
+
+            for (Map.Entry<Product, Integer> productIntegerEntry : cart.getCart().entrySet()) {
+                System.out.println(productIntegerEntry.getKey() + " " + productIntegerEntry.getValue());
+            }
+
         } catch (ServiceException e) {
-            e.printStackTrace();
+            log.error("cart service exception",e);
         }
 
 
