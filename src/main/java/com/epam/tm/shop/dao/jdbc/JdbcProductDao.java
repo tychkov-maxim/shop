@@ -91,4 +91,8 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
         return DELETE_QUERY;
     }
 
+    @Override
+    public List<Product> getAllProductsByCartId(int cartId) {
+        return null;
+    }
 }

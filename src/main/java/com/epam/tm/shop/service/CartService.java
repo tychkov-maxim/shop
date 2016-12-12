@@ -26,7 +26,6 @@ public class CartService {
         try {
             cart = cartDao.findById(id);
         } catch (JdbcException e) {
-            log.error("finding cart by id = {} was failed", id);
             throw new ServiceException(e);
         }
 
@@ -36,7 +35,6 @@ public class CartService {
             try {
                 productIntegerMap.put(productDao.findById(entry.getKey().getId()), entry.getValue());
             } catch (JdbcException e) {
-                log.error("finding product by id = {} was failed", entry.getKey().getId());
                 throw new ServiceException(e);
             }
         }

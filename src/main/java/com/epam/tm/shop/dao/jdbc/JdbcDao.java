@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
@@ -50,20 +51,25 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     @Override
     public T findById(int id) throws JdbcException {
-        T entity;
-        log.trace("start to find entity by id {}", id);
+        return findAllById(id).get(0);
+    }
+
+    public List<T> findAllById(int id) throws JdbcException {
+        List<T> entities;
+        log.trace("start to find entities by id {}", id);
         try {
             PreparedStatement ps = connection.prepareStatement(getSelectQueryById());
             ps.setInt(1,id);
             ResultSet rs = ps.executeQuery();
-            entity = createEntityFromResultSet(rs).get(0);
+            entities = createEntityFromResultSet(rs);
             ps.close();
-            log.trace("finding entity by id {} was finished successfully", id);
-            return entity;
+            log.trace("finding entities by id {} was finished successfully", id);
+            return entities;
         } catch (SQLException e) {
-            throw new JdbcException(MessageFormat.format("finding entity by id = {} was failed",id),e);
+            throw new JdbcException(MessageFormat.format("finding entities by id = {} was failed",id),e);
         }
     }
+
 
     @Override
     public void delete(T entity) throws JdbcException {
