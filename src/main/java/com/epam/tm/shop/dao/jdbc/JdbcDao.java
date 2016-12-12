@@ -59,7 +59,6 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             entity = createEntityFromResultSet(rs).get(0);
             ps.close();
             log.trace("finding entity by id {} was finished successfully", id);
-
             return entity;
         } catch (SQLException e) {
             throw new JdbcException(MessageFormat.format("finding entity by id = {} was failed",id),e);
