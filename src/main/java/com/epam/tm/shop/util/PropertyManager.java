@@ -33,4 +33,8 @@ public class PropertyManager {
 
         return value;
     }
+
+    public int getIntPropertyKey(String key) throws PropertyManagerException {
+        return Integer.parseInt(getPropertyKey(key));
+    }
 }

@@ -13,10 +13,12 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 public class ConnectionPool {
-    private static final int MAX_CON = 10;
-    private static final String URL = "jdbc:h2:tcp://localhost:9092/default";
-    private static final String USERNAME = "";
-    private static final String PASSWORD = "";
+
+
+    private String url;
+    private String username;
+    private String password;
+    private int maxCon;
     private static final String DRIVER_NAME = "org.h2.Driver";
     private static final long TIME_OUT = 1000;
     private static final TimeUnit TIME_UNIT = TimeUnit.MILLISECONDS;
@@ -25,8 +27,14 @@ public class ConnectionPool {
     private BlockingQueue<PooledConnection> freeConn;
     private int ConnectionCount;
 
-    public ConnectionPool() throws PoolException {
-        freeConn = new ArrayBlockingQueue<>(MAX_CON,true);
+    public ConnectionPool(String url,String username, String password, int maxCon) throws PoolException {
+
+        this.url = url;
+        this.username = username;
+        this.password = password;
+        this.maxCon = maxCon;
+
+        freeConn = new ArrayBlockingQueue<>(maxCon,true);
 
         try {
             Class.forName(DRIVER_NAME);
@@ -34,7 +42,7 @@ public class ConnectionPool {
             throw new PoolException("Can't find jdbc driver",e);
         }
 
-        for (int i = 0; i < MAX_CON ; i++) {
+        for (int i = 0; i < maxCon; i++) {
             freeConn.add(newConnection());
         }
     }
@@ -42,7 +50,7 @@ public class ConnectionPool {
     private synchronized PooledConnection newConnection() throws PoolException {
         ConnectionCount++;
         try {
-           return new PooledConnection(DriverManager.getConnection(URL,USERNAME,PASSWORD));
+           return new PooledConnection(DriverManager.getConnection(url, username, password));
         } catch (SQLException e) {
             throw new PoolException("trying to create new connection was failed",e);
         }

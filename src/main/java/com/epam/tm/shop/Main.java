@@ -12,14 +12,18 @@ import com.epam.tm.shop.util.PropertyManagerException;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.util.*;
 
 public class Main {
+
+    public static final Logger log = LoggerFactory.getLogger(Main.class);
     public static void main(String[] args) throws PropertyManagerException {
 
-/*        ConnectionPool pool = new ConnectionPool();
+/*    /*    ConnectionPool pool = new ConnectionPool();
         DaoFactory.setPool(pool);
 
         DaoFactory factory = DaoFactory.createFactory();
@@ -37,10 +41,6 @@ public class Main {
         } catch (ServiceException e) {
             e.printStackTrace();
         }*/
-
-
-            PropertyManager propertyManager = new PropertyManager("1.properties");
-            propertyManager.getPropertyKey("hello");
 
     }
 

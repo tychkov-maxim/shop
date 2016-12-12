@@ -3,6 +3,8 @@ package com.epam.tm.shop.listener;
 import com.epam.tm.shop.dao.jdbc.JdbcDaoFactory;
 import com.epam.tm.shop.pool.ConnectionPool;
 import com.epam.tm.shop.pool.PoolException;
+import com.epam.tm.shop.util.PropertyManager;
+import com.epam.tm.shop.util.PropertyManagerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,8 +30,20 @@ public class ContainerListener implements ServletContextListener,
     // ServletContextListener implementation
     // -------------------------------------------------------
     public void contextInitialized(ServletContextEvent sce) {
+        String url,username,password;
+        int maxCon;
+
         try {
-            pool = new ConnectionPool();
+            PropertyManager manager = new PropertyManager("connection-pool.properties");
+            url = manager.getPropertyKey("db.url");
+            username = manager.getPropertyKey("db.username");
+            password = manager.getPropertyKey("db.password");
+            maxCon = manager.getIntPropertyKey("max.connections");
+
+            ConnectionPool pool = new ConnectionPool(url, username, password, maxCon);
+
+        } catch (PropertyManagerException e) {
+            log.error("getting properties was failed and connection pool was not created",e);
         } catch (PoolException e) {
             log.error("creating connection pool was failed",e);
         }
