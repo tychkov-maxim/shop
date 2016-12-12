@@ -45,4 +45,9 @@ public class JdbcDaoFactory extends DaoFactory{
     public OrderDao getOrderDao() {
         return new JdbcOrderDao(connection);
     }
+
+    @Override
+    public void close() throws Exception {
+        connection.close();
+    }
 }

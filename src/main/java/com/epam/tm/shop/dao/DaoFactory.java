@@ -4,7 +4,7 @@ import com.epam.tm.shop.dao.jdbc.JdbcDaoFactory;
 import com.epam.tm.shop.dao.jdbc.JdbcException;
 import com.epam.tm.shop.pool.ConnectionPool;
 
-public abstract class DaoFactory {
+public abstract class DaoFactory implements AutoCloseable{
 
     private static ConnectionPool pool;
 
@@ -18,6 +18,10 @@ public abstract class DaoFactory {
 
     public static void setPool(ConnectionPool pool) {
         DaoFactory.pool = pool;
+    }
+
+    @Override
+    public void close() throws Exception {
     }
 
     public abstract UserDao getUserDao();
