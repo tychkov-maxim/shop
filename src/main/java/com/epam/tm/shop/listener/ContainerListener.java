@@ -30,7 +30,7 @@ public class ContainerListener implements ServletContextListener,
     // ServletContextListener implementation
     // -------------------------------------------------------
     public void contextInitialized(ServletContextEvent sce) {
-        String url,username,password;
+        String url,username,password,driverName;
         int maxCon;
 
         try {
@@ -39,8 +39,8 @@ public class ContainerListener implements ServletContextListener,
             username = manager.getPropertyKey("db.username");
             password = manager.getPropertyKey("db.password");
             maxCon = manager.getIntPropertyKey("max.connections");
-
-            ConnectionPool pool = new ConnectionPool(url, username, password, maxCon);
+            driverName = manager.getPropertyKey("db.driverClassName");
+            ConnectionPool pool = new ConnectionPool(url, username, password, maxCon,driverName);
 
         } catch (PropertyManagerException e) {
             log.error("getting properties was failed and connection pool was not created",e);

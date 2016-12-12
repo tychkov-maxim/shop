@@ -19,7 +19,7 @@ public class ConnectionPool {
     private String username;
     private String password;
     private int maxCon;
-    private static final String DRIVER_NAME = "org.h2.Driver";
+    private String driverName;
     private static final long TIME_OUT = 1000;
     private static final TimeUnit TIME_UNIT = TimeUnit.MILLISECONDS;
 
@@ -27,17 +27,18 @@ public class ConnectionPool {
     private BlockingQueue<PooledConnection> freeConn;
     private int ConnectionCount;
 
-    public ConnectionPool(String url,String username, String password, int maxCon) throws PoolException {
+    public ConnectionPool(String url,String username, String password, int maxCon,String driverName) throws PoolException {
 
         this.url = url;
         this.username = username;
         this.password = password;
         this.maxCon = maxCon;
+        this.driverName = driverName;
 
         freeConn = new ArrayBlockingQueue<>(maxCon,true);
 
         try {
-            Class.forName(DRIVER_NAME);
+            Class.forName(driverName);
         } catch (ClassNotFoundException e) {
             throw new PoolException("Can't find jdbc driver",e);
         }
