@@ -16,28 +16,23 @@ import java.util.Map;
 
 public class CartService {
     public static final Logger log = LoggerFactory.getLogger(CartService.class);
-    private DaoFactory factory;
-
-    public CartService() throws ServiceException {
-        try {
-            factory = DaoFactory.createFactory();
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
-    }
 
     public Cart getCartById(int id) throws ServiceException {
 
-        CartDao cartDao = factory.getCartDao();
-        ProductDao productDao = factory.getProductDao();
         Map<Product, Integer> productIntegerMap = new HashMap<>();
         List<Product> allProductsByCartId;
         Cart cart;
 
         try {
-            cart = cartDao.findById(id);
-            allProductsByCartId = productDao.getAllProductsByCartId(id);
-        } catch (JdbcException e) {
+            try(DaoFactory factory = DaoFactory.createFactory()) {
+                CartDao cartDao = factory.getCartDao();
+                ProductDao productDao = factory.getProductDao();
+                cart = cartDao.findById(id);
+                allProductsByCartId = productDao.getAllProductsByCartId(id);
+            } catch (JdbcException e) {
+                throw new ServiceException(e);
+            }
+        } catch (DaoException e) {
             throw new ServiceException(e);
         }
 
