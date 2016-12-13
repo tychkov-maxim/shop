@@ -47,7 +47,7 @@ public class Main {
         ProductService service = new ProductService();
 
         try {
-            List<Product> tv = service.getProductsByCategoryWithPagination("tv",1,1);
+            List<Product> tv = service.getProductsWithPagination(0,50);
             System.out.println(tv.get(0));
         } catch (ServiceException e) {
             e.printStackTrace();
