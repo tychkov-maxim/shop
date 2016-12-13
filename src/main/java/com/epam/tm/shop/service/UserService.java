@@ -17,4 +17,14 @@ public class UserService {
             }
     }
 
+    public User saveUser(User user) throws ServiceException {
+
+        try (DaoFactory factory = DaoFactory.createFactory()) {
+            UserDao userDao = factory.getUserDao();
+            return userDao.save(user);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
+    }
+
 }

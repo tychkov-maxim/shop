@@ -1,6 +1,5 @@
 package com.epam.tm.shop.service;
 
-import com.epam.tm.shop.dao.jdbc.JdbcException;
 
 public class ServiceException extends Exception{
     public ServiceException(String message) {

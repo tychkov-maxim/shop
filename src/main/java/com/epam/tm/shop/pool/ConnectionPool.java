@@ -100,7 +100,6 @@ public class ConnectionPool {
         public void close() throws PooledConnectionException{
             try {
                 freeConn.put(this);
-                log.info("Hello im close in PooledConnection");
             } catch (InterruptedException e) {
                 throw new PooledConnectionException("trying to put connection to the pool was failed",e);
             }

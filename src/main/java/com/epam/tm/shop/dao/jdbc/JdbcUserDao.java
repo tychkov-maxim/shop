@@ -8,6 +8,7 @@ import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
 import java.sql.*;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,8 +101,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         try {
             users = findByString(login, SELECT_QUERY_BY_LOGIN);
         } catch (JdbcException e) {
-            log.debug("finding user by login = {} was failed",login);
-            throw new JdbcException(e);
+            throw new JdbcException(MessageFormat.format("finding user by login = {0} was failed",login),e);
         }
 
         return users.get(0);

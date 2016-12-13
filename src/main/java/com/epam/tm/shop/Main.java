@@ -8,6 +8,7 @@ import com.epam.tm.shop.pool.ConnectionPool;
 import com.epam.tm.shop.pool.PoolException;
 import com.epam.tm.shop.service.CartService;
 import com.epam.tm.shop.service.ServiceException;
+import com.epam.tm.shop.service.UserService;
 import com.epam.tm.shop.util.PropertyManager;
 import com.epam.tm.shop.util.PropertyManagerException;
 import org.joda.money.CurrencyUnit;
@@ -23,7 +24,7 @@ import java.util.*;
 public class Main {
 
     public static final Logger log = LoggerFactory.getLogger(Main.class);
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args){
         String url,username,password,driverName;
         int maxCon;
 
@@ -42,27 +43,14 @@ public class Main {
             log.error("creating connection pool was failed",e);
         }
 
+        UserService userService = new UserService();
 
         try {
-            ProductDao productDao = DaoFactory.createFactory().getProductDao();
-
-            Product product = productDao.findById(3);
-
-
-
-            CartService cartService = new CartService();
-            Cart cart = cartService.getCartById(1);
-
-            cart.addProduct(product,10);
-
-            for (Map.Entry<Product, Integer> productIntegerEntry : cart.getCart().entrySet()) {
-                System.out.println(productIntegerEntry.getKey() + " " + productIntegerEntry.getValue());
-            }
-
+            User user = userService.getUserByLogin("hello");
+            System.out.println(user);
         } catch (ServiceException e) {
-            log.error("cart service exception",e);
+            log.error("sorry");
         }
-
 
     }
 
