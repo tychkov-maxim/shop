@@ -8,17 +8,15 @@ import com.epam.tm.shop.entity.User;
 public class UserService {
 
     public User getUserByLogin(String login) throws ServiceException {
-
-            try (DaoFactory factory = DaoFactory.createFactory()) {
-                UserDao userDao = factory.getUserDao();
-                return userDao.findByLogin(login);
-            } catch (DaoException e) {
-                throw new ServiceException(e);
-            }
+        try (DaoFactory factory = DaoFactory.createFactory()) {
+            UserDao userDao = factory.getUserDao();
+            return userDao.findByLogin(login);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        }
     }
 
     public User saveUser(User user) throws ServiceException {
-
         try (DaoFactory factory = DaoFactory.createFactory()) {
             UserDao userDao = factory.getUserDao();
             return userDao.save(user);
