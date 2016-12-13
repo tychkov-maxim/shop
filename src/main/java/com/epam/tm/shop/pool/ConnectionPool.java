@@ -57,7 +57,7 @@ public class ConnectionPool {
         }
     }
 
-    public Connection getConnection() throws PoolException {
+    public PooledConnection getConnection() throws PoolException {
         PooledConnection connection;
         try {
             connection = freeConn.poll(TIME_OUT, TIME_UNIT);
@@ -100,6 +100,7 @@ public class ConnectionPool {
         public void close() throws PooledConnectionException{
             try {
                 freeConn.put(this);
+                log.info("Hello im close in PooledConnection");
             } catch (InterruptedException e) {
                 throw new PooledConnectionException("trying to put connection to the pool was failed",e);
             }

@@ -1,6 +1,8 @@
 package com.epam.tm.shop.dao.jdbc;
 
-public class JdbcException extends Exception {
+import com.epam.tm.shop.dao.DaoException;
+
+public class JdbcException extends DaoException {
     public JdbcException(String message) {
         super(message);
     }

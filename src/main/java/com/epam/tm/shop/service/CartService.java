@@ -2,7 +2,7 @@ package com.epam.tm.shop.service;
 
 import com.epam.tm.shop.dao.CartDao;
 import com.epam.tm.shop.dao.DaoFactory;
-import com.epam.tm.shop.dao.DaoFactoryException;
+import com.epam.tm.shop.dao.DaoException;
 import com.epam.tm.shop.dao.ProductDao;
 import com.epam.tm.shop.dao.jdbc.JdbcException;
 import com.epam.tm.shop.entity.Cart;
@@ -21,7 +21,7 @@ public class CartService {
     public CartService() throws ServiceException {
         try {
             factory = DaoFactory.createFactory();
-        } catch (DaoFactoryException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e);
         }
     }

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class JdbcDaoFactory extends DaoFactory{
 
@@ -47,7 +48,11 @@ public class JdbcDaoFactory extends DaoFactory{
     }
 
     @Override
-    public void close() throws Exception {
-        connection.close();
+    public void close() throws JdbcException {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new JdbcException(e);
+        }
     }
 }
