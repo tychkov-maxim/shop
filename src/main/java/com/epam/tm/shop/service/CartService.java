@@ -23,18 +23,15 @@ public class CartService {
         List<Product> allProductsByCartId;
         Cart cart;
 
-        try {
             try(DaoFactory factory = DaoFactory.createFactory()) {
                 CartDao cartDao = factory.getCartDao();
                 ProductDao productDao = factory.getProductDao();
                 cart = cartDao.findById(id);
                 allProductsByCartId = productDao.getAllProductsByCartId(id);
-            } catch (JdbcException e) {
+            } catch (DaoException e) {
                 throw new ServiceException(e);
             }
-        } catch (DaoException e) {
-            throw new ServiceException(e);
-        }
+
 
         int i = 0;
         for (Map.Entry<Product, Integer> entry : cart.getCart().entrySet()) {
