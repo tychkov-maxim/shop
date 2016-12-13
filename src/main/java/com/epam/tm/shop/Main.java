@@ -30,6 +30,7 @@ public class Main {
         int maxCon;
 
         try {
+            int i = 0;//just fo fan
             PropertyManager manager = new PropertyManager("connection-pool.properties");
             url = manager.getPropertyKey("db.url");
             username = manager.getPropertyKey("db.username");

@@ -32,7 +32,7 @@ public class ContainerListener implements ServletContextListener,
     public void contextInitialized(ServletContextEvent sce) {
         String url,username,password,driverName;
         int maxCon;
-
+        log.info("start to initialize container listener");
         try {
             PropertyManager manager = new PropertyManager("connection-pool.properties");
             url = manager.getPropertyKey("db.url");
@@ -41,18 +41,19 @@ public class ContainerListener implements ServletContextListener,
             maxCon = manager.getIntPropertyKey("max.connections");
             driverName = manager.getPropertyKey("db.driverClassName");
             ConnectionPool pool = new ConnectionPool(url, username, password, maxCon,driverName);
-
+            JdbcDaoFactory.setPool(pool);
+            log.info("connection pool was created successfully");
         } catch (PropertyManagerException e) {
             log.error("getting properties was failed and connection pool was not created",e);
         } catch (PoolException e) {
             log.error("creating connection pool was failed",e);
         }
-        JdbcDaoFactory.setPool(pool);
+
     }
 
     public void contextDestroyed(ServletContextEvent sce) {
         try {
-            pool.close();
+            JdbcDaoFactory.getPool().close();
         } catch (PoolException e) {
             log.error("closing of the connection was failed");
         }

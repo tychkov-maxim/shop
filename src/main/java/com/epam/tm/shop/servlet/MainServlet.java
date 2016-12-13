@@ -1,5 +1,6 @@
 package com.epam.tm.shop.servlet;
 
+import com.epam.tm.shop.action.LoginAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,9 +20,9 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.debug("Process the servlet");
-
+        LoginAction loginAction = new LoginAction();
         PrintWriter writer = resp.getWriter();
-        writer.write("HelloWorld, it was servlet");
+        writer.print(loginAction.execute(req, resp));
         writer.close();
 
     }

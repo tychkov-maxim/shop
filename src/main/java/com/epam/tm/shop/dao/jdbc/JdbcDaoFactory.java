@@ -14,13 +14,22 @@ public class JdbcDaoFactory extends DaoFactory{
     public static final Logger log = LoggerFactory.getLogger(JdbcDaoFactory.class);
 
     private Connection connection;
+    private static ConnectionPool pool;
 
-    public JdbcDaoFactory(ConnectionPool pool) throws JdbcException {
+    public JdbcDaoFactory() throws JdbcException {
         try {
             connection = pool.getConnection();
         } catch (PoolException e) {
             throw new JdbcException("Can't get connection from connection pool",e);
         }
+    }
+
+    public static void setPool(ConnectionPool pool) {
+        JdbcDaoFactory.pool = pool;
+    }
+
+    public static ConnectionPool getPool() {
+        return JdbcDaoFactory.pool;
     }
 
     @Override
