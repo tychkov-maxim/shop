@@ -19,11 +19,11 @@ public class ProductService {
         }
     }
 
-    public List<Product> getProductsByCategory(String category) throws ServiceException {
+    public List<Product> getPaginationProductsByCategory(String category,int offset,int limit) throws ServiceException {
 
         try (DaoFactory factory = DaoFactory.createFactory()) {
             ProductDao productDao = factory.getProductDao();
-            return productDao.getProductsByCategory(category);
+            return productDao.getProductsByCategory(category,offset,limit);
         } catch (DaoException e) {
             throw new ServiceException(e);
         }

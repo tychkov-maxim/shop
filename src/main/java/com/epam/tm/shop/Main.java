@@ -7,6 +7,7 @@ import com.epam.tm.shop.entity.*;
 import com.epam.tm.shop.pool.ConnectionPool;
 import com.epam.tm.shop.pool.PoolException;
 import com.epam.tm.shop.service.CartService;
+import com.epam.tm.shop.service.ProductService;
 import com.epam.tm.shop.service.ServiceException;
 import com.epam.tm.shop.service.UserService;
 import com.epam.tm.shop.util.PropertyManager;
@@ -43,13 +44,13 @@ public class Main {
             log.error("creating connection pool was failed",e);
         }
 
-        UserService userService = new UserService();
+        ProductService service = new ProductService();
 
         try {
-            User user = userService.getUserByLogin("hello");
-            System.out.println(user);
+            List<Product> tv = service.getPaginationProductsByCategory("tv",1,1);
+            System.out.println(tv.get(0));
         } catch (ServiceException e) {
-            log.error("sorry");
+            e.printStackTrace();
         }
 
     }

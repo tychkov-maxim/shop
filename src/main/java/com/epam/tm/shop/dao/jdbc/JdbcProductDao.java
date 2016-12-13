@@ -23,7 +23,7 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
     private static final String SELECT_QUERY_BY_CART_ID = "SELECT * FROM carts " +
             "JOIN products ON carts.product_id = products.id " +
             "JOIN categories ON products.category_id = categories.id where cart_id = ?";
-    public static final String SELECT_QUERY_BY_CATEGORY = "SELECT * FROM products JOIN categories ON products.category_id = categories.id WHERE categories.name = ?";
+    public static final String SELECT_QUERY_BY_CATEGORY = "SELECT * FROM products JOIN categories ON products.category_id = categories.id WHERE categories.name = ? LIMIT ";
 
     public JdbcProductDao(Connection connection) {
         super(connection);
@@ -105,9 +105,9 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
     }
 
     @Override
-    public List<Product> getProductsByCategory(String category) throws JdbcException {
+    public List<Product> getProductsByCategory(String category, int offset, int limit) throws JdbcException {
         try {
-            return findByString(category,SELECT_QUERY_BY_CATEGORY);
+            return findByString(category,SELECT_QUERY_BY_CATEGORY + offset + "," + limit);
         } catch (JdbcException e) {
             throw new JdbcException(e);
         }
