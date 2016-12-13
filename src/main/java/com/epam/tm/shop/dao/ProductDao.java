@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.util.List;
 
 public interface ProductDao extends Dao<Product> {
-    List<Product> getAllProductsByCartId(int cartId) throws JdbcException;
-    List<Product> getProductsByCategory(String category,int offset,int limit) throws JdbcException;
+    List<Product> findAllProductsByCartId(int cartId) throws JdbcException;
+    List<Product> findProductsByCategoryWithPagination(String category, int offset, int limit) throws JdbcException;
+    List<Product> findAllProductsWithPagination(int offset, int limit) throws JdbcException;
 }

@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,8 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
     private static final String SELECT_QUERY_BY_CART_ID = "SELECT * FROM carts " +
             "JOIN products ON carts.product_id = products.id " +
             "JOIN categories ON products.category_id = categories.id where cart_id = ?";
-    public static final String SELECT_QUERY_BY_CATEGORY = "SELECT * FROM products JOIN categories ON products.category_id = categories.id WHERE categories.name = ? LIMIT ";
+    private static final String SELECT_QUERY_BY_CATEGORY = "SELECT * FROM products JOIN categories ON products.category_id = categories.id WHERE categories.name = ?";
+    private static final String SELECT_ALL_PRODUCTS = "SELECT * FROM products JOIN categories ON products.category_id = categories.id";
 
     public JdbcProductDao(Connection connection) {
         super(connection);
@@ -96,7 +98,7 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
     }
 
     @Override
-    public List<Product> getAllProductsByCartId(int cartId) throws JdbcException {
+    public List<Product> findAllProductsByCartId(int cartId) throws JdbcException {
         try {
             return findAllById(cartId,SELECT_QUERY_BY_CART_ID);
         } catch (JdbcException e) {
@@ -105,11 +107,26 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
     }
 
     @Override
-    public List<Product> getProductsByCategory(String category, int offset, int limit) throws JdbcException {
+    public List<Product> findProductsByCategoryWithPagination(String category, int offset, int limit) throws JdbcException {
         try {
-            return findByString(category,SELECT_QUERY_BY_CATEGORY + offset + "," + limit);
+            return findByString(category,SELECT_QUERY_BY_CATEGORY + " LIMIT " + offset + "," + limit);
         } catch (JdbcException e) {
             throw new JdbcException(e);
+        }
+    }
+
+    @Override
+    public List<Product> findAllProductsWithPagination(int offset, int limit) throws JdbcException {
+        log.trace("start to find all products with pagination {},{}",offset,limit);
+        try {
+            PreparedStatement ps = connection.prepareStatement(SELECT_ALL_PRODUCTS + " LIMIT " + offset + "," + limit);
+            ResultSet rs = ps.executeQuery();
+            List<Product> products = createEntityFromResultSet(rs);
+            ps.close();
+            log.trace("finding all products with pagination {},{} was finished successfully",offset,limit);
+            return products;
+        } catch (SQLException e) {
+            throw new JdbcException(MessageFormat.format("finding all products with pagination {},{} was failed",offset,limit),e);
         }
     }
 }
