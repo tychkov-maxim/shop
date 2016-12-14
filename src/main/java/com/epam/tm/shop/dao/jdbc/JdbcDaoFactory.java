@@ -18,9 +18,12 @@ public class JdbcDaoFactory extends DaoFactory{
 
     public JdbcDaoFactory() throws JdbcException {
         try {
+            if (pool == null){
+                throw new JdbcException("pool wasn't set");
+            }
             connection = pool.getConnection();
         } catch (PoolException e) {
-            throw new JdbcException("Can't get connection from connection pool",e);
+            throw new JdbcException("can't get connection from connection pool",e);
         }
     }
 
