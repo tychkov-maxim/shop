@@ -12,6 +12,8 @@ import com.epam.tm.shop.service.ServiceException;
 import com.epam.tm.shop.service.UserService;
 import com.epam.tm.shop.util.PropertyManager;
 import com.epam.tm.shop.util.PropertyManagerException;
+import com.epam.tm.shop.validator.RegisterValidator;
+import com.epam.tm.shop.validator.Validator;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
@@ -26,7 +28,7 @@ public class Main {
 
     public static final Logger log = LoggerFactory.getLogger(Main.class);
     public static void main(String[] args){
-        String url,username,password,driverName;
+/*        String url,username,password,driverName;
         int maxCon;
 
         try {
@@ -52,7 +54,11 @@ public class Main {
             System.out.println(tv.get(0));
         } catch (ServiceException e) {
             e.printStackTrace();
-        }
+        }*/
+
+        List<Validator> list = new ArrayList<>();
+        Map<String,List<Validator>> val = new HashMap<>();
+        RegisterValidator registerValidator = new RegisterValidator(val);
 
 
     }

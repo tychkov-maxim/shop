@@ -25,7 +25,6 @@ public class MainServlet extends HttpServlet {
         PrintWriter writer = resp.getWriter();
         writer.print(loginAction.execute(req, resp));
         writer.close();
-
         Config.set(req.getSession(),Config.FMT_LOCALE,new java.util.Locale("en"));
     }
 
