@@ -1,33 +1,16 @@
 package com.epam.tm.shop;
 
-import com.epam.tm.shop.dao.*;
-import com.epam.tm.shop.dao.jdbc.JdbcDaoFactory;
-import com.epam.tm.shop.dao.jdbc.JdbcException;
-import com.epam.tm.shop.entity.*;
-import com.epam.tm.shop.pool.ConnectionPool;
-import com.epam.tm.shop.pool.PoolException;
-import com.epam.tm.shop.service.CartService;
-import com.epam.tm.shop.service.ProductService;
-import com.epam.tm.shop.service.ServiceException;
-import com.epam.tm.shop.service.UserService;
 import com.epam.tm.shop.util.PropertyManager;
 import com.epam.tm.shop.util.PropertyManagerException;
-import com.epam.tm.shop.validator.RegisterValidator;
-import com.epam.tm.shop.validator.Validator;
-import org.joda.money.CurrencyUnit;
-import org.joda.money.Money;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Connection;
-import java.text.MessageFormat;
 import java.util.*;
 
 public class Main {
 
     public static final Logger log = LoggerFactory.getLogger(Main.class);
-    public static void main(String[] args){
+    public static void main(String[] args) throws PropertyManagerException {
 /*        String url,username,password,driverName;
         int maxCon;
 
@@ -56,10 +39,17 @@ public class Main {
             e.printStackTrace();
         }*/
 
-        List<Validator> list = new ArrayList<>();
-        Map<String,List<Validator>> val = new HashMap<>();
-        RegisterValidator registerValidator = new RegisterValidator(val);
 
+        PropertyManager propertyManager = new PropertyManager("validator.properties");
+        Enumeration<String> propertyNames = (Enumeration<String>) propertyManager.getPropertyNames();
+
+        List<String> list = new ArrayList<>();
+        while(propertyNames.hasMoreElements())
+            list.add(propertyNames.nextElement());
+
+        for (String s : list) {
+            s.matches("")
+        }
 
     }
 

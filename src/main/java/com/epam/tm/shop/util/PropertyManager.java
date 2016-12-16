@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Enumeration;
 import java.util.Properties;
 
 public class PropertyManager {
@@ -31,7 +32,12 @@ public class PropertyManager {
             throw new PropertyManagerException("Can not find value with this key: " + key);
         }
 
+
         return value;
+    }
+
+    public Enumeration<?> getPropertyNames(){
+        return properties.propertyNames();
     }
 
     public int getIntPropertyKey(String key) throws PropertyManagerException {

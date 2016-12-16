@@ -1,17 +1,10 @@
 package com.epam.tm.shop.validator;
 
-public abstract class Validator {
-    private String message;
+public interface Validator {
 
-    abstract boolean isValid(String value);
+    boolean isValid(String value);
 
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
+    String getMessage();
+    void setMessage(String message);
 
 }

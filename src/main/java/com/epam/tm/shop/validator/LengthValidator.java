@@ -1,8 +1,6 @@
 package com.epam.tm.shop.validator;
 
-import java.util.List;
-
-public class LengthValidator extends Validator {
+public class LengthValidator extends ValidatorImpl {
 
     private int maxLength;
     private int minLength;
