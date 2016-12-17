@@ -30,6 +30,8 @@ public class MainServlet extends HttpServlet {
         }
 
         writer.close();
+
+        throw new ServletException("404");
 //        Config.set(req.getSession(),Config.FMT_LOCALE,new java.util.Locale("en"));
     }
 

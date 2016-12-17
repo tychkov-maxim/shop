@@ -24,6 +24,7 @@ public class RegExpValidator extends ValidatorImpl {
 
     @Override
     public boolean isValid(String value) {
+        if (value == null) return false;
         Matcher matcher = pattern.matcher(value);
         return matcher.matches();
     }
