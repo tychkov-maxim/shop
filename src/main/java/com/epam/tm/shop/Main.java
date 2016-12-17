@@ -2,10 +2,7 @@ package com.epam.tm.shop;
 
 import com.epam.tm.shop.util.PropertyManager;
 import com.epam.tm.shop.util.PropertyManagerException;
-import com.epam.tm.shop.validator.LengthValidator;
-import com.epam.tm.shop.validator.PropertyReaderOfValidator;
-import com.epam.tm.shop.validator.Validator;
-import com.epam.tm.shop.validator.ValidatorException;
+import com.epam.tm.shop.validator.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,9 +40,5 @@ public class Main {
             e.printStackTrace();
         }*/
 
-        PropertyReaderOfValidator propertyReaderOfValidator = new PropertyReaderOfValidator("validator.properties");
-        Map<String, List<Validator>> listMap = propertyReaderOfValidator.readPropertiesOfFormValidatorByName("login");
-        List<Validator> validators = listMap.get("login");
-        System.out.println(validators.get(0).getMessage());
     }
 }
