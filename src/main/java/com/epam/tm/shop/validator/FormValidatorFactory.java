@@ -13,23 +13,9 @@ public class FormValidatorFactory {
     private static final String PREFIX = "form.";
 
     public FormValidator getFormValidatorByNameOfForm(String nameOfForm) throws ValidatorException {
-
-        return new FormValidator(readPropertyOfFormByName(nameOfForm));
+        PropertyReaderOfValidator propertyReaderOfValidator = new PropertyReaderOfValidator(PROPERTIES_FILE_NAME);
+        return new FormValidator(propertyReaderOfValidator.readPropertiesOfFormValidatorByName(nameOfForm));
     }
 
-    private Map<String,List<Validator>> readPropertyOfFormByName(String nameOfForm) throws ValidatorException {
-        Map<String,List<Validator>> filedValidators = new HashMap<>();
-        try {
 
-            PropertyManager propertyManager = new PropertyManager(PROPERTIES_FILE_NAME);
-            String validator = propertyManager.getPropertyKey(PREFIX + nameOfForm + ".1");
-            int minLength = propertyManager.getIntPropertyKey(PREFIX + nameOfForm + ".1.minLength");
-            int maxLength = propertyManager.getIntPropertyKey(PREFIX + nameOfForm + ".1.maxLength");
-            String errorMess = propertyManager.getPropertyKey(PREFIX + nameOfForm + ".1.errorMessage");
-
-        } catch (PropertyManagerException e) {
-            throw new ValidatorException(e);
-        }
-        return filedValidators;
-    }
 }

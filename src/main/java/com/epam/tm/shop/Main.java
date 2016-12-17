@@ -2,6 +2,10 @@ package com.epam.tm.shop;
 
 import com.epam.tm.shop.util.PropertyManager;
 import com.epam.tm.shop.util.PropertyManagerException;
+import com.epam.tm.shop.validator.LengthValidator;
+import com.epam.tm.shop.validator.PropertyReaderOfValidator;
+import com.epam.tm.shop.validator.Validator;
+import com.epam.tm.shop.validator.ValidatorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,7 +14,7 @@ import java.util.*;
 public class Main {
 
     public static final Logger log = LoggerFactory.getLogger(Main.class);
-    public static void main(String[] args) throws PropertyManagerException {
+    public static void main(String[] args) throws ValidatorException {
 /*        String url,username,password,driverName;
         int maxCon;
 
@@ -39,18 +43,9 @@ public class Main {
             e.printStackTrace();
         }*/
 
-
-        PropertyManager propertyManager = new PropertyManager("validator.properties");
-        Enumeration<String> propertyNames = (Enumeration<String>) propertyManager.getPropertyNames();
-
-        List<String> list = new ArrayList<>();
-        while(propertyNames.hasMoreElements())
-            list.add(propertyNames.nextElement());
-
-        for (String s : list) {
-            s.matches("")
-        }
-
+        PropertyReaderOfValidator propertyReaderOfValidator = new PropertyReaderOfValidator("validator.properties");
+        Map<String, List<Validator>> listMap = propertyReaderOfValidator.readPropertiesOfFormValidatorByName("login");
+        List<Validator> validators = listMap.get("login");
+        System.out.println(validators.get(0).getMessage());
     }
-
 }
