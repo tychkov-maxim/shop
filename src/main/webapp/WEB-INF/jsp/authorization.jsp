@@ -21,6 +21,12 @@
                             <div class="col-md-8">
                                 <input id="login" name="login" type="text" placeholder="<fmt:message key="enter.login"/>" class="form-control input-md">
                             </div>
+
+                            <div class="alert alert-danger col-md-12">
+                                <fmt:message key="validator.length.error.login"/><br/>
+                                <fmt:message key="validator.length.error.login"/>
+                            </div>
+
                         </div>
 
                         <!-- Text input-->
@@ -28,6 +34,11 @@
                             <label class="col-md-4 control-label" for="passwd"><fmt:message key="pass"/></label>
                             <div class="col-md-8">
                                 <input id="passwd" name="passwd" type="text" placeholder="<fmt:message key="enter.pass"/>" class="form-control input-md">
+                            </div>
+
+                            <div class="alert alert-danger col-md-12">
+                                <fmt:message key="validator.length.error.login"/><br/>
+                                <fmt:message key="validator.length.error.login"/>
                             </div>
                         </div>
 
@@ -41,7 +52,7 @@
 
             </div>
             <div class="modal-footer">
-                <a href="#" class="btn btn-primary"><fmt:message key="register"/></a>
+                <a href="${pageContext.request.contextPath}/register.do" class="btn btn-primary"><fmt:message key="register"/></a>
             </div>
         </div>
     </div>
