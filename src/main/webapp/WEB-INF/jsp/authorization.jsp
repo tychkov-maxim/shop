@@ -11,13 +11,34 @@
                 <h3><fmt:message key="autorization"/></h3>
             </div>
             <div class="modal-body">
-                <form method="post" action='' name="login_form">
-                    <p><input type="text" class="span3" name="eid" id="login" placeholder="<fmt:message key="login"/>" oninvalid="this.setCustomValidity('your message')" required></p>
-                    <p><input type="password" class="span3" name="passwd" placeholder=<fmt:message key="pass"/>></p>
-                    <p>
-                        <button type="submit" class="btn btn-primary"><fmt:message key="sign.in"/></button>
-                    </p>
+
+                <form class="form-horizontal" method="post" action='' name="login_form">
+
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="login"><fmt:message key="login"/></label>
+                            <div class="col-md-8">
+                                <input id="login" name="login" type="text" placeholder="<fmt:message key="enter.login"/>" class="form-control input-md">
+                            </div>
+                        </div>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="passwd"><fmt:message key="pass"/></label>
+                            <div class="col-md-8">
+                                <input id="passwd" name="passwd" type="text" placeholder="<fmt:message key="enter.pass"/>" class="form-control input-md">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <button id ="signup" type="submit" class="btn btn-primary"><fmt:message key="sign.in"/></button>
+                            </div>
+                        </div>
+
                 </form>
+
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-primary"><fmt:message key="register"/></a>

@@ -3,7 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setBundle basename="lang"/>
 <%@attribute name="tittle" required="true"%>
-<%@attribute name="login" fragment="true" %>
 
 <html>
 <head>
@@ -36,7 +35,7 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">Home</a></li>
                 <li><a href="#">Products</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
@@ -50,8 +49,11 @@
     </div>
 </nav>
 
+<div class="container">
 <jsp:doBody/>
+</div>
 
+<jsp:include page="/WEB-INF/jsp/authorization.jsp"/>
 
 <footer class="container-fluid text-center">
     <p>Online Store Copyright</p>
