@@ -1,7 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <fmt:setBundle basename="lang"/>
+
 
 <div class="modal fade" id="auth" role="dialog">
     <div class="modal-dialog modal-sm">
@@ -12,7 +14,7 @@
             </div>
             <div class="modal-body">
 
-                <form class="form-horizontal" method="post" action='' name="login_form">
+                <form class="form-horizontal" method="post" action='${pageContext.request.contextPath}/login.do' name="login_form">
 
 
                         <!-- Text input-->
@@ -21,25 +23,15 @@
                             <div class="col-md-8">
                                 <input id="login" name="login" type="text" placeholder="<fmt:message key="enter.login"/>" class="form-control input-md">
                             </div>
-
-                            <div class="alert alert-danger col-md-12">
-                                <fmt:message key="validator.length.error.login"/><br/>
-                                <fmt:message key="validator.length.error.login"/>
-                            </div>
-
+                            <t:get_errors errors="${loginErrors}"/>
                         </div>
-
                         <!-- Text input-->
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="passwd"><fmt:message key="pass"/></label>
+                            <label class="col-md-4 control-label" for="password"><fmt:message key="pass"/></label>
                             <div class="col-md-8">
-                                <input id="passwd" name="passwd" type="text" placeholder="<fmt:message key="enter.pass"/>" class="form-control input-md">
+                                <input id="password" name="password" type="text" placeholder="<fmt:message key="enter.pass"/>" class="form-control input-md">
                             </div>
-
-                            <div class="alert alert-danger col-md-12">
-                                <fmt:message key="validator.length.error.login"/><br/>
-                                <fmt:message key="validator.length.error.login"/>
-                            </div>
+                            <t:get_errors errors="${passwordErrors}"/>
                         </div>
 
                         <div class="form-group">

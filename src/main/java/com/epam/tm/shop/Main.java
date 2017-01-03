@@ -40,5 +40,8 @@ public class Main {
             e.printStackTrace();
         }*/
 
+        String s = "/qwerty.do";
+        System.out.println(s.replaceFirst("/*.do", "").substring(1));
+
     }
 }
