@@ -9,7 +9,7 @@
         </layout>
     </appender>
 
-    <logger name="com.epam.tm.shop" level="debug"
+    <logger name="com.epam.tm.shop" level="trace"
             additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>

@@ -9,6 +9,7 @@ import java.util.*;
 public class FormValidator {
 
     private static final Logger log = LoggerFactory.getLogger(FormValidator.class);
+    private static final String ERROR_POSTFIX = "Errors";
     private Map<String,List<Validator>> fieldValidators;
 
 
@@ -18,8 +19,25 @@ public class FormValidator {
     }
 
     public boolean validate(HttpServletRequest request){
+        Map<String, List<String>> errors = getAllErrorsFromRequest(request);
+        boolean hasError = false;
 
-        boolean flag = false;
+        for (Map.Entry<String, List<Validator>> entry : fieldValidators.entrySet()) {
+            request.getSession().removeAttribute(entry.getKey()+ERROR_POSTFIX);
+        }
+
+        for (Map.Entry<String, List<String>> entry : errors.entrySet()) {
+            if (entry.getValue().size() > 0){
+                request.getSession().setAttribute(entry.getKey()+ERROR_POSTFIX,entry.getValue());
+                hasError = true;
+            }
+        }
+
+        return hasError;
+
+    }
+
+    private Map<String,List<String>> getAllErrorsFromRequest(HttpServletRequest request){
 
         Map<String,List<String>> errors = new HashMap<>();
 
@@ -32,15 +50,13 @@ public class FormValidator {
             for (Validator validator : validators) {
                 if (!validator.isValid(fieldValue)){
                     errorsOfField.add(validator.getMessage());
-                    flag = true;
                 }
             }
-            log.debug("setting field {} with {}",field, errorsOfField.toString());
-            request.getSession().setAttribute(field+"Errors",errorsOfField);
-            log.trace("field: {} was finished  to validate with {} errors",field,errorsOfField.size());
+            log.trace("field: {} was finished to validate with {} errors",field,errorsOfField.size());
             errors.put(field,errorsOfField);
         }
-        return flag;
+        return errors;
     }
+
 
  }
