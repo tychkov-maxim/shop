@@ -10,6 +10,7 @@ public class ActionFactory {
     public ActionFactory() {
         matches = new HashMap<>();
         matches.put("login",LoginAction.class);
+        matches.put("logout",LogoutAction.class);
     }
 
     public Action getAction(String actionName) throws ActionFactoryException {

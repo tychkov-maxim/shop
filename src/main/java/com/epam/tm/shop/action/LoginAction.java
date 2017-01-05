@@ -20,7 +20,6 @@ import java.util.Map;
 
 import static com.sun.org.apache.xalan.internal.xsltc.compiler.sym.error;
 
-// FIXME: 04.01.2017 dont like that shit
 public class LoginAction implements Action {
 
     public static final Logger log = LoggerFactory.getLogger(LoginAction.class);
@@ -31,6 +30,7 @@ public class LoginAction implements Action {
     private static final String LOGIN_SUCCESS = "login-success";
     private static final String INCORRECT_PASSWORD = "incorrect.pass";
     private static final String USER_NOT_FOUND = "user.not.found";
+    private static final String ATTRIBUTE_SESSION_USER_NAME = "user";
 
 
     @Override
@@ -64,7 +64,7 @@ public class LoginAction implements Action {
             }
             else {
                 HttpSession session = req.getSession(true);
-                session.setAttribute("User",user);
+                session.setAttribute(ATTRIBUTE_SESSION_USER_NAME,user);
                 log.debug("success");
                 return LOGIN_SUCCESS;
             }

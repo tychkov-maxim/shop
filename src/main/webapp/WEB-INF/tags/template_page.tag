@@ -4,6 +4,8 @@
 <fmt:setBundle basename="lang"/>
 <%@attribute name="tittle" required="true"%>
 
+<c:set var="role" value="${sessionScope.user.role}"/>
+
 <html>
 <head>
     <title>${tittle}</title>
@@ -40,8 +42,14 @@
                 <li><a href="#">Contact</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <c:if test="${empty role}">
                 <li><a href="" data-toggle="modal" data-target="#auth"><span class="glyphicon glyphicon-user"></span>
                     Your Account</a></li>
+                </c:if>
+                <c:if test="${not empty role}">
+                    <li><a href="${pageContext.request.contextPath}/logout.do"><span class="glyphicon glyphicon-user"></span>
+                    ${sessionScope.user.firstName}</a></li>
+                </c:if>
                 <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Cart <span
                         class="badge">5</span></a></li>
             </ul>

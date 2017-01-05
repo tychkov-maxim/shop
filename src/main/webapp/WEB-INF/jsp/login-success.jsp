@@ -2,9 +2,10 @@
 <html>
 <head>
     <title>Title</title>
+    <meta http-equiv="refresh" content="1;URL=${pageContext.request.contextPath}/" />
 </head>
 <body>
-Hello, ${User}.getName();
+Hello, ${user.firstName}!
 
 </body>
 </html>
