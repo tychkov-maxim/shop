@@ -40,11 +40,11 @@ public class LoginAction implements Action {
         String password = req.getParameter(PASS);
         Map<String, List<String>> errors;
 
-
+    log.trace("start to authorize");
         try {
             FormValidator loginValidator = FormValidatorFactory.getFormValidatorByNameOfForm(LOGIN);
             if (loginValidator.validate(req)) {
-                log.debug("not valid");
+                log.trace("login form not valid");
                 return REDIRECT;
             }
         } catch (ValidatorException e) {
@@ -59,19 +59,19 @@ public class LoginAction implements Action {
             if (!user.getPassword().equals(password)){
                 dataError.add(INCORRECT_PASSWORD);
                 req.getSession().setAttribute(LOGIN_ERROR,dataError);
-                log.debug("incorrect password");
+                log.trace("incorrect password with login {}",user.getLogin());
                 return REDIRECT;
             }
             else {
                 HttpSession session = req.getSession(true);
                 session.setAttribute(ATTRIBUTE_SESSION_USER_NAME,user);
-                log.debug("success");
+                log.debug("login success as {} with id {}",user.getLogin(),user.getId());
                 return LOGIN_SUCCESS;
             }
         } catch (ServiceNoDataException e) {
             dataError.add(USER_NOT_FOUND);
             req.getSession().setAttribute(LOGIN_ERROR,dataError);
-            log.debug("User not found");
+            log.trace("User not found with login {}", login);
             return REDIRECT;
         }
 

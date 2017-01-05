@@ -13,7 +13,9 @@ public class LogoutAction implements Action{
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
+        log.trace("start to logout");
         req.getSession(false).invalidate();
+        log.trace("session was deleted");
         return REDIRECT;
     }
 }
