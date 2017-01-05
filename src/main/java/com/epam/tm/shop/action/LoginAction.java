@@ -19,50 +19,60 @@ import java.util.Map;
 
 import static com.sun.org.apache.xalan.internal.xsltc.compiler.sym.error;
 
+// FIXME: 04.01.2017 dont like that shit
 public class LoginAction implements Action {
 
     public static final Logger log = LoggerFactory.getLogger(LoginAction.class);
+    private static final String LOGIN_ERROR = "loginError";
+    private static final String LOGIN = "login";
+    private static final String PASS = "password";
+    private static final String REDIRECT = "redirect:/";
+    private static final String LOGIN_SUCCESS = "login-success";
+    private static final String INCORRECT_PASSWORD = "incorrect.pass";
+    private static final String USER_NOT_FOUND = "user.not.found";
+
+
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
-        String login = req.getParameter("login");
-        String password = req.getParameter("password");
+        String login = req.getParameter(LOGIN);
+        String password = req.getParameter(PASS);
         Map<String, List<String>> errors;
 
 
         try {
-            FormValidator loginValidator = FormValidatorFactory.getFormValidatorByNameOfForm("login");
+            FormValidator loginValidator = FormValidatorFactory.getFormValidatorByNameOfForm(LOGIN);
             if (loginValidator.validate(req)) {
                 log.debug("not valid");
-                return "redirect:/";
+                return REDIRECT;
             }
         } catch (ValidatorException e) {
             throw new ActionException(e);
         }
 
         List<String> dataError = new ArrayList<>();
+        req.getSession().removeAttribute(LOGIN_ERROR);
+
         try {
             User user = checkUser(login);
             if (!user.getPassword().equals(password)){
-                dataError.add("Incorrect password");
-                req.setAttribute("mainError",dataError);
+                dataError.add(INCORRECT_PASSWORD);
+                req.getSession().setAttribute(LOGIN_ERROR,dataError);
                 log.debug("incorrect password");
-                return "redirect:/";
+                return REDIRECT;
             }
             else {
                 HttpSession session = req.getSession(true);
                 session.setAttribute("User",user);
                 log.debug("success");
-                return "login-success";
+                return LOGIN_SUCCESS;
             }
         } catch (ActionException e) {
-            dataError.add("User not found");
-            req.setAttribute("mainError",dataError);
+            dataError.add(USER_NOT_FOUND);
+            req.getSession().setAttribute(LOGIN_ERROR,dataError);
             log.debug("User not found");
-            return "redirect:/";
+            return REDIRECT;
         }
-
-
 
     }
 

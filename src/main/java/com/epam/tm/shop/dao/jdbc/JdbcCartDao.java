@@ -84,7 +84,7 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
         return DELETE_QUERY;
     }
     @Override
-    protected List<Cart> createEntityFromResultSet(ResultSet rs) throws JdbcException {
+    protected List<Cart> createEntityFromResultSet(ResultSet rs) throws JdbcException, JdbcNoDataException {
         List<Cart> carts = new ArrayList<>();
         Cart cart = new Cart();
         Map<Product,Integer> map = new HashMap<>();
@@ -104,7 +104,7 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
         cart.setCart(map);
 
         if (cart.getCart().size() == 0)
-            throw new JdbcException("no one cart was found");
+            throw new JdbcNoDataException("no one cart was found");
 
         carts.add(cart);
         return carts;

@@ -64,7 +64,7 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
         return DELETE_QUERY;
     }
     @Override
-    protected List<Order> createEntityFromResultSet(ResultSet rs) throws JdbcException {
+    protected List<Order> createEntityFromResultSet(ResultSet rs) throws JdbcException, JdbcNoDataException {
         List<Order> orders = new ArrayList<>();
         try {
             while (rs.next()){
@@ -83,7 +83,7 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
         }
 
         if (orders.size() == 0)
-            throw new JdbcException("no one order was found");
+            throw new JdbcNoDataException("no one order was found");
 
         return orders;
     }

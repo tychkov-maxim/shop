@@ -16,6 +16,7 @@
 
                 <form class="form-horizontal" method="post" action='${pageContext.request.contextPath}/login.do' name="login_form">
 
+                    <t:get_errors errors="${loginError}"/>
 
                         <!-- Text input-->
                         <div class="form-group">
@@ -23,17 +24,18 @@
                             <div class="col-md-8">
                                 <input id="login" name="login" type="text" placeholder="<fmt:message key="enter.login"/>" class="form-control input-md">
                             </div>
-                            <t:get_errors errors="${loginErrors}"/>
+
                         </div>
+                    <t:get_errors errors="${loginErrors}"/>
                         <!-- Text input-->
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="password"><fmt:message key="pass"/></label>
                             <div class="col-md-8">
                                 <input id="password" name="password" type="text" placeholder="<fmt:message key="enter.pass"/>" class="form-control input-md">
                             </div>
-                            <t:get_errors errors="${passwordErrors}"/>
-                        </div>
 
+                        </div>
+                    <t:get_errors errors="${passwordErrors}"/>
                         <div class="form-group">
                             <div class="col-md-4">
                                 <button id ="signup" type="submit" class="btn btn-primary"><fmt:message key="sign.in"/></button>

@@ -68,7 +68,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         return DELETE_QUERY;
     }
     @Override
-    protected List<User> createEntityFromResultSet(ResultSet rs) throws JdbcException {
+    protected List<User> createEntityFromResultSet(ResultSet rs) throws JdbcException, JdbcNoDataException {
         List<User> users = new ArrayList<>();
         try {
             while (rs.next()){
@@ -88,14 +88,14 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         }
 
         if (users.size() == 0)
-            throw new JdbcException("no one user was found");
+            throw new JdbcNoDataException("no one user was found");
 
         return users;
     }
 
 
     @Override
-    public User findByLogin(String login) throws JdbcException {
+    public User findByLogin(String login) throws JdbcException, JdbcNoDataException {
         List<User> users;
 
         try {

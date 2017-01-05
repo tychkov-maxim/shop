@@ -1,9 +1,6 @@
 package com.epam.tm.shop.service;
 
-import com.epam.tm.shop.dao.CartDao;
-import com.epam.tm.shop.dao.DaoFactory;
-import com.epam.tm.shop.dao.DaoException;
-import com.epam.tm.shop.dao.ProductDao;
+import com.epam.tm.shop.dao.*;
 import com.epam.tm.shop.entity.Cart;
 import com.epam.tm.shop.entity.Product;
 import org.slf4j.Logger;
@@ -27,7 +24,7 @@ public class CartService {
                 ProductDao productDao = factory.getProductDao();
                 cart = cartDao.findById(id);
                 allProductsByCartId = productDao.findAllProductsByCartId(id);
-            } catch (DaoException e) {
+            } catch (DaoException | DaoNoDataException e) {
                 throw new ServiceException(e);
             }
 

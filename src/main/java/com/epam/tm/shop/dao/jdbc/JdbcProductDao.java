@@ -32,7 +32,7 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
     }
 
     @Override
-    protected List<Product> createEntityFromResultSet(ResultSet rs) throws SQLException, JdbcException {
+    protected List<Product> createEntityFromResultSet(ResultSet rs) throws JdbcException, JdbcNoDataException {
         List<Product> products = new ArrayList<>();
         try {
             while (rs.next()){
@@ -51,7 +51,7 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
         }
 
         if (products.size() == 0)
-            throw new JdbcException("no one product was found");
+            throw new JdbcNoDataException("no one product was found");
 
         return products;
     }
@@ -98,7 +98,7 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
     }
 
     @Override
-    public List<Product> findAllProductsByCartId(int cartId) throws JdbcException {
+    public List<Product> findAllProductsByCartId(int cartId) throws JdbcException, JdbcNoDataException {
         try {
             return findAllById(cartId,SELECT_QUERY_BY_CART_ID);
         } catch (JdbcException e) {
@@ -107,7 +107,7 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
     }
 
     @Override
-    public List<Product> findProductsByCategoryWithPagination(String category, int offset, int limit) throws JdbcException {
+    public List<Product> findProductsByCategoryWithPagination(String category, int offset, int limit) throws JdbcException, JdbcNoDataException {
         try {
             return findByString(category,SELECT_QUERY_BY_CATEGORY + " LIMIT " + offset + "," + limit);
         } catch (JdbcException e) {
@@ -116,7 +116,7 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
     }
 
     @Override
-    public List<Product> findAllProductsWithPagination(int offset, int limit) throws JdbcException {
+    public List<Product> findAllProductsWithPagination(int offset, int limit) throws JdbcException, JdbcNoDataException {
         log.trace("start to find all products with pagination {},{}",offset,limit);
         try {
             PreparedStatement ps = connection.prepareStatement(SELECT_ALL_PRODUCTS + " LIMIT " + offset + "," + limit);

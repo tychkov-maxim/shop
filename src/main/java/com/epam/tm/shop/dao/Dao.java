@@ -1,11 +1,12 @@
 package com.epam.tm.shop.dao;
 
 import com.epam.tm.shop.dao.jdbc.JdbcException;
+import com.epam.tm.shop.dao.jdbc.JdbcNoDataException;
 import com.epam.tm.shop.entity.BaseEntity;
 
 public interface Dao<T extends BaseEntity> {
-    T save(T entity) throws JdbcException;
-    T findById(int id) throws JdbcException;
-    void delete(T entity) throws JdbcException;
-    void deleteById(int id) throws JdbcException;
+    T save(T entity) throws DaoException;
+    T findById(int id) throws DaoException, DaoNoDataException;
+    void delete(T entity) throws DaoException;
+    void deleteById(int id) throws DaoException;
 }

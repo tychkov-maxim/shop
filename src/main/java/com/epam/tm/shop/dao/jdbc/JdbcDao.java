@@ -50,7 +50,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     }
 
     @Override
-    public T findById(int id) throws JdbcException {
+    public T findById(int id) throws JdbcException, JdbcNoDataException {
         return findAllById(id, getSelectQueryById()).get(0);
     }
 
@@ -74,7 +74,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         }
     }
 
-    protected List<T> findByString(String key, String query) throws JdbcException {
+    protected List<T> findByString(String key, String query) throws JdbcException, JdbcNoDataException {
         List<T> entities;
         log.trace("start to find entities by parameter {}",key);
         try {
@@ -91,7 +91,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     }
 
 
-    protected List<T> findAllById(int id,String query) throws JdbcException {
+    protected List<T> findAllById(int id,String query) throws JdbcException, JdbcNoDataException {
         List<T> entities;
         log.trace("start to find entities by id {}", id);
         try {
@@ -107,7 +107,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         }
     }
 
-    protected abstract List<T> createEntityFromResultSet(ResultSet rs) throws SQLException, JdbcException;
+    protected abstract List<T> createEntityFromResultSet(ResultSet rs) throws SQLException, JdbcException, JdbcNoDataException;
     protected abstract void setPsFields(PreparedStatement ps,T entity) throws JdbcException;
     protected abstract String getSelectQueryById();
     protected abstract String getUpdateQuery();

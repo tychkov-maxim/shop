@@ -23,7 +23,7 @@ public class JdbcProductCategory extends JdbcDao<ProductCategory> implements Pro
     }
 
     @Override
-    protected List<ProductCategory> createEntityFromResultSet(ResultSet rs) throws SQLException, JdbcException {
+    protected List<ProductCategory> createEntityFromResultSet(ResultSet rs) throws SQLException, JdbcException, JdbcNoDataException {
         List<ProductCategory> productCategories = new ArrayList<>();
         try {
             while (rs.next()) {
@@ -38,7 +38,7 @@ public class JdbcProductCategory extends JdbcDao<ProductCategory> implements Pro
         }
 
         if (productCategories.size() == 0)
-            throw new JdbcException("no one product category was found");
+            throw new JdbcNoDataException("no one product category was found");
 
         return productCategories;
     }
@@ -80,7 +80,7 @@ public class JdbcProductCategory extends JdbcDao<ProductCategory> implements Pro
     }
 
     @Override
-    public ProductCategory findProductCategoryByName(String name) throws JdbcException {
+    public ProductCategory findProductCategoryByName(String name) throws JdbcException, JdbcNoDataException {
         List<ProductCategory> ProductCategories;
 
         try {

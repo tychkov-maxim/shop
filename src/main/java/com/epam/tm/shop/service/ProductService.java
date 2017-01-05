@@ -2,6 +2,7 @@ package com.epam.tm.shop.service;
 
 import com.epam.tm.shop.dao.DaoException;
 import com.epam.tm.shop.dao.DaoFactory;
+import com.epam.tm.shop.dao.DaoNoDataException;
 import com.epam.tm.shop.dao.ProductDao;
 import com.epam.tm.shop.entity.Product;
 
@@ -13,7 +14,7 @@ public class ProductService {
         try (DaoFactory factory = DaoFactory.createFactory()) {
             ProductDao productDao = factory.getProductDao();
             return productDao.findById(id);
-        } catch (DaoException e) {
+        } catch (DaoException | DaoNoDataException e) {
             throw new ServiceException(e);
         }
     }
@@ -23,7 +24,7 @@ public class ProductService {
         try (DaoFactory factory = DaoFactory.createFactory()) {
             ProductDao productDao = factory.getProductDao();
             return productDao.findProductsByCategoryWithPagination(category,offset,limit);
-        } catch (DaoException e) {
+        } catch (DaoException | DaoNoDataException e) {
             throw new ServiceException(e);
         }
     }
@@ -33,7 +34,7 @@ public class ProductService {
         try (DaoFactory factory = DaoFactory.createFactory()) {
             ProductDao productDao = factory.getProductDao();
             return productDao.findAllProductsWithPagination(offset,limit);
-        } catch (DaoException e) {
+        } catch (DaoException | DaoNoDataException e) {
             throw new ServiceException(e);
         }
     }
