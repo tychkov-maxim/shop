@@ -8,13 +8,17 @@ import com.epam.tm.shop.entity.User;
 
 public class UserService {
 
-    public User getUserByLogin(String login) throws ServiceException {
+
+    public User getUserByLogin(String login) throws ServiceException, ServiceNoDataException {
         try (DaoFactory factory = DaoFactory.createFactory()) {
             UserDao userDao = factory.getUserDao();
             return userDao.findByLogin(login);
-        } catch (DaoException | DaoNoDataException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e);
+        } catch (DaoNoDataException e){
+            throw new ServiceNoDataException(e);
         }
+
     }
 
 

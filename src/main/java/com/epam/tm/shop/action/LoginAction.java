@@ -2,6 +2,7 @@ package com.epam.tm.shop.action;
 
 import com.epam.tm.shop.entity.User;
 import com.epam.tm.shop.service.ServiceException;
+import com.epam.tm.shop.service.ServiceNoDataException;
 import com.epam.tm.shop.service.UserService;
 import com.epam.tm.shop.validator.FormValidator;
 import com.epam.tm.shop.validator.FormValidatorFactory;
@@ -67,7 +68,7 @@ public class LoginAction implements Action {
                 log.debug("success");
                 return LOGIN_SUCCESS;
             }
-        } catch (ActionException e) {
+        } catch (ServiceNoDataException e) {
             dataError.add(USER_NOT_FOUND);
             req.getSession().setAttribute(LOGIN_ERROR,dataError);
             log.debug("User not found");
@@ -76,7 +77,7 @@ public class LoginAction implements Action {
 
     }
 
-    private User checkUser(String login) throws ActionException {
+    private User checkUser(String login) throws ActionException, ServiceNoDataException {
         UserService userService = new UserService();
         try {
             return userService.getUserByLogin(login);
