@@ -11,6 +11,7 @@ public class ActionFactory {
         matches = new HashMap<>();
         matches.put("login",LoginAction.class);
         matches.put("logout",LogoutAction.class);
+        matches.put("register",UserRegisterAction.class);
     }
 
     public Action getAction(String actionName) throws ActionFactoryException {

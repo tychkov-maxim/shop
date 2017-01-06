@@ -22,12 +22,18 @@ public class MainServlet extends HttpServlet {
     private static final String REDIRECT = "redirect:";
     private static final String SERVLET_PATH_PATTERN = "/*.do";
 
+    private ActionFactory actionFactory;
+
+    @Override
+    public void init() throws ServletException {
+        actionFactory = new ActionFactory();
+    }
+
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException  {
         String requestURI = req.getRequestURI();
         String actionName = requestURI.replaceFirst(SERVLET_PATH_PATTERN, "").substring(1);
 
-        ActionFactory actionFactory = new ActionFactory();
         try {
             Action action = actionFactory.getAction(actionName);
             String result = action.execute(req, resp);
@@ -45,5 +51,7 @@ public class MainServlet extends HttpServlet {
 
 //        Config.set(req.getSession(),Config.FMT_LOCALE,new java.util.Locale("en"));
     }
+
+
 
 }

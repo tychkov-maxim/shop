@@ -22,13 +22,9 @@ public class FormValidator {
         Map<String, List<String>> errors = getAllErrorsFromRequest(request);
         boolean hasError = false;
 
-        for (Map.Entry<String, List<Validator>> entry : fieldValidators.entrySet()) {
-            request.getSession().removeAttribute(entry.getKey()+ERROR_POSTFIX);
-        }
-
         for (Map.Entry<String, List<String>> entry : errors.entrySet()) {
             if (entry.getValue().size() > 0){
-                request.getSession().setAttribute(entry.getKey()+ERROR_POSTFIX,entry.getValue());
+                request.setAttribute(entry.getKey()+ERROR_POSTFIX,entry.getValue());
                 hasError = true;
             }
         }

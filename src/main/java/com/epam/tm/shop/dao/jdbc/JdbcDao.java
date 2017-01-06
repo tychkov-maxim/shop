@@ -13,6 +13,7 @@ import java.util.List;
 
 public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     public static final Logger log = LoggerFactory.getLogger(JdbcDao.class);
+    private static final int ERROR_CODE_OF_NON_UNIQUE_FIELD = 23505;
 
     protected Connection connection;
 
@@ -21,7 +22,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     }
 
     @Override
-    public T save(T entity) throws JdbcException {
+    public T save(T entity) throws JdbcException, JdbcNonUniqueFieldException {
         String query;
 
         log.trace("start to save entity {}", entity);
@@ -44,6 +45,8 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
             log.trace("saving entity {} was finished successfully", entity);
         } catch (SQLException e) {
+            if (e.getErrorCode() == ERROR_CODE_OF_NON_UNIQUE_FIELD)
+                throw new JdbcNonUniqueFieldException(e);
             throw new JdbcException(MessageFormat.format("saving entity:{0} was failed",entity),e);
         }
         return entity;
@@ -83,7 +86,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             ResultSet rs = ps.executeQuery();
             entities = createEntityFromResultSet(rs);
             ps.close();
-            log.trace("finding entities by parameter key {} was finished successfully", key);
+            log.trace("finding entities by parameter: {} was finished successfully", key);
             return entities;
         } catch (SQLException e) {
             throw new JdbcException(MessageFormat.format("finding entity by parameter = {} was failed",key),e);

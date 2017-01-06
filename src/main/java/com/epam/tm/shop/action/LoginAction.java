@@ -16,7 +16,7 @@ import java.util.List;
 public class LoginAction implements Action {
 
     public static final Logger log = LoggerFactory.getLogger(LoginAction.class);
-    private static final String LOGIN_ERROR = "loginError";
+    private static final String LOGIN_ERROR_PARAMETER = "loginError";
     private static final String LOGIN_PARAMETER = "login";
     private static final String FORM_NAME = "login";
     private static final String PASS_PARAMETER = "password";
@@ -33,15 +33,15 @@ public class LoginAction implements Action {
         String login = req.getParameter(LOGIN_PARAMETER);
         String password = req.getParameter(PASS_PARAMETER);
 
-        if ((login == null) && login.equals("")) return FORM_NAME;
+        if ((login == null) || login.equals("")) return FORM_NAME;
 
-        List<String> dataError = new ArrayList<>();
+        List<String> errorMessage = new ArrayList<>();
 
         try {
             User user = checkUser(login);
             if (!user.getPassword().equals(password)){
-                dataError.add(INCORRECT_PASSWORD);
-                req.setAttribute(LOGIN_ERROR,dataError);
+                errorMessage.add(INCORRECT_PASSWORD);
+                req.setAttribute(LOGIN_ERROR_PARAMETER,errorMessage);
                 log.trace("incorrect password with login {}",user.getLogin());
                 return FORM_NAME;
             }
@@ -52,8 +52,8 @@ public class LoginAction implements Action {
                 return LOGIN_SUCCESS;
             }
         } catch (ServiceNoDataException e) {
-            dataError.add(USER_NOT_FOUND);
-            req.setAttribute(LOGIN_ERROR,dataError);
+            errorMessage.add(USER_NOT_FOUND);
+            req.setAttribute(LOGIN_ERROR_PARAMETER,errorMessage);
             log.trace("User not found with login {}", login);
             return FORM_NAME;
         }
