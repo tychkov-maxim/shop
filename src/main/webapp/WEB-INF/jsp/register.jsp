@@ -21,7 +21,7 @@
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="login"><fmt:message key="login"/></label>
                     <div class="col-md-4">
-                        <input id="login" name="login" type="text" placeholder="<fmt:message key="enter.login"/>" class="form-control input-md" value="${regLogin}">
+                        <input id="login" name="login" type="text" placeholder="<fmt:message key="enter.login"/>" class="form-control input-md" value="${regLogin}" required>
                         <t:get_errors errors="${loginErrors}"/>
                     </div>
                 </div>

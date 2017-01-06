@@ -1,5 +1,8 @@
 package com.epam.tm.shop;
 
+import com.epam.tm.shop.entity.ProductCategory;
+import com.epam.tm.shop.service.ProductCategoryService;
+import com.epam.tm.shop.service.ServiceException;
 import com.epam.tm.shop.util.PropertyManager;
 import com.epam.tm.shop.util.PropertyManagerException;
 import com.epam.tm.shop.validator.*;
@@ -10,9 +13,9 @@ import java.util.*;
 
 public class Main {
 
-    public static final Logger log = LoggerFactory.getLogger(Main.class);
-    public static void main(String[] args) throws ValidatorException {
-/*        String url,username,password,driverName;
+/*    public static final Logger log = LoggerFactory.getLogger(Main.class);
+    public static void main(String[] args) throws ValidatorException, ServiceException {
+        String url,username,password,driverName;
         int maxCon;
 
         try {
@@ -38,10 +41,9 @@ public class Main {
             System.out.println(tv.get(0));
         } catch (ServiceException e) {
             e.printStackTrace();
-        }*/
+        }
 
-        String s = "/qwerty.do";
-        System.out.println(s.replaceFirst("/*.do", "").substring(1));
+        ProductCategoryService productCategoryService = new ProductCategoryService();
+        List<ProductCategory> allProductCategory = productCategoryService.getAllProductCategory();*/
 
-    }
 }

@@ -49,7 +49,6 @@ public class MainServlet extends HttpServlet {
         }
 
 
-//        Config.set(req.getSession(),Config.FMT_LOCALE,new java.util.Locale("en"));
     }
 
 

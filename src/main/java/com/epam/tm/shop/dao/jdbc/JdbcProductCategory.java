@@ -1,5 +1,7 @@
 package com.epam.tm.shop.dao.jdbc;
 
+import com.epam.tm.shop.dao.DaoException;
+import com.epam.tm.shop.dao.DaoNoDataException;
 import com.epam.tm.shop.dao.ProductCategoryDao;
 import com.epam.tm.shop.entity.ProductCategory;
 
@@ -15,6 +17,7 @@ public class JdbcProductCategory extends JdbcDao<ProductCategory> implements Pro
     private static final String INSERT_QUERY = "INSERT INTO categories VALUES(DEFAULT,?,?)";
     private static final String UPDATE_QUERY = "UPDATE categories SET name = ?, description = ? WHERE id = ?";
     private static final String SELECT_QUERY = "SELECT * FROM categories WHERE id = ?";
+    private static final String SELECT_ALL_QUERY = "SELECT * FROM categories";
     private static final String DELETE_QUERY = "DELETE FROM categories WHERE id = ?";
     private static final String SELECT_QUERY_BY_NAME = "SELECT * FROM categories WHERE name = ?";
 
@@ -81,16 +84,20 @@ public class JdbcProductCategory extends JdbcDao<ProductCategory> implements Pro
 
     @Override
     public ProductCategory findProductCategoryByName(String name) throws JdbcException, JdbcNoDataException {
-        List<ProductCategory> ProductCategories;
+        List<ProductCategory> productCategories;
 
         try {
-            ProductCategories = findByString(name, SELECT_QUERY_BY_NAME);
+            productCategories = findByString(name, SELECT_QUERY_BY_NAME);
         } catch (JdbcException e) {
             log.debug("finding product category by name = {} was failed",name);
             throw new JdbcException(e);
         }
 
-        return ProductCategories.get(0);
+        return productCategories.get(0);
     }
 
+    @Override
+    public List<ProductCategory> getAllProductCategory() throws DaoException, DaoNoDataException {
+        return findAll(SELECT_ALL_QUERY);
+    }
 }

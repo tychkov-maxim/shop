@@ -12,6 +12,8 @@ public class ActionFactory {
         matches.put("login",LoginAction.class);
         matches.put("logout",LogoutAction.class);
         matches.put("register",UserRegisterAction.class);
+        matches.put("show",IDK.class);
+        matches.put("lang",ChangeLanguageAction.class);
     }
 
     public Action getAction(String actionName) throws ActionFactoryException {

@@ -5,6 +5,7 @@
 <%@attribute name="tittle" required="true"%>
 
 <c:set var="role" value="${sessionScope.user.role}"/>
+<c:set var="currentURL" value="${requestScope['javax.servlet.forward.request_uri']}"/>
 
 <html>
 <head>
@@ -20,11 +21,12 @@
 
 
 <div class="jumbotron">
+    <a href="${pageContext.request.contextPath}/lang.do?language=ru&referrer=${currentURL}">ru</a>
+    <a href="${pageContext.request.contextPath}/lang.do?language=en&referrer=${currentURL}">en</a>
     <div class="container text-center">
         <h1>Online Store</h1>
     </div>
 </div>
-
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -57,9 +59,8 @@
     </div>
 </nav>
 
-<div class="container">
 <jsp:doBody/>
-</div>
+
 
 <jsp:include page="/WEB-INF/jsp/authorization.jsp"/>
 

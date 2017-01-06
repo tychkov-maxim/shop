@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface ProductCategoryDao extends Dao<ProductCategory>{
     ProductCategory findProductCategoryByName(String name) throws DaoException, DaoNoDataException;
+    List<ProductCategory> getAllProductCategory() throws DaoException, DaoNoDataException;
 }
