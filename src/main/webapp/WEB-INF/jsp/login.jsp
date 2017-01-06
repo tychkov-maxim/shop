@@ -39,5 +39,9 @@
                 </div>
             </div>
         </form>
+        <div class="col-md-10"></div>
+        <div class="col-md-2">
+            <a href="${pageContext.request.contextPath}/register.do" class="btn btn-primary"><fmt:message key="register"/></a>
+        </div>
     </jsp:body>
 </t:template_page>
