@@ -1,0 +1,26 @@
+package com.epam.tm.shop.filter;
+
+import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
+import java.io.IOException;
+
+@WebFilter(filterName = "EncodingFilter",urlPatterns = "*.do")
+public class EncodingFilter implements Filter {
+
+    private static final String ENCODE_INIT_PARAM = "encoding";
+    private String defaultEncoding = "utf-8";
+
+    public void destroy() {
+    }
+
+    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
+        req.setCharacterEncoding(defaultEncoding);
+        chain.doFilter(req,resp);
+    }
+
+    public void init(FilterConfig config) throws ServletException {
+        String encodingParam = config.getInitParameter(ENCODE_INIT_PARAM);
+        if (encodingParam != null) defaultEncoding = encodingParam;
+    }
+
+}
