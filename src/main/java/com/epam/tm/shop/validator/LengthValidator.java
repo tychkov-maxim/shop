@@ -17,6 +17,6 @@ public class LengthValidator extends ValidatorImpl {
     public boolean isValid(String value) {
         if (value == null) return false;
         int length = value.length();
-        return minLength < length && length < maxLength;
+        return minLength <= length && length <= maxLength;
     }
 }
