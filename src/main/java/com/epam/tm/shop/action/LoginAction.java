@@ -4,9 +4,6 @@ import com.epam.tm.shop.entity.User;
 import com.epam.tm.shop.service.ServiceException;
 import com.epam.tm.shop.service.ServiceNoDataException;
 import com.epam.tm.shop.service.UserService;
-import com.epam.tm.shop.validator.FormValidator;
-import com.epam.tm.shop.validator.FormValidatorFactory;
-import com.epam.tm.shop.validator.ValidatorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,16 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class LoginAction implements Action {
 
     public static final Logger log = LoggerFactory.getLogger(LoginAction.class);
     private static final String LOGIN_ERROR = "loginError";
-    private static final String LOGIN = "login";
+    private static final String LOGIN_PARAMETER = "login";
+    private static final String FORM_NAME = "login";
     private static final String PASS_PARAMETER = "password";
-    private static final String REDIRECT = "redirect:/";
-    private static final String LOGIN_SUCCESS = "redirect:/login-success";
+    private static final String LOGIN_SUCCESS = "login-success";
     private static final String INCORRECT_PASSWORD = "incorrect.pass";
     private static final String USER_NOT_FOUND = "user.not.found";
     private static final String ATTRIBUTE_SESSION_USER_NAME = "user";
@@ -34,9 +30,10 @@ public class LoginAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
         log.trace("start to authorize");
 
-        String login = req.getParameter(LOGIN);
+        String login = req.getParameter(LOGIN_PARAMETER);
         String password = req.getParameter(PASS_PARAMETER);
 
+        if ((login == null) && login.equals("")) return FORM_NAME;
 
         List<String> dataError = new ArrayList<>();
 
@@ -46,7 +43,7 @@ public class LoginAction implements Action {
                 dataError.add(INCORRECT_PASSWORD);
                 req.setAttribute(LOGIN_ERROR,dataError);
                 log.trace("incorrect password with login {}",user.getLogin());
-                return REDIRECT;
+                return FORM_NAME;
             }
             else {
                 HttpSession session = req.getSession(true);
@@ -58,7 +55,7 @@ public class LoginAction implements Action {
             dataError.add(USER_NOT_FOUND);
             req.setAttribute(LOGIN_ERROR,dataError);
             log.trace("User not found with login {}", login);
-            return REDIRECT;
+            return FORM_NAME;
         }
 
     }
