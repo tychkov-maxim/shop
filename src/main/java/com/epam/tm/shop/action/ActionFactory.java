@@ -14,6 +14,7 @@ public class ActionFactory {
         matches.put("register",UserRegisterAction.class);
         matches.put("show",ProductsByCategoryAction.class);
         matches.put("lang",ChangeLanguageAction.class);
+        matches.put("product",ProductAction.class);
     }
 
     public Action getAction(String actionName) throws ActionFactoryException {
