@@ -15,7 +15,7 @@ public class ChangeLanguageAction implements Action {
     private static final String REFERRER_PARAMETER = "referrer";
     private static final String REDIRECT = "redirect:";
     private static final String ENGLISH_LOCALE = "en";
-    private static final String RUSSIAN_LOCALE= "ru";
+    private static final String RUSSIAN_LOCALE = "ru";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {

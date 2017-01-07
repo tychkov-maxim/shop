@@ -19,12 +19,16 @@
 </head>
 <body>
 
-
 <div class="jumbotron">
-    <a href="${pageContext.request.contextPath}/lang.do?language=ru&referrer=${currentURL}">ru</a>
-    <a href="${pageContext.request.contextPath}/lang.do?language=en&referrer=${currentURL}">en</a>
     <div class="container text-center">
         <h1>Online Store</h1>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">Change language<span class="caret"></span></button>
+        <ul class="dropdown-menu" role="menu">
+            <li><a href="${pageContext.request.contextPath}/lang.do?language=en&referrer=${currentURL}">en</a></li>
+            <li><a href="${pageContext.request.contextPath}/lang.do?language=ru&referrer=${currentURL}">ru</a></li>
+        </ul>
     </div>
 </div>
 <nav class="navbar navbar-inverse">
@@ -44,6 +48,8 @@
                 <li><a href="#">Contact</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Cart <span
+                        class="badge">5</span></a></li>
                 <c:if test="${empty role}">
                 <li><a href="" data-toggle="modal" data-target="#auth"><span class="glyphicon glyphicon-user"></span>
                     Your Account</a></li>
@@ -52,8 +58,6 @@
                     <li><a href="${pageContext.request.contextPath}/logout.do"><span class="glyphicon glyphicon-user"></span>
                     ${sessionScope.user.firstName}</a></li>
                 </c:if>
-                <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Cart <span
-                        class="badge">5</span></a></li>
             </ul>
         </div>
     </div>
@@ -64,9 +68,11 @@
 
 <jsp:include page="/WEB-INF/jsp/authorization.jsp"/>
 
+
 <footer class="container-fluid text-center">
     <p>Online Store Copyright</p>
 </footer>
+
 
 </body>
 </html>
