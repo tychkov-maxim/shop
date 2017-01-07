@@ -33,11 +33,11 @@ public class ChangeLanguageAction implements Action {
             }
         }
         String referrer = req.getParameter(REFERRER_PARAMETER);
-        if (!notEmptyValidator.isValid(language)){
+        if (!notEmptyValidator.isValid(referrer)){
             referrer = "/";
             log.trace("referrer parameter is not valid");
         }
-        log.trace("change language action was finished successfully");
+        log.trace("change language action was finished successfully, referrer = {}", referrer);
         return REDIRECT+referrer;
     }
 }
