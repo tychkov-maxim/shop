@@ -48,6 +48,7 @@ public class UserRegisterAction implements Action{
         String address = req.getParameter(ADDRESS_PARAMETER);
 
         //need to check because post and get requests are the same
+        //fixme
         if ((login == null) || login.equals("")) return FORM_NAME;
 
         try {

@@ -6,7 +6,7 @@ import java.util.Map;
 public class ActionFactory {
 
     private Map<String,Class> matches;
-
+//// FIXME: 07.01.2017 fix that to const min
     public ActionFactory() {
         matches = new HashMap<>();
         matches.put("login",LoginAction.class);

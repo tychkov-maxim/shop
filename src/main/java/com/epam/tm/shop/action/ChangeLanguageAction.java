@@ -18,6 +18,7 @@ public class ChangeLanguageAction implements Action {
     private static final String REDIRECT = "redirect:";
     private static final String ENGLISH_LOCALE = "en";
     private static final String RUSSIAN_LOCALE = "ru";
+    private static final String ROOT_DIRECTORY_URL = "/";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
@@ -34,7 +35,7 @@ public class ChangeLanguageAction implements Action {
         }
         String referrer = req.getParameter(REFERRER_PARAMETER);
         if (!notEmptyValidator.isValid(referrer)){
-            referrer = "/";
+            referrer = ROOT_DIRECTORY_URL;
             log.trace("referrer parameter is not valid");
         }
         log.trace("change language action was finished successfully, referrer = {}", referrer);
