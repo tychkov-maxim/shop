@@ -10,32 +10,38 @@ import java.util.List;
 
 public class ProductService {
 
-    public Product getProductById(int id) throws ServiceException {
+    public Product getProductById(int id) throws ServiceException, ServiceNoDataException {
         try (DaoFactory factory = DaoFactory.createFactory()) {
             ProductDao productDao = factory.getProductDao();
             return productDao.findById(id);
-        } catch (DaoException | DaoNoDataException e) {
+        } catch (DaoException  e) {
             throw new ServiceException(e);
+        } catch (DaoNoDataException e){
+            throw new ServiceNoDataException(e);
         }
     }
 
-    public List<Product> getProductsByCategoryWithPagination(String category,int offset,int limit) throws ServiceException {
+    public List<Product> getProductsByCategoryWithPagination(String category,int offset,int limit) throws ServiceException, ServiceNoDataException {
 
         try (DaoFactory factory = DaoFactory.createFactory()) {
             ProductDao productDao = factory.getProductDao();
             return productDao.findProductsByCategoryWithPagination(category,offset,limit);
-        } catch (DaoException | DaoNoDataException e) {
+        } catch (DaoException  e) {
             throw new ServiceException(e);
+        } catch (DaoNoDataException e){
+            throw new ServiceNoDataException(e);
         }
     }
 
-    public List<Product> getProductsWithPagination(int offset,int limit) throws ServiceException {
+    public List<Product> getProductsWithPagination(int offset,int limit) throws ServiceException, ServiceNoDataException {
 
         try (DaoFactory factory = DaoFactory.createFactory()) {
             ProductDao productDao = factory.getProductDao();
             return productDao.findAllProductsWithPagination(offset,limit);
-        } catch (DaoException | DaoNoDataException e) {
+        } catch (DaoException  e) {
             throw new ServiceException(e);
+        } catch (DaoNoDataException e){
+            throw new ServiceNoDataException(e);
         }
     }
 
