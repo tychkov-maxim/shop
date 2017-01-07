@@ -1,5 +1,7 @@
 package com.epam.tm.shop.action;
 
+import com.epam.tm.shop.validator.NotEmptyParameterValidator;
+import com.epam.tm.shop.validator.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,14 +21,23 @@ public class ChangeLanguageAction implements Action {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
+        log.trace("start to change language action");
         String language = req.getParameter(LANGUAGE_PARAMETER);
+        Validator notEmptyValidator = new NotEmptyParameterValidator();
 
-        if ((language != null) && (!language.equals(""))){
-            if (language.equals(ENGLISH_LOCALE) || language.equals(RUSSIAN_LOCALE))
+        if (notEmptyValidator.isValid(language)){
+            log.trace("language parameter is valid - {}",language);
+            if (language.equals(ENGLISH_LOCALE) || language.equals(RUSSIAN_LOCALE)) {
                 Config.set(req.getSession(), Config.FMT_LOCALE, new java.util.Locale(language));
+                log.trace("changed language to {}",language);
+            }
         }
         String referrer = req.getParameter(REFERRER_PARAMETER);
-        if ((referrer == null) || referrer.equals("")) referrer = "/";
+        if (!notEmptyValidator.isValid(language)){
+            referrer = "/";
+            log.trace("referrer parameter is not valid");
+        }
+        log.trace("change language action was finished successfully");
         return REDIRECT+referrer;
     }
 }
