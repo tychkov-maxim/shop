@@ -6,6 +6,8 @@ import com.epam.tm.shop.service.ProductCategoryService;
 import com.epam.tm.shop.service.ProductService;
 import com.epam.tm.shop.service.ServiceException;
 import com.epam.tm.shop.service.ServiceNoDataException;
+import com.epam.tm.shop.validator.OnlyNumberValidator;
+import com.epam.tm.shop.validator.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,18 +30,21 @@ public class ProductsByCategoryAction implements Action {
     private static final String NEXT_PAGE_ATTRIBUTE = "nextPage";
     private static final String PREVIOUS_PAGE_ATTRIBUTE = "previousPage";
     private static final int DEFAULT_LIMIT_PAGINATION = 15;
+    private static final int THE_FIRST_PAGE_NUMBER = 0;
+    private static final int STEP_OF_MOVING_PAGES = 1;
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
+        log.trace("start to execute products by category action");
 
         ProductCategoryService productCategoryService = new ProductCategoryService();
         ProductService productService = new ProductService();
         String pageParam;
         String categoryParam;
         List<Product> products;
-        int pageNumber = 0;
-
+        int pageNumber = THE_FIRST_PAGE_NUMBER;
+        Validator validator = new OnlyNumberValidator();
         try {
             List<ProductCategory> allProductCategory = productCategoryService.getAllProductCategory();
             req.setAttribute(CATEGORIES_ATTRIBUTE,allProductCategory);
@@ -48,27 +53,32 @@ public class ProductsByCategoryAction implements Action {
 
 
             pageParam  = req.getParameter(PAGE_PAGINATION_PARAMETER);
-            if ((pageParam != null) && (!pageParam.equals(""))){
+            if (validator.isValid(pageParam)) {
                 pageNumber = Integer.parseInt(pageParam);
+                log.trace("pageParam is valid - {}",pageNumber);
             }
-            if (pageNumber < 0) pageNumber = 0;
+            if (pageNumber < THE_FIRST_PAGE_NUMBER) pageNumber = THE_FIRST_PAGE_NUMBER;
 
             categoryParam = req.getParameter(CATEGORY_PARAMETER);
             if ((categoryParam != null) && (!categoryParam.equals(""))){
                 products = productService.getProductsByCategoryWithPagination(categoryParam, pageNumber * DEFAULT_LIMIT_PAGINATION, DEFAULT_LIMIT_PAGINATION);
+                log.trace("category parameter is valid - {}, got {} products", categoryParam,products.size());
             } else {
                 products = productService.getProductsWithPagination(pageNumber * DEFAULT_LIMIT_PAGINATION, DEFAULT_LIMIT_PAGINATION);
+                log.trace("category parameter is not valid, find all products, got {} products", products.size());
             }
             req.setAttribute(PRODUCTS_ATTRIBUTE,products);
 
             if (DEFAULT_LIMIT_PAGINATION == products.size()) {
                 List<Product> productsWithPagination = productService.getProductsWithPagination(pageNumber * DEFAULT_LIMIT_PAGINATION, DEFAULT_LIMIT_PAGINATION + 1);
                 if (productsWithPagination.size() > DEFAULT_LIMIT_PAGINATION) {
-                    req.setAttribute(PREVIOUS_PAGE_ATTRIBUTE,++pageNumber);
+                    req.setAttribute(NEXT_PAGE_ATTRIBUTE, pageNumber+STEP_OF_MOVING_PAGES);
+                    log.trace("next page:{} exist",pageNumber + STEP_OF_MOVING_PAGES);
                 }
             }
             if (pageNumber > 0) {
-                req.setAttribute(NEXT_PAGE_ATTRIBUTE,--pageNumber);
+                req.setAttribute(PREVIOUS_PAGE_ATTRIBUTE,pageNumber - STEP_OF_MOVING_PAGES);
+                log.trace("previous page:{} exist",pageNumber - STEP_OF_MOVING_PAGES);
             }
 
         } catch (ServiceException e) {
@@ -77,8 +87,10 @@ public class ProductsByCategoryAction implements Action {
             List<String> message = new ArrayList<>();
             message.add(NO_ONE_PRODUCT_IN_CATEGORY_MESSAGE);
             req.setAttribute(PRODUCT_MESSAGE_ATTRIBUTE,message);
-            log.debug("no one product{}",message);
+            log.trace("no one product was found{}",message);
         }
+
+        log.trace("products by category action was finished successfully");
 
         return FORM_NAME;
     }
