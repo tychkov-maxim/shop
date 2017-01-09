@@ -32,7 +32,8 @@
                                             <h6><strong>${product.price}<span class="text-muted">x</span></strong></h6>
                                         </div>
                                         <div class="col-xs-4">
-                                            <input type="text" class="form-control input-sm" value="${quantity}" onchange="window.location='${pageContext.request.contextPath}/cart.do?change=${product.id}&quantity='+this.value">
+                                            <input type="text" class="form-control input-sm" value="${quantity}"
+                                                   onchange="window.location='${pageContext.request.contextPath}/cart.do?change=${product.id}&quantity='+this.value">
                                         </div>
                                         <div class="col-xs-2">
                                             <a href="${pageContext.request.contextPath}/cart.do?delete=${product.id}">
@@ -47,14 +48,14 @@
                         <div class="panel-footer">
                             <div class="row text-center">
                                 <div class="col-xs-4">
-                                    <h4 class="text-left">Your account: ${user.account}</h4>
+                                    <h4 class="text-left"><fmt:message key="check.account"/> ${user.account}</h4>
                                 </div>
                                 <div class="col-xs-5">
                                     <h4 class="text-right"><fmt:message key="cart.total"/> ${cart.allCost}</h4>
                                 </div>
                                 <div class="col-xs-3">
                                     <button type="button" class="btn btn-success btn-block">
-                                        Accept
+                                        <fmt:message key="confirm"/>
                                     </button>
                                 </div>
                             </div>
@@ -63,7 +64,6 @@
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </jsp:body>
 </t:template_page>

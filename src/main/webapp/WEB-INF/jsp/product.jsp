@@ -32,9 +32,9 @@
                     <div class="col-xs-12">
                         <div class="col-xs-10">
                             <a href="${pageContext.request.contextPath}/cart.do?add=${product.id}" id="buyProduct"
-                               class="btn btn-success" role="button">Buy</a>
+                               class="btn btn-success" role="button"><fmt:message key="buy"/></a>
                             <a href="${pageContext.request.contextPath}/cart.do?add=${product.id}" id="addToCart"
-                               class="btn btn-primary" role="button">Add to cart</a>
+                               class="btn btn-primary" role="button"><fmt:message key="cart.add"/></a>
                         </div>
                         <div class="col-xs-2">
                             <input type="text" class="form-control input-sm" value="1" name="quantity">
