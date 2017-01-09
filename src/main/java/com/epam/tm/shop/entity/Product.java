@@ -8,18 +8,16 @@ public class Product extends BaseEntity{
     private Money price;
     private ProductCategory productCategory;
     private String imagePath;
-    private int quantity;
 
     public Product() {
     }
 
-    public Product(String name, String description, Money price, ProductCategory productCategory, String imagePath, int quantity) {
+    public Product(String name, String description, Money price, ProductCategory productCategory, String imagePath) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.productCategory = productCategory;
         this.imagePath = imagePath;
-        this.quantity = quantity;
     }
 
     public String getName() {
@@ -62,14 +60,6 @@ public class Product extends BaseEntity{
         this.imagePath = imagePath;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
     @Override
     public String toString() {
         return "Product{" +
@@ -78,7 +68,6 @@ public class Product extends BaseEntity{
                 ", price=" + price +
                 ", productCategory=" + productCategory +
                 ", imagePath='" + imagePath + '\'' +
-                ", quantity=" + quantity +
                 "} " + super.toString();
     }
 }

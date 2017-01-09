@@ -91,13 +91,8 @@ public class CartAction implements Action {
                 } else {
                     quantity = DEFAULT_PRODUCT_QUANTITY;
                 }
-
-                if (product.getQuantity() >= quantity) {
                     cart.addProduct(product, quantity);
                     log.trace("product {} was added in the amount of {} pieces to cart successfully", product.getName(), quantity);
-                } else {
-                    log.trace("products was not added to cart, not enough products");
-                }
             } catch (ServiceNoDataException e) {
                 log.trace("It's impossible to add not found product to cart");
             }

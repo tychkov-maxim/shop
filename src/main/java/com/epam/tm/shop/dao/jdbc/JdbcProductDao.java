@@ -17,8 +17,8 @@ import java.util.List;
 public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
 
 
-    private static final String INSERT_QUERY = "INSERT INTO products VALUES(DEFAULT,?,?,?,?,?,?,?)";
-    private static final String UPDATE_QUERY = "UPDATE products SET name = ?, description = ?, price = ?, price_unit = ?, category_id = ?, image_path = ?, quantity = ? WHERE id = ?";
+    private static final String INSERT_QUERY = "INSERT INTO products VALUES(DEFAULT,?,?,?,?,?,?)";
+    private static final String UPDATE_QUERY = "UPDATE products SET name = ?, description = ?, price = ?, price_unit = ?, category_id = ?, image_path = ? WHERE id = ?";
     private static final String SELECT_QUERY = "SELECT * FROM products JOIN categories ON products.category_id = categories.id WHERE products.id = ?";
     private static final String DELETE_QUERY = "DELETE FROM products WHERE id = ?";
     private static final String SELECT_QUERY_BY_CART_ID = "SELECT * FROM carts " +
@@ -42,7 +42,6 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
                 product.setDescription(rs.getString("description"));
                 product.setPrice(Money.of(CurrencyUnit.getInstance(rs.getString("price_unit")),rs.getBigDecimal("price")));
                 product.setImagePath(rs.getString("image_path"));
-                product.setQuantity(rs.getInt("quantity"));
                 product.setProductCategory(new ProductCategory(rs.getInt("categories.id"),rs.getString("categories.name"),rs.getString("categories.description")));
                 products.add(product);
             }
@@ -66,11 +65,10 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
             ps.setString(4,entity.getPrice().getCurrencyUnit().toString());
             ps.setInt(5,entity.getProductCategory().getId());
             ps.setString(6,entity.getImagePath());
-            ps.setInt(7,entity.getQuantity());
 
             Integer id = entity.getId();
             if (id != null)
-                ps.setInt(8,entity.getId());
+                ps.setInt(7,entity.getId());
 
         } catch (SQLException e) {
             throw new JdbcException("set product entity to ps was failed",e);
