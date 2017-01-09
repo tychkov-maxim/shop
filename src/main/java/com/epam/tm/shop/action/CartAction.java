@@ -24,8 +24,13 @@ public class CartAction implements Action {
     private static final String DELETE_PARAMETER = "delete";
     private static final String CHANGE_QUANTITY_PARAMETER = "change";
     private static final String QUANTITY_PARAMETER = "quantity";
+    private static final String REFERRER_CATEGORY_PARAMETER = "category";
+    private static final String FORMING_URL_CATEGORY = "category=";
+    private static final String FORMING_URL_PAGE = "&page=";
+    private static final String REFERRER_PAGE_PARAMETER = "page";
     private static final int DEFAULT_PRODUCT_QUANTITY = 1;
-    private static final String REDIRECT = "redirect:/showCheckout.do";
+    private static final String REDIRECT_CHECKOUT = "redirect:/showCheckout.do";
+    private static final String REDIRECT_CATEGORY = "redirect:/show.do?";
 
 
 
@@ -63,7 +68,15 @@ public class CartAction implements Action {
         session.setAttribute(CART_ATTRIBUTE_IN_SESSION, cart);
         log.trace("cart was saved in session");
 
-        return REDIRECT;
+        String referrerCategoryParam = req.getParameter(REFERRER_CATEGORY_PARAMETER);
+        if (notEmptyParameterValidator.isValid(referrerCategoryParam)){
+            String redirectURL = REDIRECT_CATEGORY  + FORMING_URL_CATEGORY + referrerCategoryParam;
+            String referrerPageParam = req.getParameter(REFERRER_PAGE_PARAMETER);
+            if (notEmptyParameterValidator.isValid(referrerPageParam))
+                redirectURL = redirectURL + FORMING_URL_PAGE + referrerPageParam;
+            return redirectURL;
+        }
+        return REDIRECT_CHECKOUT;
     }
 
     private Product getProductById(int id) throws ActionException, ServiceNoDataException {

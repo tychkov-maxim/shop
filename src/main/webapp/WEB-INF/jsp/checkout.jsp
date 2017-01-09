@@ -32,7 +32,7 @@
                                             <h6><strong>${product.price}<span class="text-muted">x</span></strong></h6>
                                         </div>
                                         <div class="col-xs-4">
-                                            <input type="text" class="form-control input-sm" value="${quantity}">
+                                            <input type="text" class="form-control input-sm" value="${quantity}" onchange="window.location='${pageContext.request.contextPath}/cart.do?change=${product.id}&quantity='+this.value">
                                         </div>
                                         <div class="col-xs-2">
                                             <a href="${pageContext.request.contextPath}/cart.do?delete=${product.id}">
@@ -43,18 +43,6 @@
                                 </div>
                                 <hr>
                             </c:forEach>
-                            <div class="row">
-                                <div class="text-center">
-                                    <div class="col-xs-9">
-                                        <h6 class="text-right">changed items?</h6>
-                                    </div>
-                                    <div class="col-xs-3">
-                                        <button type="button" class="btn btn-default btn-sm btn-block">
-                                            Update order
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="panel-footer">
                             <div class="row text-center">

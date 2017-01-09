@@ -5,7 +5,7 @@
 <fmt:setBundle basename="lang"/>
 
 <div class="modal fade" id="cart" role="dialog">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-xs">
         <div class="modal-body">
             <div class="container">
                 <div class="row">
@@ -48,8 +48,6 @@
                                                     <h6><strong>X<span
                                                             class="text-muted"></span></strong>
                                                     </h6>
-                                                 <%--   <input type="text" class="form-control input-sm"
-                                                           value="${quantity}"/>--%>
                                                 </div>
                                                 <div class="col-xs-2">
                                                     <h6><strong>${quantity}<span
@@ -65,29 +63,14 @@
                                         </div>
                                         <hr>
                                     </c:forEach>
-                                    <%--         <div class="row">
-                                                 <div class="text-center">
-                                                     <div class="col-xs-9">
-                                                         <h6 class="text-right">Added items?</h6>
-                                                     </div>
-                                                     <div class="col-xs-3">
-                                                         <button type="button" class="btn btn-default btn-sm btn-block">
-                                                             Update cart
-                                                         </button>
-                                                     </div>
-                                                 </div>
-                                             </div>
-                                         </div>--%>
                                     <div class="panel-footer">
                                         <div class="row text-center">
                                             <div class="col-xs-9">
                                                 <h4 class="text-right"><fmt:message key="cart.total"/> ${cart.allCost}</h4>
                                             </div>
                                             <div class="col-xs-3">
-                                                <a href="${pageContext.request.contextPath}/showCheckout.do">
-                                                <button type="button" class="btn btn-success btn-block">
+                                                <a href="${pageContext.request.contextPath}/showCheckout.do" class="btn btn-success btn-block" role="button">
                                                     <fmt:message key="cart.checkout"/>
-                                                </button>
                                                 </a>
                                             </div>
                                         </div>
