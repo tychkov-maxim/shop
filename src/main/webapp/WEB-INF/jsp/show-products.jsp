@@ -33,8 +33,7 @@
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">${product.name}</div>
                                     <div class="panel-body">
-                                        <img
-                                                src="/image${product.imagePath}"
+                                        <img src="${pageContext.request.contextPath}/image${product.imagePath}"
                                                 class="img-responsive" alt="Image" style="width: 100%"></div>
                                     <div class="panel-footer">${product.price}</div>
                                 </div>

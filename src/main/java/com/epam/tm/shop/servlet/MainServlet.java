@@ -20,7 +20,8 @@ public class MainServlet extends HttpServlet {
     private static final String VIEW_PATH = "/WEB-INF/jsp/";
     private static final String VIEW_EXTENSION = ".jsp";
     private static final String REDIRECT = "redirect:";
-    private static final String SERVLET_PATH_PATTERN = "/*.do";
+    private static final String END_URL = ".do";
+    private static final String START_URL = "/";
 
     private ActionFactory actionFactory;
 
@@ -32,14 +33,20 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException  {
         String requestURI = req.getRequestURI();
-        String actionName = requestURI.replaceFirst(SERVLET_PATH_PATTERN, "").substring(1);
+        int startIndex = requestURI.lastIndexOf(START_URL);
+        int endIndex = requestURI.lastIndexOf(END_URL);
+        log.debug("{}",startIndex);
+        log.debug("{}",endIndex);
+        log.debug(requestURI);
+        String actionName = requestURI.substring(startIndex+1,endIndex);
+        log.debug(actionName);
 
         try {
             Action action = actionFactory.getAction(actionName);
             String result = action.execute(req, resp);
 
             if (result.startsWith(REDIRECT)){
-                resp.sendRedirect(result.substring(REDIRECT.length()));
+                resp.sendRedirect(req.getContextPath() + result.substring(REDIRECT.length()));
             }else{
                 req.getRequestDispatcher(VIEW_PATH + result + VIEW_EXTENSION).forward(req,resp);
             }

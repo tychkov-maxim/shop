@@ -34,7 +34,7 @@
                                         <c:set var="quantity" value="${cartEntrySet.getValue()}"/>
                                         <div class="row">
                                             <div class="col-xs-2"><img class="img-responsive"
-                                                                       src="/image${product.imagePath}">
+                                                                       src="${pageContext.request.contextPath}/image${product.imagePath}">
                                             </div>
                                             <div class="col-xs-4">
                                                 <h4 class="product-name"><strong>${product.name}</strong></h4>

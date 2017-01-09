@@ -16,7 +16,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">${product.name}</div>
                 <div class="panel-body" align="center">
-                    <img src="/image${product.imagePath}" class="img-responsive" alt="Image"/>
+                    <img src="${pageContext.request.contextPath}/image${product.imagePath}" class="img-responsive" alt="Image"/>
                 </div>
                 <div class="panel-footer">${product.price}</div>
             </div>
