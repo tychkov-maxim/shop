@@ -60,6 +60,38 @@ public class JdbcDaoFactory extends DaoFactory{
     }
 
     @Override
+    public void beginTx() throws JdbcException {
+        try {
+            connection.setAutoCommit(false);
+            log.trace("transaction was started");
+        } catch (SQLException e) {
+            throw new JdbcException(e);
+        }
+    }
+
+    @Override
+    public void commit() throws JdbcException {
+        try {
+            connection.commit();
+            connection.setAutoCommit(true);
+            log.trace("transaction was commit");
+        } catch (SQLException e) {
+            throw new JdbcException(e);
+        }
+    }
+
+    @Override
+    public void rollback() throws JdbcException {
+        try {
+            connection.rollback();
+            connection.setAutoCommit(true);
+            log.trace("transaction was rollback");
+        } catch (SQLException e) {
+            throw new JdbcException(e);
+        }
+    }
+
+    @Override
     public void close() throws JdbcException {
         try {
             connection.close();

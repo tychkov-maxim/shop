@@ -23,5 +23,8 @@ public abstract class DaoFactory implements AutoCloseable{
     public abstract ProductCategoryDao getProductCategoryDao();
     public abstract CartDao getCartDao();
     public abstract OrderDao getOrderDao();
+    public abstract void beginTx() throws DaoException;
+    public abstract void commit() throws DaoException;
+    public abstract void rollback() throws DaoException;
 
 }
