@@ -41,7 +41,7 @@
         </form>
         <div class="col-md-8"></div>
         <div class="col-md-2">
-            <a href="${pageContext.request.contextPath}/register.do" class="btn btn-primary"><fmt:message key="register"/></a>
+            <a href="${pageContext.request.contextPath}/showRegister.do" class="btn btn-primary"><fmt:message key="register"/></a>
         </div>
     </jsp:body>
 </t:template_page>

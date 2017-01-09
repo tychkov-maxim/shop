@@ -33,9 +33,6 @@ public class LoginAction implements Action {
         String login = req.getParameter(LOGIN_PARAMETER);
         String password = req.getParameter(PASS_PARAMETER);
 
-        //fixme fix that and bm add validation
-        if ((login == null) || login.equals("")) return FORM_NAME;
-
         List<String> errorMessage = new ArrayList<>();
 
         try {

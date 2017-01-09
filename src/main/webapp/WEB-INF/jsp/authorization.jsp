@@ -41,7 +41,7 @@
 
             </div>
             <div class="modal-footer">
-                <a href="${pageContext.request.contextPath}/register.do" class="btn btn-primary"><fmt:message key="register"/></a>
+                <a href="${pageContext.request.contextPath}/showRegister.do" class="btn btn-primary"><fmt:message key="register"/></a>
             </div>
         </div>
     </div>

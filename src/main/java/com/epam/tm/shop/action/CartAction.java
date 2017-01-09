@@ -25,7 +25,7 @@ public class CartAction implements Action {
     private static final String CHANGE_QUANTITY_PARAMETER = "change";
     private static final String QUANTITY_PARAMETER = "quantity";
     private static final int DEFAULT_PRODUCT_QUANTITY = 1;
-    private static final String REDIRECT = "redirect:/";
+    private static final String REDIRECT = "redirect:/showCheckout.do";
 
 
 

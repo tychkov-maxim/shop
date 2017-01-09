@@ -84,9 +84,11 @@
                                                 <h4 class="text-right"><fmt:message key="cart.total"/> ${cart.allCost}</h4>
                                             </div>
                                             <div class="col-xs-3">
+                                                <a href="${pageContext.request.contextPath}/showCheckout.do">
                                                 <button type="button" class="btn btn-success btn-block">
                                                     <fmt:message key="cart.checkout"/>
                                                 </button>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>

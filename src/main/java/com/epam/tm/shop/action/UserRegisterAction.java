@@ -47,10 +47,6 @@ public class UserRegisterAction implements Action{
         String secondName = req.getParameter(SECOND_NAME_PARAMETER);
         String address = req.getParameter(ADDRESS_PARAMETER);
 
-        //need to check because post and get requests are the same
-        //fixme
-        if ((login == null) || login.equals("")) return FORM_NAME;
-
         try {
             FormValidator registerValidator = FormValidatorFactory.getFormValidatorByNameOfForm(FORM_NAME);
             if (registerValidator.validate(req)) {

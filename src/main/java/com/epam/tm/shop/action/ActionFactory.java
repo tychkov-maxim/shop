@@ -6,25 +6,23 @@ import java.util.Map;
 
 public class ActionFactory {
 
-    private Map<String,Class> matches;
+    private Map<String,Action> matches;
 //// FIXME: 07.01.2017 fix that to const min
     public ActionFactory() {
         matches = new HashMap<>();
-        matches.put("login",LoginAction.class);
-        matches.put("logout",LogoutAction.class);
-        matches.put("register",UserRegisterAction.class);
-        matches.put("show",ProductsByCategoryAction.class);
-        matches.put("lang",ChangeLanguageAction.class);
-        matches.put("product",ProductAction.class);
-        matches.put("cart",CartAction.class);
+        matches.put("login",new LoginAction());
+        matches.put("logout",new LogoutAction());
+        matches.put("register",new UserRegisterAction());
+        matches.put("show",new ProductsByCategoryAction());
+        matches.put("lang",new ChangeLanguageAction());
+        matches.put("product",new ProductAction());
+        matches.put("cart",new CartAction());
+        matches.put("showRegister",new ShowPageAction("register"));
+        matches.put("showLogin",new ShowPageAction("login"));
+        matches.put("showCheckout",new ShowPageAction("checkout"));
     }
 
     public Action getAction(String actionName) throws ActionFactoryException {
-        Class aClass = matches.get(actionName);
-        try {
-            return (Action)aClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new ActionFactoryException(e);
-        }
+            return matches.get(actionName);
     }
 }
