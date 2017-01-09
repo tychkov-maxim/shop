@@ -3,13 +3,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <fmt:setBundle basename="lang"/>
+<c:set var="productsInRow" value="4"/>
 
 <t:template_page tittle="Online Store">
     <jsp:body>
-        <div class="container-fluid" id="categories">
+        <div class="container-fluid">
             <t:get_errors errors="${productsMessage}"/>
-            <div class="row content">
-                <div class="col-sm-2">
+            <div class="col-sm-2">
                     <ul class="list-group">
                         <c:forEach items="${categories}" var="category">
                             <a href="${pageContext.request.contextPath}/show.do?category=${category.name}">
@@ -17,39 +17,47 @@
                             </a>
                         </c:forEach>
                     </ul>
-                </div>
-
-
-
-                <div class="container-fluid">
-                    <c:forEach items="${products}" var="product">
-                        <div class="col-sm-2">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading">${product.name}</div>
-                                <div class="panel-body"><img
-                                        src="/image${product.imagePath}"
-                                        class="img-responsive" style="width:100%" alt="Image"></div>
-                                <div class="panel-footer">${product.price}</div>
-                            </div>
-                        </div>
-                    </c:forEach>
-                </div>
             </div>
+
+            <div class="col-sm-10">
+                    <c:set var="i" value="0"/>
+                    <c:forEach items="${products}" var="product">
+                        <%--&lt;%&ndash;each 4 product need to add new block&ndash;%&gt;--%>
+                        <c:if test="${i % productsInRow == 0}">
+                        <div class="container-fluid">
+
+                        </c:if>
+                        <c:set var="i" value="${i + 1}"/>
+                        <a href="product.do?id=${product.id}">
+                            <div class="col-sm-3">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">${product.name}</div>
+                                    <div class="panel-body">
+                                        <img
+                                                src="/image${product.imagePath}"
+                                                class="img-responsive" alt="Image" style="width: 100%"></div>
+                                    <div class="panel-footer">${product.price}</div>
+                                </div>
+                            </div>
+                        </a>
+                        <c:if test="${i % productsInRow == 0}"></div></c:if>
+                    </c:forEach>
+            </div>
+
+            <ul class="pager">
+                <c:if test="${not empty previousPage}">
+                    <li>
+                        <a href="${pageContext.request.contextPath}/show.do?page=${previousPage}&category=${param.category}">Previous</a>
+                    </li>
+                </c:if>
+                <c:if test="${not empty nextPage}">
+                    <li>
+                        <a href="${pageContext.request.contextPath}/show.do?page=${nextPage}&category=${param.category}">Next</a>
+                    </li>
+                </c:if>
+            </ul>
+
+
         </div>
-
-
-
-        <ul class="pager">
-            <c:if test="${not empty previousPage}">
-                <li>
-                    <a href="${pageContext.request.contextPath}/show.do?page=${previousPage}&category=${param.category}">Previous</a>
-                </li>
-            </c:if>
-             <c:if test="${not empty nextPage}">
-                <li><a href="${pageContext.request.contextPath}/show.do?page=${nextPage}&category=${param.category}">Next</a>
-                </li>
-            </c:if>
-        </ul>
-
     </jsp:body>
 </t:template_page>
