@@ -48,8 +48,9 @@
                 <li><a href="#">Contact</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Cart <span
-                        class="badge">5</span></a></li>
+                <li><a href="" data-toggle="modal" data-target="#cart"><span class="glyphicon glyphicon-shopping-cart"></span>
+                    Cart <c:if test="${(not empty cart) && (cart.size > 0)}"><span class="badge">${cart.size}</span></c:if>
+                </a></li>
                 <c:if test="${empty role}">
                 <li><a href="" data-toggle="modal" data-target="#auth"><span class="glyphicon glyphicon-user"></span>
                     Your Account</a></li>
@@ -67,6 +68,8 @@
 
 
 <jsp:include page="/WEB-INF/jsp/authorization.jsp"/>
+<jsp:include page="/WEB-INF/jsp/cart.jsp"/>
+
 
 
 <footer class="container-fluid text-center">

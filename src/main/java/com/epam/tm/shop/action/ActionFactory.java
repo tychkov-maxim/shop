@@ -1,5 +1,6 @@
 package com.epam.tm.shop.action;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ public class ActionFactory {
         matches.put("show",ProductsByCategoryAction.class);
         matches.put("lang",ChangeLanguageAction.class);
         matches.put("product",ProductAction.class);
+        matches.put("cart",CartAction.class);
     }
 
     public Action getAction(String actionName) throws ActionFactoryException {
