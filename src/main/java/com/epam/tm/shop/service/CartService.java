@@ -30,7 +30,6 @@ public class CartService {
                 throw new ServiceException(e);
             }
 
-
         int i = 0;
         for (Map.Entry<Product, Integer> entry : cart.getCart().entrySet()) {
                 productIntegerMap.put(allProductsByCartId.get(i++),entry.getValue());

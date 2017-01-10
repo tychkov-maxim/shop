@@ -30,4 +30,18 @@ public class UserService {
         }
     }
 
+    public User getUserById(int id) throws ServiceException, ServiceNoDataException {
+        try (DaoFactory factory = DaoFactory.createFactory()) {
+            UserDao userDao = factory.getUserDao();
+            return userDao.findById(id);
+        } catch (DaoException e) {
+            throw new ServiceException(e);
+        } catch (DaoNoDataException e){
+            throw new ServiceNoDataException(e);
+        }
+
+    }
+
+
+
 }
