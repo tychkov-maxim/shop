@@ -60,4 +60,15 @@ public class Order extends BaseEntity {
     public void setStatus(OrderStatus status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "cart=" + cart +
+                ", user=" + user +
+                ", time=" + time +
+                ", total=" + total +
+                ", status=" + status +
+                "} " + super.toString();
+    }
 }
