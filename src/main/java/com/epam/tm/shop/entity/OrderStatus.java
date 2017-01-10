@@ -29,4 +29,11 @@ public class OrderStatus extends BaseEntity{
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "OrderStatus{" +
+                "name='" + name + '\'' +
+                "} " + super.toString();
+    }
 }
