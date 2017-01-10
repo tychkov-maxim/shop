@@ -1,11 +1,18 @@
 package com.epam.tm.shop;
 
-import com.epam.tm.shop.entity.ProductCategory;
-import com.epam.tm.shop.service.ProductCategoryService;
-import com.epam.tm.shop.service.ServiceException;
+import com.epam.tm.shop.dao.*;
+import com.epam.tm.shop.dao.jdbc.JdbcDaoFactory;
+import com.epam.tm.shop.dao.jdbc.JdbcNonUniqueFieldException;
+import com.epam.tm.shop.entity.*;
+import com.epam.tm.shop.pool.ConnectionPool;
+import com.epam.tm.shop.pool.PoolException;
+import com.epam.tm.shop.service.*;
 import com.epam.tm.shop.util.PropertyManager;
 import com.epam.tm.shop.util.PropertyManagerException;
 import com.epam.tm.shop.validator.*;
+import org.joda.money.CurrencyUnit;
+import org.joda.money.Money;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,9 +20,11 @@ import java.util.*;
 
 public class Main {
 
-/*    public static final Logger log = LoggerFactory.getLogger(Main.class);
-    public static void main(String[] args) throws ValidatorException, ServiceException {
-        String url,username,password,driverName;
+
+
+    public static final Logger log = LoggerFactory.getLogger(Main.class);
+    public static void main(String[] args) throws ValidatorException, ServiceException, DaoException, DaoNoDataException, DaoNonUniqueFieldException, ServiceNoDataException {
+        String url, username, password, driverName;
         int maxCon;
 
         try {
@@ -26,24 +35,18 @@ public class Main {
             password = manager.getPropertyKey("db.password");
             maxCon = manager.getIntPropertyKey("max.connections");
             driverName = manager.getPropertyKey("db.driverClassName");
-            ConnectionPool pool = new ConnectionPool(url, username, password, maxCon,driverName);
+            ConnectionPool pool = new ConnectionPool(url, username, password, maxCon, driverName);
             JdbcDaoFactory.setPool(pool);
         } catch (PropertyManagerException e) {
-            log.error("getting properties was failed and connection pool was not created",e);
+            log.error("getting properties was failed and connection pool was not created", e);
         } catch (PoolException e) {
-            log.error("creating connection pool was failed",e);
+            log.error("creating connection pool was failed", e);
         }
 
-        ProductService service = new ProductService();
+        OrderService orderService = new OrderService();
 
-        try {
-            List<Product> tv = service.getProductsWithPagination(0,50);
-            System.out.println(tv.get(0));
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        }
 
-        ProductCategoryService productCategoryService = new ProductCategoryService();
-        List<ProductCategory> allProductCategory = productCategoryService.getAllProductCategory();*/
+    }
+
 
 }

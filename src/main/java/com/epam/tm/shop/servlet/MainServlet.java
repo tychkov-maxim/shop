@@ -35,11 +35,8 @@ public class MainServlet extends HttpServlet {
         String requestURI = req.getRequestURI();
         int startIndex = requestURI.lastIndexOf(START_URL);
         int endIndex = requestURI.lastIndexOf(END_URL);
-        log.debug("{}",startIndex);
-        log.debug("{}",endIndex);
-        log.debug(requestURI);
         String actionName = requestURI.substring(startIndex+1,endIndex);
-        log.debug(actionName);
+
 
         try {
             Action action = actionFactory.getAction(actionName);

@@ -14,6 +14,7 @@
                 <div class="col-xs-8">
                     <div class="panel panel-info">
                         <div class="panel-body">
+                            <t:get_errors errors="${checkoutErrors}"/>
                             <c:if test="${(empty cart) || (cart.size ==0)}"><h1 align="center"><fmt:message
                                     key="cart.empty"/></h1></c:if>
                             <c:if test="${(not empty cart) && (cart.size > 0)}">
@@ -54,9 +55,11 @@
                                     <h4 class="text-right"><fmt:message key="cart.total"/> ${cart.allCost}</h4>
                                 </div>
                                 <div class="col-xs-3">
-                                    <button type="button" class="btn btn-success btn-block">
+                                    <c:if test="${empty checkoutErrors}">
+                                    <a role="button" class="btn btn-success btn-block" href="${pageContext.request.contextPath}/order.do">
                                         <fmt:message key="confirm"/>
-                                    </button>
+                                    </a>
+                                    </c:if>
                                 </div>
                             </div>
                         </div>

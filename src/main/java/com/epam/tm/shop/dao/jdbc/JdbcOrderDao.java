@@ -16,7 +16,7 @@ import java.util.List;
 public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
 
     private static final String INSERT_QUERY = "INSERT INTO orders VALUES(DEFAULT,?,?,?,?,?,?)";
-    private static final String UPDATE_QUERY = "UPDATE orders SET user_id = ?, cart_id = ?, time = ?, total = ?, total_unit = ?, order_status = ? WHERE id = ?";
+    private static final String UPDATE_QUERY = "UPDATE orders SET cart_id = ?, user_id = ?, time = ?, total = ?, total_unit = ?, order_status = ? WHERE id = ?";
     private static final String SELECT_QUERY = "SELECT * FROM orders JOIN order_status ON orders.order_status = order_status.id WHERE orders.id = ?";
     private static final String DELETE_QUERY = "DELETE FROM orders WHERE id = ?";
 
@@ -29,8 +29,8 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     protected void setPsFields(PreparedStatement ps, Order entity) throws JdbcException {
 
         try {
-            ps.setInt(1,entity.getUser().getId());
-            ps.setInt(2,entity.getCart().getId());
+            ps.setInt(1,entity.getCart().getId());
+            ps.setInt(2,entity.getUser().getId());
             ps.setTimestamp(3,new Timestamp(entity.getTime().getMillis()));
             ps.setBigDecimal(4,entity.getTotal().getAmount());
             ps.setString(5,entity.getTotal().getCurrencyUnit().toString());

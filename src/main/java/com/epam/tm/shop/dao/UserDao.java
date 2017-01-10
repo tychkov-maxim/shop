@@ -9,4 +9,5 @@ import java.sql.Connection;
 public interface UserDao extends Dao<User>{
 
     User findByLogin(String login) throws DaoException, DaoNoDataException;
+
 }

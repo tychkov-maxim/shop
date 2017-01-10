@@ -29,9 +29,8 @@ public class CartAction implements Action {
     private static final String FORMING_URL_PAGE = "&page=";
     private static final String REFERRER_PAGE_PARAMETER = "page";
     private static final int DEFAULT_PRODUCT_QUANTITY = 1;
-    private static final String REDIRECT_CHECKOUT = "redirect:/showCheckout.do";
+    private static final String REDIRECT_CHECKOUT = "redirect:/checkout.do";
     private static final String REDIRECT_CATEGORY = "redirect:/show.do?";
-
 
 
     private Cart cart;
@@ -57,13 +56,14 @@ public class CartAction implements Action {
         String addParam = req.getParameter(ADD_PARAMETER);
         String delParam = req.getParameter(DELETE_PARAMETER);
         String changeParam = req.getParameter(CHANGE_QUANTITY_PARAMETER);
+
         if (notEmptyParameterValidator.isValid(addParam)) {
             addProduct(req);
         } else if (notEmptyParameterValidator.isValid(delParam)) {
             deleteProduct(req);
-        } else if (notEmptyParameterValidator.isValid(changeParam))
+        } else if (notEmptyParameterValidator.isValid(changeParam)) {
             changeQuantity(req);
-
+        }
 
         session.setAttribute(CART_ATTRIBUTE_IN_SESSION, cart);
         log.trace("cart was saved in session");

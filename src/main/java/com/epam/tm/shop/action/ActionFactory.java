@@ -19,7 +19,8 @@ public class ActionFactory {
         matches.put("cart",new CartAction());
         matches.put("showRegister",new ShowPageAction("register"));
         matches.put("showLogin",new ShowPageAction("login"));
-        matches.put("showCheckout",new ShowPageAction("checkout"));
+        matches.put("checkout",new CheckoutAction());
+        matches.put("order",new OrderAction());
     }
 
     public Action getAction(String actionName) throws ActionFactoryException {

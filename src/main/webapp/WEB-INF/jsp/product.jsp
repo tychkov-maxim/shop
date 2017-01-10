@@ -40,7 +40,6 @@
                             <input type="text" class="form-control input-sm" value="1" name="quantity">
                         </div>
                     </div>
-
                 </div>
             </div>
             <div class="col-sm-4"></div>

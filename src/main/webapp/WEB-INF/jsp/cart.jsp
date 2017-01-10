@@ -69,7 +69,7 @@
                                                 <h4 class="text-right"><fmt:message key="cart.total"/> ${cart.allCost}</h4>
                                             </div>
                                             <div class="col-xs-3">
-                                                <a href="${pageContext.request.contextPath}/showCheckout.do" class="btn btn-success btn-block" role="button">
+                                                <a href="${pageContext.request.contextPath}/checkout.do" class="btn btn-success btn-block" role="button">
                                                     <fmt:message key="cart.checkout"/>
                                                 </a>
                                             </div>
