@@ -13,12 +13,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
 
-    private static final String INSERT_QUERY = "INSERT INTO carts VALUES(?,?,?)";
-    private static final String SELECT_QUERY = "SELECT * FROM carts WHERE cart_id = ?";
-    private static final String DELETE_QUERY = "DELETE FROM carts WHERE cart_id = ?";
+
+    private static final String INSERT_CART_QUERY = "INSERT INTO carts VALUES(DEFAULT)";
+    private static final String INSERT_QUERY = "INSERT INTO cart_to_products VALUES(?,?,?)";
+    private static final String SELECT_QUERY = "SELECT * FROM cart_to_products WHERE cart_id = ?";
+    private static final String DELETE_QUERY = "DELETE FROM cart_to_products WHERE cart_id = ?";
 
 
     public JdbcCartDao(Connection connection) {
@@ -27,12 +30,27 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
 
     @Override
     public Cart save(Cart entity) throws JdbcException {
-        throw new UnsupportedOperationException("not supported, we have insert and update");
+        if (entity.getId() == null){
+            PreparedStatement ps;
+            AtomicInteger id = new AtomicInteger();
+            try {
+                ps = connection.prepareStatement(INSERT_CART_QUERY);
+                ps.executeUpdate();
+                ResultSet generatedKeys = ps.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                     id.set(generatedKeys.getInt(1));
+                }
+                ps.close();
+                return insert(entity, id.get());
+            } catch (SQLException e){
+                throw new JdbcException(e);
+            }
+        }else
+            return update(entity);
     }
 
-    //// FIXME: 27.11.2016
-    @Override
-    public Cart insert(Cart cart, int id) throws JdbcException {
+
+    private Cart insert(Cart cart, int id) throws JdbcException {
         PreparedStatement ps;
         try {
             ps = connection.prepareStatement(INSERT_QUERY);
@@ -45,15 +63,14 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
             }
             ps.close();
         } catch (SQLException e) {
-            throw new JdbcException(MessageFormat.format("inserting cart:{} was failed",cart),e);
+            throw new JdbcException("inserting cart was failed",e);
         }
 
         cart.setId(id);
         return cart;
     }
 
-    @Override
-    public Cart update(Cart cart) throws JdbcException {
+    private Cart update(Cart cart) throws JdbcException {
         deleteById(cart.getId());
         return insert(cart,cart.getId());
     }
