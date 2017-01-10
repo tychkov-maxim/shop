@@ -1,6 +1,7 @@
 package com.epam.tm.shop.dao.jdbc;
 
 import com.epam.tm.shop.dao.OrderDao;
+import com.epam.tm.shop.entity.Cart;
 import com.epam.tm.shop.entity.Order;
 import com.epam.tm.shop.entity.OrderStatus;
 import com.epam.tm.shop.entity.User;
@@ -15,7 +16,7 @@ import java.util.List;
 public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
 
     private static final String INSERT_QUERY = "INSERT INTO orders VALUES(DEFAULT,?,?,?,?,?,?)";
-    private static final String UPDATE_QUERY = "UPDATE orders SET user_id = ?, cart_id = ?, time = ?, total = ?, total_price = ?, order_status = ? WHERE id = ?";
+    private static final String UPDATE_QUERY = "UPDATE orders SET user_id = ?, cart_id = ?, time = ?, total = ?, total_unit = ?, order_status = ? WHERE id = ?";
     private static final String SELECT_QUERY = "SELECT * FROM orders JOIN order_status ON orders.order_status = order_status.id WHERE orders.id = ?";
     private static final String DELETE_QUERY = "DELETE FROM orders WHERE id = ?";
 
@@ -77,6 +78,9 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
                 User user = new User();
                 user.setId(rs.getInt("user_id"));
                 order.setUser(user);
+                Cart cart = new Cart();
+                cart.setId(rs.getInt("cart_id"));
+                order.setCart(cart);
                 orders.add(order);
             }
         } catch (SQLException e) {
