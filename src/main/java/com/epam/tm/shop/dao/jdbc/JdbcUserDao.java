@@ -1,7 +1,10 @@
 package com.epam.tm.shop.dao.jdbc;
 
 
+import com.epam.tm.shop.dao.DaoException;
+import com.epam.tm.shop.dao.DaoNoDataException;
 import com.epam.tm.shop.dao.UserDao;
+import com.epam.tm.shop.entity.OrderStatus;
 import com.epam.tm.shop.entity.Role;
 import com.epam.tm.shop.entity.User;
 import org.joda.money.CurrencyUnit;
@@ -19,7 +22,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     private static final String SELECT_QUERY = "SELECT * FROM users JOIN roles ON users.role = roles.id WHERE users.id = ?";
     private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?";
     private static final String SELECT_QUERY_BY_LOGIN = "SELECT * FROM users JOIN roles ON users.role = roles.id WHERE users.login = ?";
-
+    private static final String SELECT_QUERY_BY_ORDER_STATUS = "SELECT * FROM users JOIN roles ON users.role = roles.id JOIN orders on users.id = orders.user_id WHERE orders.order_status = ?";
 
     public JdbcUserDao(Connection connection) {
         super(connection);
@@ -105,6 +108,11 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
         }
 
         return users.get(0);
+    }
+
+    @Override
+    public List<User> findAllUsersByOrderStatus(OrderStatus orderStatus) throws DaoException, DaoNoDataException {
+        return findAllById(orderStatus.getId(),SELECT_QUERY_BY_ORDER_STATUS);
     }
 
 

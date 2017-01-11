@@ -44,8 +44,9 @@ public class Main {
         }
 
         DaoFactory factory = DaoFactory.createFactory();
-            OrderDao orderDao = factory.getOrderDao();
-            List<Order> allOrdersByStatus = orderDao.findUserOrdersByStatus(1,OrderStatus.getProcessingStatus());
+        UserDao userDao = factory.getUserDao();
+        List<User> allOrdersByStatus = userDao.findAllUsersByOrderStatus(OrderStatus.getShippingStatus());
+
 
             System.out.println(allOrdersByStatus.size());
 
