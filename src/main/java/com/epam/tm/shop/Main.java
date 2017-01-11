@@ -2,7 +2,6 @@ package com.epam.tm.shop;
 
 import com.epam.tm.shop.dao.*;
 import com.epam.tm.shop.dao.jdbc.JdbcDaoFactory;
-import com.epam.tm.shop.dao.jdbc.JdbcNonUniqueFieldException;
 import com.epam.tm.shop.entity.*;
 import com.epam.tm.shop.pool.ConnectionPool;
 import com.epam.tm.shop.pool.PoolException;
@@ -10,9 +9,6 @@ import com.epam.tm.shop.service.*;
 import com.epam.tm.shop.util.PropertyManager;
 import com.epam.tm.shop.util.PropertyManagerException;
 import com.epam.tm.shop.validator.*;
-import org.joda.money.CurrencyUnit;
-import org.joda.money.Money;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,16 +39,16 @@ public class Main {
             log.error("creating connection pool was failed", e);
         }
 
-        DaoFactory factory = DaoFactory.createFactory();
-        CartDao cartDao = factory.getCartDao();
-        List<Cart> allOrdersByStatus = cartDao.findAllCartsByOrderStatus(OrderStatus.getProcessingStatus());
+        OrderService orderService = new OrderService();
 
+        List<Order> ordersByOrderStatus = orderService.getAllOrdersByOrderStatus(OrderStatus.getProcessingStatus());
 
-        System.out.println(allOrdersByStatus.size());
-
-
-
-
+        for (Order ordersByOrderStatu : ordersByOrderStatus) {
+            System.out.println("==========================");
+            System.out.println(ordersByOrderStatu);
+            System.out.println(ordersByOrderStatu.getCart());
+            System.out.println("==========================");
+        }
 
     }
 

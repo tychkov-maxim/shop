@@ -2,6 +2,7 @@ package com.epam.tm.shop.dao;
 
 import com.epam.tm.shop.dao.jdbc.JdbcException;
 import com.epam.tm.shop.dao.jdbc.JdbcNoDataException;
+import com.epam.tm.shop.entity.OrderStatus;
 import com.epam.tm.shop.entity.Product;
 
 import java.sql.Connection;

@@ -4,10 +4,13 @@ import com.epam.tm.shop.dao.*;
 import com.epam.tm.shop.dao.jdbc.JdbcNonUniqueFieldException;
 import com.epam.tm.shop.entity.Cart;
 import com.epam.tm.shop.entity.Order;
+import com.epam.tm.shop.entity.OrderStatus;
 import com.epam.tm.shop.entity.User;
 import org.joda.money.Money;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 public class OrderService {
 
@@ -64,6 +67,31 @@ public class OrderService {
             throw new ServiceException(e);
         } catch (DaoNonUniqueFieldException e) {
             throw new ServiceNonUniqueFieldException(e);
+        }
+    }
+    //don't fill carts
+    public List<Order> getAllOrdersByOrderStatus(OrderStatus orderStatus) throws ServiceException {
+        try (DaoFactory factory = DaoFactory.createFactory()) {
+
+            OrderDao orderDao = factory.getOrderDao();
+            UserDao userDao = factory.getUserDao();
+
+            List<Order> allOrdersByStatus = orderDao.findAllOrdersByStatus(orderStatus);
+            List<User> allUsersByOrderStatus = userDao.findAllUsersByOrderStatus(orderStatus);
+
+            for (Order order : allOrdersByStatus) {
+                for (User user : allUsersByOrderStatus) {
+                    if (order.getUser().getId().equals(user.getId())){
+                        order.setUser(user);
+                        break;
+                    }
+                }
+            }
+
+
+            return allOrdersByStatus;
+        } catch (DaoException | DaoNoDataException e) {
+            throw new ServiceException(e);
         }
     }
 }
