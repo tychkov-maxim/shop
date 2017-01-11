@@ -2,6 +2,7 @@ package com.epam.tm.shop.action;
 
 import com.epam.tm.shop.entity.Order;
 import com.epam.tm.shop.entity.OrderStatus;
+import com.epam.tm.shop.entity.Role;
 import com.epam.tm.shop.entity.User;
 import com.epam.tm.shop.service.OrderService;
 import com.epam.tm.shop.service.ServiceException;
@@ -30,14 +31,16 @@ public class GetOrdersAction implements Action {
     private static final String STATUS_PARAMETER = "status";
     private static final String SHIPPING_ORDERS_VALUE_OF_STATUS = "shipping";
     private static final String PROCESSING_ORDERS_VALUE_OF_STATUS = "processing";
+    private static final String ALL_ORDERS_PROCESSING_VALUE_OF_STATUS = "all";
     private static final String COMPLETED_VALUE_OF_STATUS = "completed";
-    private static final String PROCESSING_STATUS_ATTRIBUTE = "processingOrders";
-    private static final String SHIPPING_STATUS_ATTRIBUTE = "shippingOrders";
-    private static final String COMPLETED_STATUS_ATTRIBUTE = "completedOrders";
+    private static final String ORDERS = "Orders";
+    private static final String PERMISSION_REDIRECT = "redirect:/permission.do";
 
+    // FIXME: 11.01.2017 add logging
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
+        log.trace("start to get order action");
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute(ATTRIBUTE_SESSION_USER_NAME);
 
@@ -59,7 +62,7 @@ public class GetOrdersAction implements Action {
                 case PROCESSING_ORDERS_VALUE_OF_STATUS:
                     try {
                         List<Order> userProcessOrders = orderService.getUserOrdersByOrderStatus(user.getId(), OrderStatus.getProcessingStatus());
-                        req.setAttribute(PROCESSING_STATUS_ATTRIBUTE, userProcessOrders);
+                        req.setAttribute(ORDERS, userProcessOrders);
                     } catch (ServiceNoDataException e) {
                         message.add(NO_ONE_PROCESSING_ORDER_MESSAGE);
                         req.setAttribute(PRODUCT_MESSAGE_ATTRIBUTE, message);
@@ -69,7 +72,7 @@ public class GetOrdersAction implements Action {
                 case COMPLETED_VALUE_OF_STATUS:
                     try {
                         List<Order> userComplettedOrders = orderService.getUserOrdersByOrderStatus(user.getId(), OrderStatus.getCompletedStatus());
-                        req.setAttribute(COMPLETED_STATUS_ATTRIBUTE, userComplettedOrders);
+                        req.setAttribute(ORDERS, userComplettedOrders);
                     } catch (ServiceNoDataException e) {
                         message.add(NO_ONE_COMPLETED_ORDER_MESSAGE);
                         req.setAttribute(PRODUCT_MESSAGE_ATTRIBUTE, message);
@@ -78,13 +81,24 @@ public class GetOrdersAction implements Action {
                     break;
                 case SHIPPING_ORDERS_VALUE_OF_STATUS:
                     try {
-                        List<Order> userShippOrders = userShippOrders = orderService.getUserOrdersByOrderStatus(user.getId(), OrderStatus.getShippingStatus());
-                        req.setAttribute(SHIPPING_STATUS_ATTRIBUTE, userShippOrders);
+                        List<Order> userShippOrders = orderService.getUserOrdersByOrderStatus(user.getId(), OrderStatus.getShippingStatus());
+                        req.setAttribute(ORDERS, userShippOrders);
                     } catch (ServiceNoDataException e) {
                         message.add(NO_ONE_SHIPPING_ORDER_MESSAGE);
                         req.setAttribute(PRODUCT_MESSAGE_ATTRIBUTE, message);
                     }
-
+                    break;
+                case ALL_ORDERS_PROCESSING_VALUE_OF_STATUS:
+                    try {
+                        if (user.getRole().equals(Role.getAdministratorRole())) {
+                            List<Order> userShippOrders = userShippOrders = orderService.getAllOrdersByOrderStatus(OrderStatus.getProcessingStatus());
+                            req.setAttribute(ORDERS, userShippOrders);
+                        } else
+                            return PERMISSION_REDIRECT;
+                    } catch (ServiceNoDataException e) {
+                        message.add(NO_ONE_SHIPPING_ORDER_MESSAGE);
+                        req.setAttribute(PRODUCT_MESSAGE_ATTRIBUTE, message);
+                    }
                     break;
                 default:
                     message.add(NO_ONE_ORDER_MESSAGE);
@@ -96,6 +110,7 @@ public class GetOrdersAction implements Action {
             throw new ActionException(e);
         }
 
+        log.trace("ger order action was finished");
         return FORM_NAME;
 
     }

@@ -75,7 +75,7 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
                 Order order = new Order();
                 order.setId(rs.getInt("id"));
                 order.setStatus(new OrderStatus(rs.getInt("order_status.id"),rs.getString("order_status.name")));
-                order.setTime(new DateTime(rs.getTime("time")));
+                order.setTime(new DateTime(rs.getTimestamp("time")));
                 order.setTotal(Money.of(CurrencyUnit.of(rs.getString("total_unit")), rs.getBigDecimal("total")));
                 User user = new User();
                 user.setId(rs.getInt("user_id"));

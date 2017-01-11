@@ -24,6 +24,7 @@ public class ActionFactory {
         matches.put("permission",new ShowPageAction("permission-error"));
         matches.put("orders",new GetOrdersAction());
         matches.put("profile",new ShowPageAction("profile"));
+        matches.put("changeStatus",new ChangeOrderStatusAction());
     }
 
     public Action getAction(String actionName) throws ActionFactoryException {

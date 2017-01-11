@@ -9,6 +9,8 @@ import com.epam.tm.shop.service.*;
 import com.epam.tm.shop.util.PropertyManager;
 import com.epam.tm.shop.util.PropertyManagerException;
 import com.epam.tm.shop.validator.*;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +49,7 @@ public class Main {
             System.out.println("==========================");
             System.out.println(ordersByOrderStatu);
             System.out.println("==========================");
+            System.out.println(ordersByOrderStatu.getTime().toDate());
         }
 
     }

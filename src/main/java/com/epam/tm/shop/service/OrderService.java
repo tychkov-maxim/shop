@@ -70,7 +70,7 @@ public class OrderService {
         }
     }
 
-    //don't fill carts
+    // FIXME: 11.01.2017 fix N+! and add pagination
     public List<Order> getUserOrdersByOrderStatus(int userId ,OrderStatus orderStatus) throws ServiceException, ServiceNoDataException {
         try (DaoFactory factory = DaoFactory.createFactory()) {
 
@@ -79,8 +79,12 @@ public class OrderService {
 
             List<Order> allOrdersByStatus = orderDao.findUserOrdersByStatus(userId,orderStatus);
             User user = userDao.findById(userId);
+
+            CartService cartService = new CartService();
             for (Order order : allOrdersByStatus) {
                order.setUser(user);
+                Cart cartById = cartService.getCartById(order.getCart().getId());
+                order.setCart(cartById);
             }
             return allOrdersByStatus;
         } catch (DaoException e) {
@@ -90,7 +94,7 @@ public class OrderService {
         }
 
     }
-    //don't fill carts
+    // FIXME: 11.01.2017 fix N+! and add pagination
     public List<Order> getAllOrdersByOrderStatus(OrderStatus orderStatus) throws ServiceException, ServiceNoDataException {
         try (DaoFactory factory = DaoFactory.createFactory()) {
 
@@ -100,6 +104,7 @@ public class OrderService {
             List<Order> allOrdersByStatus = orderDao.findAllOrdersByStatus(orderStatus);
             List<User> allUsersByOrderStatus = userDao.findAllUsersByOrderStatus(orderStatus);
 
+            CartService cartService = new CartService();
             for (Order order : allOrdersByStatus) {
                 for (User user : allUsersByOrderStatus) {
                     if (order.getUser().getId().equals(user.getId())){
@@ -107,11 +112,29 @@ public class OrderService {
                         break;
                     }
                 }
+
+                Cart cartById = cartService.getCartById(order.getCart().getId());
+                order.setCart(cartById);
+
             }
-
-
             return allOrdersByStatus;
         } catch (DaoException e) {
+            throw new ServiceException(e);
+        } catch (DaoNoDataException e){
+            throw new ServiceNoDataException(e);
+        }
+
+    }
+
+    public Order changeOrderStatusById(int orderId, OrderStatus orderStatus) throws ServiceException, ServiceNoDataException {
+        try (DaoFactory factory = DaoFactory.createFactory()) {
+
+            OrderDao orderDao = factory.getOrderDao();
+
+            Order order = orderDao.findById(orderId);
+            order.setStatus(orderStatus);
+            return orderDao.save(order);
+        } catch (DaoException | DaoNonUniqueFieldException e) {
             throw new ServiceException(e);
         } catch (DaoNoDataException e){
             throw new ServiceNoDataException(e);

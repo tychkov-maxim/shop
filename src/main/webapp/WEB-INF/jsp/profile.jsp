@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <fmt:setBundle basename="lang"/>
+<c:set value="${sessionScope.user.role}" var="role"/>
 
 <t:template_page tittle="Online Store">
     <jsp:body>
@@ -22,6 +23,18 @@
                     <a href="${pageContext.request.contextPath}/orders.do?status=completed">
                         <li class="list-group-item">Завершенные заказы</li>
                     </a>
+                    <c:if test="${role.id == 3}">
+                        <a href="#">
+                            <li class="list-group-item">Обработать заказы</li>
+                        </a>
+                        <a href="#">
+                            <li class="list-group-item">Повысить пользователя до админа</li>
+                        </a>
+                        <a href="#">
+                            <li class="list-group-item">Пополнить счет пользователя</li>
+                        </a>
+                    </c:if>
+
                 </ul>
             </div>
 

@@ -27,7 +27,6 @@
             <div class="col-sm-10">
                     <c:set var="i" value="0"/>
                     <c:forEach items="${products}" var="product">
-                        <%--&lt;%&ndash;each 4 product need to add new block&ndash;%&gt;--%>
                         <c:if test="${i % productsInRow == 0}">
                         <div class="container-fluid">
 
