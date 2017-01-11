@@ -28,32 +28,33 @@
             </div>
 
             <div class="panel panel-primary">
-                <div class="panel-body" align="center">
+                <div class="panel-body">
 
-                    <div class="col-xs-12">
-                        <div class="col-xs-10">
-                            <a href="${pageContext.request.contextPath}/cart.do?add=${product.id}" id="buyProduct"
-                               class="btn btn-success" role="button"><fmt:message key="buy"/></a>
-                            <a href="${pageContext.request.contextPath}/cart.do?add=${product.id}" id="addToCart"
-                               class="btn btn-primary" role="button"><fmt:message key="cart.add"/></a>
-                        </div>
-                        <div class="col-xs-2">
-                            <input type="text" class="form-control input-sm" value="1" name="quantity">
-                        </div>
-                    </div>
+
+                    <a href="${pageContext.request.contextPath}/cart.do?add=${product.id}" id="buyProduct"
+                       class="btn btn-success" role="button"><fmt:message key="buy"/></a>
+                    <br/>
+                    <form class="form-inline" method="get"
+                          action="${pageContext.request.contextPath}/cart.do">
+                        <button type="submit" class="btn btn-primary"><fmt:message key="cart.add"/></button>
+                        <input type="number" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput"
+                               name="quantity">
+                        <input type="hidden" name="add" value="${product.id}">
+                        <input type="hidden" name="category" value="/" id="fieldCategory">
+                    </form>
                 </div>
             </div>
             <div class="col-sm-4"></div>
         </c:if>
         </div>
-        <script>
-            link = document.getElementById('addToCart');
-            ref = document.referrer;
-            found = ref.search('[?].+');
-            if (found != -1) {
-                link.href = link.href + '&' + ref.substr(found + 1);
-            } else
-                link.href = link.href + '&category=/';
-        </script>
+        <%--        <script>
+                    field = document.getElementById('fieldCategory');
+                    ref = document.referrer;
+                    found = ref.search('[?].+');
+                    if (found != -1) {
+                        field.href = field.href + '&' + ref.substr(found + 1);
+                    }
+
+                </script>--%>
     </jsp:body>
 </t:template_page>
