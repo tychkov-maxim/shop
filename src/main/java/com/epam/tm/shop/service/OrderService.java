@@ -71,7 +71,7 @@ public class OrderService {
     }
 
     //don't fill carts
-    public List<Order> getUserOrdersByOrderStatus(int userId ,OrderStatus orderStatus) throws ServiceException {
+    public List<Order> getUserOrdersByOrderStatus(int userId ,OrderStatus orderStatus) throws ServiceException, ServiceNoDataException {
         try (DaoFactory factory = DaoFactory.createFactory()) {
 
             OrderDao orderDao = factory.getOrderDao();
@@ -83,12 +83,15 @@ public class OrderService {
                order.setUser(user);
             }
             return allOrdersByStatus;
-        } catch (DaoException | DaoNoDataException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e);
+        } catch (DaoNoDataException e){
+            throw new ServiceNoDataException(e);
         }
+
     }
     //don't fill carts
-    public List<Order> getAllOrdersByOrderStatus(OrderStatus orderStatus) throws ServiceException {
+    public List<Order> getAllOrdersByOrderStatus(OrderStatus orderStatus) throws ServiceException, ServiceNoDataException {
         try (DaoFactory factory = DaoFactory.createFactory()) {
 
             OrderDao orderDao = factory.getOrderDao();
@@ -108,8 +111,11 @@ public class OrderService {
 
 
             return allOrdersByStatus;
-        } catch (DaoException | DaoNoDataException e) {
+        } catch (DaoException e) {
             throw new ServiceException(e);
+        } catch (DaoNoDataException e){
+            throw new ServiceNoDataException(e);
         }
+
     }
 }

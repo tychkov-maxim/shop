@@ -15,19 +15,23 @@
                                 <div class="panel-title">
                                     <div class="row">
                                         <div class="col-xs-6">
-                                            <h5><span class="glyphicon glyphicon-shopping-cart"></span> <fmt:message key="cart.shopping"/>
+                                            <h5><span class="glyphicon glyphicon-shopping-cart"></span> <fmt:message
+                                                    key="cart.shopping"/>
                                             </h5>
                                         </div>
                                         <div class="col-xs-6">
-                                            <button type="button" class="btn btn-primary btn-sm btn-block" data-dismiss="modal">
-                                                <span class="glyphicon glyphicon-share-alt"></span> <fmt:message key="cart.continue"/>
+                                            <button type="button" class="btn btn-primary btn-sm btn-block"
+                                                    data-dismiss="modal">
+                                                <span class="glyphicon glyphicon-share-alt"></span> <fmt:message
+                                                    key="cart.continue"/>
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="panel-body">
-                                <c:if test="${(empty cart) || (cart.size ==0)}"><h1 align="center"><fmt:message key="cart.empty"/></h1></c:if>
+                                <c:if test="${(empty cart) || (cart.size ==0)}"><h1 align="center"><fmt:message
+                                        key="cart.empty"/></h1></c:if>
                                 <c:if test="${(not empty cart) && (cart.size > 0)}">
                                     <c:forEach items="${cart.cart}" var="cartEntrySet">
                                         <c:set var="product" value="${cartEntrySet.getKey()}"/>
@@ -66,10 +70,12 @@
                                     <div class="panel-footer">
                                         <div class="row text-center">
                                             <div class="col-xs-9">
-                                                <h4 class="text-right"><fmt:message key="cart.total"/> ${cart.allCost}</h4>
+                                                <h4 class="text-right"><fmt:message
+                                                        key="cart.total"/> ${cart.allCost}</h4>
                                             </div>
                                             <div class="col-xs-3">
-                                                <a href="${pageContext.request.contextPath}/checkout.do" class="btn btn-success btn-block" role="button">
+                                                <a href="${pageContext.request.contextPath}/checkout.do"
+                                                   class="btn btn-success btn-block" role="button">
                                                     <fmt:message key="cart.checkout"/>
                                                 </a>
                                             </div>

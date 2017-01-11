@@ -43,7 +43,7 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li><a href="#">Home</a></li>
+                <li><a href="${pageContext.request.contextPath}/profile.do">Home</a></li>
                 <li><a href="${pageContext.request.contextPath}/show.do">Products</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>

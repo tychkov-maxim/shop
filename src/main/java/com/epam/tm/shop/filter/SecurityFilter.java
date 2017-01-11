@@ -53,6 +53,8 @@ public class SecurityFilter implements Filter {
         userActions.add("permission");
         userActions.add("checkout");
         userActions.add("order");
+        userActions.add("orders");
+        userActions.add("profile");
 
         adminActions.add("logout");
         adminActions.add("show");
@@ -62,6 +64,8 @@ public class SecurityFilter implements Filter {
         adminActions.add("permission");
         adminActions.add("checkout");
         adminActions.add("order");
+        adminActions.add("orders");
+        adminActions.add("profile");
 
 
         log.debug("Security filter was initialized successfully");
