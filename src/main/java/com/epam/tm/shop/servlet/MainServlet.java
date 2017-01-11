@@ -49,6 +49,7 @@ public class MainServlet extends HttpServlet {
             }
 
         } catch (ActionFactoryException | ActionException e) {
+            log.error("Error was occurred",e);
             throw new ServletException(e);
         }
 
