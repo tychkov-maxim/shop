@@ -28,11 +28,8 @@
                     <a href="${pageContext.request.contextPath}/orders.do?status=all">
                         <li class="list-group-item">Обработать заказы</li>
                     </a>
-                    <a href="#">
-                        <li class="list-group-item">Повысить пользователя до админа</li>
-                    </a>
-                    <a href="#">
-                        <li class="list-group-item">Пополнить счет пользователя</li>
+                    <a href="${pageContext.request.contextPath}/find.do">
+                        <li class="list-group-item">Работа с пользователями</li>
                     </a>
                 </c:if>
 

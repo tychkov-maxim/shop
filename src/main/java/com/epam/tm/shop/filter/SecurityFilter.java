@@ -68,6 +68,8 @@ public class SecurityFilter implements Filter {
         adminActions.add("orders");
         adminActions.add("profile");
         adminActions.add("changeStatus");
+        adminActions.add("user");
+        adminActions.add("find");
 
 
         log.debug("Security filter was initialized successfully");

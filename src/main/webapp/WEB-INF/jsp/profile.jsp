@@ -24,14 +24,11 @@
                         <li class="list-group-item">Завершенные заказы</li>
                     </a>
                     <c:if test="${role.id == 3}">
-                        <a href="#">
+                        <a href="${pageContext.request.contextPath}/orders.do?status=all">
                             <li class="list-group-item">Обработать заказы</li>
                         </a>
-                        <a href="#">
-                            <li class="list-group-item">Повысить пользователя до админа</li>
-                        </a>
-                        <a href="#">
-                            <li class="list-group-item">Пополнить счет пользователя</li>
+                        <a href="${pageContext.request.contextPath}/find.do">
+                            <li class="list-group-item">Работа с пользователями</li>
                         </a>
                     </c:if>
 
@@ -42,33 +39,47 @@
                 <div class="col-sm-3"></div>
                 <div class="col-sm-4">
 
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">Info</div>
-                        <h3>
-                        <div class="panel-body text-center">
-                            <div> Name: ${user.firstName}</div>
-                        </div>
-                        <div class="panel-body text-center">
-                            <div> Last name: ${user.lastName}</div>
-                        </div>
-                        <div class="panel-body text-center">
-                            <div> Login: ${user.login}</div>
-                        </div>
-                        <div class="panel-body text-center">
-                            <div> Role: ${user.role.name}</div>
-                        </div>
-                        <div class="panel-body text-center">
-                            <div> Account: ${user.account}</div>
-                        </div>
-                        <div class="panel-body text-center">
-                            <div> Address: ${user.address}</div>
-                        </div>
-                        </h3>
-                    </div>
+                    <c:if test="${empty profileMessages}">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Info</div>
+                            <h3>
+                                <div class="panel-body text-center">
+                                    <div> Name: ${user.firstName}</div>
+                                </div>
+                                <div class="panel-body text-center">
+                                    <div> Last name: ${user.lastName}</div>
+                                </div>
+                                <div class="panel-body text-center">
+                                    <div> Login: ${user.login}</div>
+                                </div>
+                                <div class="panel-body text-center">
+                                    <div> Role: ${user.role.name}</div>
+                                </div>
+                                <div class="panel-body text-center">
+                                    <div> Account: ${user.account}</div>
+                                </div>
+                                <div class="panel-body text-center">
+                                    <div> Address: ${user.address}</div>
+                                </div>
+                            </h3>
+                            <c:if test="${not empty requestScope.user}">
+                                <div class="panel-footer" align="center">
+                                    <a href="${pageContext.request.contextPath}/user.do?login=${user.login}&admin=true" class="btn btn-success" role="button">Повысить до одмена</a>
+                                    <br/>
+                                    <br/>
 
+                                    <form class="form-inline" method="get" action="${pageContext.request.contextPath}/user.do">
+                                        <button type="submit" class="btn btn-primary">Изменить счет</button>
+                                        <input type="number" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" name="money">
+                                        <input type="hidden" name="login" value="${user.login}">
+                                    </form>
+                                </div>
+                            </c:if>
+                        </div>
+                    </c:if>
                 </div>
-            </div>
 
+            </div>
         </div>
     </jsp:body>
 </t:template_page>
