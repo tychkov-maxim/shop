@@ -43,7 +43,14 @@ public class Main {
             log.error("creating connection pool was failed", e);
         }
 
-        OrderService orderService = new OrderService();
+        DaoFactory factory = DaoFactory.createFactory();
+            OrderDao orderDao = factory.getOrderDao();
+            List<Order> allOrdersByStatus = orderDao.findUserOrdersByStatus(1,OrderStatus.getProcessingStatus());
+
+            System.out.println(allOrdersByStatus.size());
+
+
+
 
 
     }

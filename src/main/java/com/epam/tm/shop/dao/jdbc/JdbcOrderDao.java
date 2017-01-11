@@ -1,15 +1,15 @@
 package com.epam.tm.shop.dao.jdbc;
 
+import com.epam.tm.shop.dao.DaoException;
+import com.epam.tm.shop.dao.DaoNoDataException;
 import com.epam.tm.shop.dao.OrderDao;
-import com.epam.tm.shop.entity.Cart;
-import com.epam.tm.shop.entity.Order;
-import com.epam.tm.shop.entity.OrderStatus;
-import com.epam.tm.shop.entity.User;
+import com.epam.tm.shop.entity.*;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
 
 import java.sql.*;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +19,8 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     private static final String UPDATE_QUERY = "UPDATE orders SET cart_id = ?, user_id = ?, time = ?, total = ?, total_unit = ?, order_status = ? WHERE id = ?";
     private static final String SELECT_QUERY = "SELECT * FROM orders JOIN order_status ON orders.order_status = order_status.id WHERE orders.id = ?";
     private static final String DELETE_QUERY = "DELETE FROM orders WHERE id = ?";
+    private static final String SELECT_QUERY_BY_STATUS = "SELECT * FROM orders JOIN order_status ON orders.order_status = order_status.id WHERE order_status.id = ?";
+    private static final String SELECT_QUERY_USER_BY_STATUS = "SELECT * FROM orders JOIN order_status ON orders.order_status = order_status.id WHERE order_status.id = ? and user_id = ?";
 
 
     public JdbcOrderDao(Connection connection) {
@@ -93,4 +95,25 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
         return orders;
     }
 
+    @Override
+    public List<Order> findAllOrdersByStatus(OrderStatus orderStatus) throws DaoException, DaoNoDataException {
+        return findAllById(orderStatus.getId(), SELECT_QUERY_BY_STATUS);
+    }
+
+    @Override
+    public List<Order> findUserOrdersByStatus(int userId, OrderStatus orderStatus) throws DaoException, DaoNoDataException {
+        log.trace("start to find user {} orders by status {}",userId, orderStatus.getName());
+        try {
+            PreparedStatement ps = connection.prepareStatement(SELECT_QUERY_USER_BY_STATUS);
+            ps.setInt(1,orderStatus.getId());
+            ps.setInt(2,userId);
+            ResultSet rs = ps.executeQuery();
+            List<Order> orders = createEntityFromResultSet(rs);
+            ps.close();
+            log.trace("finding user {} orders by status {} was finished successfully",userId, orderStatus.getName());
+            return orders;
+        } catch (SQLException e) {
+            throw new JdbcException(MessageFormat.format("finding user {0} orders by status {1} was failed", userId, orderStatus.getName()),e);
+        }
+    }
 }

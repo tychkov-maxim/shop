@@ -97,20 +97,12 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
 
     @Override
     public List<Product> findAllProductsByCartId(int cartId) throws JdbcException, JdbcNoDataException {
-        try {
             return findAllById(cartId,SELECT_QUERY_BY_CART_ID);
-        } catch (JdbcException e) {
-            throw new JdbcException(e);
-        }
     }
 
     @Override
     public List<Product> findProductsByCategoryWithPagination(String category, int offset, int limit) throws JdbcException, JdbcNoDataException {
-        try {
             return findByString(category,SELECT_QUERY_BY_CATEGORY + " LIMIT " + offset + "," + limit);
-        } catch (JdbcException e) {
-            throw new JdbcException(e);
-        }
     }
 
     @Override

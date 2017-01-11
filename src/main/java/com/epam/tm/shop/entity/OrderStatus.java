@@ -11,8 +11,8 @@ public class OrderStatus extends BaseEntity{
     private String name;
 
     public static OrderStatus getProcessingStatus(){ return new OrderStatus(1,"Processing");}
-    public static OrderStatus getShippingStatus(){ return new OrderStatus(1,"Shipping");}
-    public static OrderStatus getCompletedStatus(){ return new OrderStatus(1,"Completed");}
+    public static OrderStatus getShippingStatus(){ return new OrderStatus(2,"Shipping");}
+    public static OrderStatus getCompletedStatus(){ return new OrderStatus(3,"Completed");}
 
     public OrderStatus() {
     }
