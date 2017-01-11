@@ -46,7 +46,6 @@ public class Main {
         for (Order ordersByOrderStatu : ordersByOrderStatus) {
             System.out.println("==========================");
             System.out.println(ordersByOrderStatu);
-            System.out.println(ordersByOrderStatu.getCart());
             System.out.println("==========================");
         }
 

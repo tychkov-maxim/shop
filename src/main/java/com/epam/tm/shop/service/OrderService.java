@@ -69,6 +69,24 @@ public class OrderService {
             throw new ServiceNonUniqueFieldException(e);
         }
     }
+
+    //don't fill carts
+    public List<Order> getUserOrdersByOrderStatus(int userId ,OrderStatus orderStatus) throws ServiceException {
+        try (DaoFactory factory = DaoFactory.createFactory()) {
+
+            OrderDao orderDao = factory.getOrderDao();
+            UserDao userDao = factory.getUserDao();
+
+            List<Order> allOrdersByStatus = orderDao.findUserOrdersByStatus(userId,orderStatus);
+            User user = userDao.findById(userId);
+            for (Order order : allOrdersByStatus) {
+               order.setUser(user);
+            }
+            return allOrdersByStatus;
+        } catch (DaoException | DaoNoDataException e) {
+            throw new ServiceException(e);
+        }
+    }
     //don't fill carts
     public List<Order> getAllOrdersByOrderStatus(OrderStatus orderStatus) throws ServiceException {
         try (DaoFactory factory = DaoFactory.createFactory()) {
