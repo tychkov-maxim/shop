@@ -44,11 +44,11 @@ public class Main {
         }
 
         DaoFactory factory = DaoFactory.createFactory();
-        UserDao userDao = factory.getUserDao();
-        List<User> allOrdersByStatus = userDao.findAllUsersByOrderStatus(OrderStatus.getShippingStatus());
+        CartDao cartDao = factory.getCartDao();
+        List<Cart> allOrdersByStatus = cartDao.findAllCartsByOrderStatus(OrderStatus.getProcessingStatus());
 
 
-            System.out.println(allOrdersByStatus.size());
+        System.out.println(allOrdersByStatus.size());
 
 
 

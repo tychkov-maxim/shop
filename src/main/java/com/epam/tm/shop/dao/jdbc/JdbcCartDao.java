@@ -1,7 +1,10 @@
 package com.epam.tm.shop.dao.jdbc;
 
 import com.epam.tm.shop.dao.CartDao;
+import com.epam.tm.shop.dao.DaoException;
+import com.epam.tm.shop.dao.DaoNoDataException;
 import com.epam.tm.shop.entity.Cart;
+import com.epam.tm.shop.entity.OrderStatus;
 import com.epam.tm.shop.entity.Product;
 
 import java.sql.Connection;
@@ -21,6 +24,7 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
     private static final String INSERT_CART_QUERY = "INSERT INTO carts VALUES(DEFAULT)";
     private static final String INSERT_QUERY = "INSERT INTO cart_to_products VALUES(?,?,?)";
     private static final String SELECT_QUERY = "SELECT * FROM cart_to_products WHERE cart_id = ?";
+    private static final String SELECT_QUERY_BY_ORDER_STATUS = "SELECT * FROM cart_to_products JOIN orders on cart_to_products.cart_id = orders.cart_id WHERE orders.order_status = ?";
     private static final String DELETE_QUERY = "DELETE FROM cart_to_products WHERE cart_id = ?";
 
 
@@ -105,13 +109,23 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
         List<Cart> carts = new ArrayList<>();
         Cart cart = new Cart();
         Map<Product,Integer> map = new HashMap<>();
-        Integer id = null;
+        Integer id = null, oldId = null;
         try {
             while (rs.next()){
                 Product product = new Product();
                 product.setId(rs.getInt("product_id"));
                 map.put(product,rs.getInt("quantity"));
                 id = rs.getInt("cart_id");
+                if ( oldId != null ) {
+                    if (!oldId.equals(id)) {
+                        cart.setId(id);
+                        cart.setCart(map);
+                        carts.add(cart);
+                        map = new HashMap<>();
+                        cart = new Cart();
+                    }
+                }
+                oldId = id;
             }
         } catch (SQLException e) {
             throw new JdbcException("creating cart entity from result set was failed",e);
@@ -125,6 +139,11 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
 
         carts.add(cart);
         return carts;
+    }
+
+    @Override
+    public List<Cart> findAllCartsByOrderStatus(OrderStatus orderStatus) throws DaoException, DaoNoDataException {
+       return findAllById(orderStatus.getId(),SELECT_QUERY_BY_ORDER_STATUS);
     }
 
 
