@@ -9,7 +9,7 @@
 <t:template_page tittle="${tittle}">
     <jsp:body>
         <div class="container-fluid">
-        <t:get_errors errors="${productMessage}"/>
+        <t:get_messages messages="${productMessage}"/>
         <c:if test="${not empty product}">
             <div class="col-sm-4"></div>
             <div class="col-sm-4">

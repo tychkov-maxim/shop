@@ -8,7 +8,7 @@
 <t:template_page tittle="Online Store">
     <jsp:body>
         <div class="container-fluid">
-            <t:get_errors errors="${productsMessage}"/>
+            <t:get_messages messages="${productsMessage}"/>
             <div class="col-sm-2">
                     <ul class="list-group">
                         <c:forEach items="${categories}" var="category">
