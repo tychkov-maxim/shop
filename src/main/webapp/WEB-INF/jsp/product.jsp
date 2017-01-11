@@ -16,7 +16,8 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">${product.name}</div>
                 <div class="panel-body" align="center">
-                    <img src="${pageContext.request.contextPath}/image${product.imagePath}" class="img-responsive" alt="Image"/>
+                    <img src="${pageContext.request.contextPath}/image${product.imagePath}" class="img-responsive"
+                         alt="Image"/>
                 </div>
                 <div class="panel-footer">${product.price}</div>
             </div>
@@ -48,9 +49,11 @@
         <script>
             link = document.getElementById('addToCart');
             ref = document.referrer;
-            found = ref.search('[?]');
-            if (found != -1)
+            found = ref.search('[?].+');
+            if (found != -1) {
                 link.href = link.href + '&' + ref.substr(found + 1);
+            } else
+                link.href = link.href + '&category=/';
         </script>
     </jsp:body>
 </t:template_page>

@@ -13,7 +13,12 @@
                     <ul class="list-group">
                         <c:forEach items="${categories}" var="category">
                             <a href="${pageContext.request.contextPath}/show.do?category=${category.name}">
-                                <li class="list-group-item">${category.name}</li>
+                                <c:if test="${chosenCategory == category.name}">
+                                    <li class="list-group-item active">${category.name}</li>
+                                </c:if>
+                                <c:if test="${chosenCategory != category.name}">
+                                    <li class="list-group-item">${category.name}</li>
+                                </c:if>
                             </a>
                         </c:forEach>
                     </ul>

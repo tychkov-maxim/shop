@@ -31,6 +31,7 @@ public class CartAction implements Action {
     private static final int DEFAULT_PRODUCT_QUANTITY = 1;
     private static final String REDIRECT_CHECKOUT = "redirect:/checkout.do";
     private static final String REDIRECT_CATEGORY = "redirect:/show.do?";
+    private static final String VALUE_OF_REDIRECT_TO_SHOW_PRODUCTS = "/";
 
 
     private Cart cart;
@@ -70,6 +71,7 @@ public class CartAction implements Action {
 
         String referrerCategoryParam = req.getParameter(REFERRER_CATEGORY_PARAMETER);
         if (notEmptyParameterValidator.isValid(referrerCategoryParam)){
+            if (referrerCategoryParam.equals(VALUE_OF_REDIRECT_TO_SHOW_PRODUCTS)) return REDIRECT_CATEGORY;
             String redirectURL = REDIRECT_CATEGORY  + FORMING_URL_CATEGORY + referrerCategoryParam;
             String referrerPageParam = req.getParameter(REFERRER_PAGE_PARAMETER);
             if (notEmptyParameterValidator.isValid(referrerPageParam))
