@@ -72,6 +72,7 @@ public class SecurityFilter implements Filter {
         adminActions.add("find");
         adminActions.add("addCategory");
         adminActions.add("addProducts");
+        adminActions.add("category");
 
 
         log.debug("Security filter was initialized successfully");

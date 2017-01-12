@@ -28,7 +28,8 @@ public class ActionFactory {
         matches.put("user",new UserAction());
         matches.put("find",new ShowPageAction("find-user"));
         matches.put("addCategory",new AddCategoryAction());
-        matches.put("addProducts",new ShowPageAction("add-products"));
+        matches.put("category",new ShowPageAction("add-category"));
+        matches.put("addProducts",new ShowAddProductForm());
     }
 
     public Action getAction(String actionName) throws ActionFactoryException {

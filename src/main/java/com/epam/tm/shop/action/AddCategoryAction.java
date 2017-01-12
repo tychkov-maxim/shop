@@ -17,7 +17,8 @@ public class AddCategoryAction implements Action {
 
     public static final Logger log = LoggerFactory.getLogger(AddCategoryAction.class);
 
-    private static final String FORM_NAME = "add-products";
+    private static final String FORM_NAME = "add-category";
+    private static final String REDIRECT = "redirect:/category.do";
     private static final String FORM_NAME_ADD_CATEGORY = "category";
     private static final String NAME_PARAMETER = "name";
     private static final String DESCRIPTION_PARAMETER = "description";
@@ -50,6 +51,7 @@ public class AddCategoryAction implements Action {
         try {
             ProductCategory savedProductCategory = productCategoryService.saveProductCategory(productCategory);
             log.trace("product category {} was added successfully",savedProductCategory.getName());
+            return REDIRECT;
         } catch (ServiceException e) {
             throw new ActionException(e);
         } catch (ServiceNonUniqueFieldException e) {

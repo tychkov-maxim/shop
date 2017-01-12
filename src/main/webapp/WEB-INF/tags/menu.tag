@@ -25,7 +25,10 @@
             <a href="${pageContext.request.contextPath}/find.do">
                 <li class="list-group-item">Работа с пользователями</li>
             </a>
-            <a href="${pageContext.request.contextPath}/addProducts.do">
+            <a href="${pageContext.request.contextPath}/category.do">
+                <li class="list-group-item">Добавить категорию</li>
+            </a>
+            <a href="${pageContext.request.contextPath}/products.do">
                 <li class="list-group-item">Добавить товар</li>
             </a>
         </c:if>
