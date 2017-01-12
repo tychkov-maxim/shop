@@ -25,6 +25,9 @@
             <a href="${pageContext.request.contextPath}/find.do">
                 <li class="list-group-item">Работа с пользователями</li>
             </a>
+            <a href="${pageContext.request.contextPath}/addProducts.do">
+                <li class="list-group-item">Добавить товар</li>
+            </a>
         </c:if>
     </ul>
 

@@ -34,11 +34,12 @@
                     <a href="${pageContext.request.contextPath}/cart.do?add=${product.id}" id="buyProduct"
                        class="btn btn-success" role="button"><fmt:message key="buy"/></a>
                     <br/>
+                    <br/>
                     <form class="form-inline" method="get"
                           action="${pageContext.request.contextPath}/cart.do">
                         <button type="submit" class="btn btn-primary"><fmt:message key="cart.add"/></button>
                         <input type="number" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput"
-                               name="quantity">
+                               name="quantity" value="1">
                         <input type="hidden" name="add" value="${product.id}">
                         <input type="hidden" name="category" value="/" id="fieldCategory">
                     </form>
