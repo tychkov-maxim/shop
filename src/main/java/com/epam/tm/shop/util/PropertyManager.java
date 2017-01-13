@@ -43,7 +43,7 @@ public class PropertyManager {
         return Integer.parseInt(getPropertyKey(key));
     }
 
-    public Map<String,String> getHashMap() {
+    public Map<String, String> getHashMap() {
         Map<String, String> map = new HashMap<>();
         Enumeration<?> enumeration = properties.propertyNames();
         while (enumeration.hasMoreElements()) {
