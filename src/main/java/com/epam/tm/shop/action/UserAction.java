@@ -31,9 +31,10 @@ public class UserAction implements Action {
     private static final String USER_MONEY_PARAMETER = "money";
     private static final String USER_ADMIN_PARAMETER = "admin";
 
-    // FIXME: 12.01.2017 add logging
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
+
+        log.trace("start user action");
 
         List<String> errorMessage = new ArrayList<>();
         Validator notEmptyParameterValidator = new NotEmptyParameterValidator();
@@ -42,29 +43,35 @@ public class UserAction implements Action {
 
 
         if (notEmptyParameterValidator.isValid(loginParam)) {
-
+            log.trace("login parameter is valid", loginParam);
             UserService userService = new UserService();
             try {
                 User user = userService.getUserByLogin(loginParam);
-
+                log.trace("got user {}", user.getLogin());
                 String moneyParam = req.getParameter(USER_MONEY_PARAMETER);
                 String adminParam = req.getParameter(USER_ADMIN_PARAMETER);
                 if (onlyNumberValidator.isValid(moneyParam)) {
-                    int money = Integer.parseInt(moneyParam);
-                    user.setAccount(Money.of(CurrencyUnit.USD, money));
-                    user = userService.saveUser(user);
+                    double money = Double.parseDouble(moneyParam);
+                    if (money >= 0) {
+                        user.setAccount(Money.of(CurrencyUnit.USD, money));
+                        user = userService.saveUser(user);
+                        log.trace("change account of user {} to {}", user.getLogin(), user.getAccount());
+                    }
                 } else if (notEmptyParameterValidator.isValid(adminParam)) {
                     user.setRole(Role.getAdministratorRole());
                     user = userService.saveUser(user);
+                    log.trace("change user {} status to administrator", user.getLogin());
                 }
                 req.setAttribute(ATTRIBUTE_USER_NAME, user);
             } catch (ServiceException | ServiceNonUniqueFieldException e) {
                 throw new ActionException(e);
             } catch (ServiceNoDataException e) {
+                log.trace("user wasn't found");
                 errorMessage.add(USER_ERROR_MESSAGE);
                 req.setAttribute(USER_ERROR_PARAMETER, errorMessage);
             }
         } else {
+            log.trace("login parameter not correct");
             errorMessage.add(USER_ERROR_MESSAGE);
             req.setAttribute(USER_ERROR_PARAMETER, errorMessage);
         }
