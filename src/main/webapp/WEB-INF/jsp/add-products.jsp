@@ -66,7 +66,7 @@
                                 <input id="price" name="price" type="text"
                                        placeholder="<fmt:message key="enter.price"/>"
                                        class="form-control input-md" value="${oldPrice}">
-                                <t:get_errors errors="${priceErorrs}"/>
+                                <t:get_errors errors="${priceErrors}"/>
                             </div>
                         </div>
 

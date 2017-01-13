@@ -6,5 +6,8 @@
 
 <t:template_page tittle="OnlineStore">
     <jsp:body>
+        <div class="col-sm-12 alert-success">
+        <h1><fmt:message key="welcome"/></h1>
+        </div>
     </jsp:body>
 </t:template_page>
