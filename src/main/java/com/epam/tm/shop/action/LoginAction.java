@@ -4,6 +4,9 @@ import com.epam.tm.shop.entity.User;
 import com.epam.tm.shop.service.ServiceException;
 import com.epam.tm.shop.service.ServiceNoDataException;
 import com.epam.tm.shop.service.UserService;
+import com.epam.tm.shop.util.HashGenerator;
+import com.epam.tm.shop.util.HashGeneratorException;
+import com.epam.tm.shop.util.MD5Generator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +40,9 @@ public class LoginAction implements Action {
 
         try {
             User user = checkUser(login);
-            if (!user.getPassword().equals(password)){
+            String hashedPassword = user.getPassword();
+            HashGenerator hashGenerator = new MD5Generator();
+            if (!hashGenerator.isHashAndParameterEquals(hashedPassword,password)){
                 errorMessage.add(INCORRECT_PASSWORD);
                 req.setAttribute(LOGIN_ERROR_PARAMETER,errorMessage);
                 log.trace("incorrect password with login {}",user.getLogin());
@@ -54,6 +59,8 @@ public class LoginAction implements Action {
             req.setAttribute(LOGIN_ERROR_PARAMETER,errorMessage);
             log.trace("User not found with login {}", login);
             return FORM_NAME;
+        } catch (HashGeneratorException e){
+            throw new ActionException(e);
         }
 
     }

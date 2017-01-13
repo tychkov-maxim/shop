@@ -2,8 +2,12 @@ package com.epam.tm.shop.service;
 
 import com.epam.tm.shop.dao.*;
 import com.epam.tm.shop.entity.User;
+import com.epam.tm.shop.util.HashGenerator;
+import com.epam.tm.shop.util.HashGeneratorException;
+import com.epam.tm.shop.util.MD5Generator;
 
 public class UserService {
+    private static final String USER_EXIST_MESSAGE = "user.exist";
 
 
     public User getUserByLogin(String login) throws ServiceException, ServiceNoDataException {
@@ -18,6 +22,19 @@ public class UserService {
 
     }
 
+    public User register(User user) throws ServiceExceptionError, ServiceException {
+        try {
+            String password = user.getPassword();
+            HashGenerator hashGenerator = new MD5Generator();
+            String hashedPassword = hashGenerator.generateHashByString(password);
+            user.setPassword(hashedPassword);
+            return saveUser(user);
+        } catch (ServiceNonUniqueFieldException e) {
+            throw new ServiceExceptionError(USER_EXIST_MESSAGE);
+        } catch (HashGeneratorException e){
+            throw new ServiceException(e);
+        }
+    }
 
     public User saveUser(User user) throws ServiceException, ServiceNonUniqueFieldException {
         try (DaoFactory factory = DaoFactory.createFactory()) {

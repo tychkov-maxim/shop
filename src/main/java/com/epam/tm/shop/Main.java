@@ -6,8 +6,7 @@ import com.epam.tm.shop.entity.*;
 import com.epam.tm.shop.pool.ConnectionPool;
 import com.epam.tm.shop.pool.PoolException;
 import com.epam.tm.shop.service.*;
-import com.epam.tm.shop.util.PropertyManager;
-import com.epam.tm.shop.util.PropertyManagerException;
+import com.epam.tm.shop.util.*;
 import com.epam.tm.shop.validator.*;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -21,7 +20,7 @@ public class Main {
 
 
     public static final Logger log = LoggerFactory.getLogger(Main.class);
-    public static void main(String[] args) throws ValidatorException, ServiceException, DaoException, DaoNoDataException, DaoNonUniqueFieldException, ServiceNoDataException {
+    public static void main(String[] args) throws ValidatorException, ServiceException, DaoException, DaoNoDataException, DaoNonUniqueFieldException, ServiceNoDataException, HashGeneratorException {
        /* String url, username, password, driverName;
         int maxCon;
 
@@ -51,7 +50,9 @@ public class Main {
             System.out.println("==========================");
             System.out.println(ordersByOrderStatu.getTime().toDate());
         }*/
-
+        HashGenerator hashGenerator = new MD5Generator();
+        String hashedPassword = hashGenerator.generateHashByString("asd");
+        System.out.println(hashedPassword);
 
     }
 

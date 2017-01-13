@@ -3,6 +3,7 @@ package com.epam.tm.shop.action;
 import com.epam.tm.shop.entity.Role;
 import com.epam.tm.shop.entity.User;
 import com.epam.tm.shop.service.ServiceException;
+import com.epam.tm.shop.service.ServiceExceptionError;
 import com.epam.tm.shop.service.ServiceNonUniqueFieldException;
 import com.epam.tm.shop.service.UserService;
 import com.epam.tm.shop.validator.FormValidator;
@@ -35,7 +36,6 @@ public class UserRegisterAction implements Action{
     private static final String FIRST_NAME_PREVIOUS_VALUE = "regFirstName";
     private static final String SECOND_NAME_PREVIOUS_VALUE = "regSecondName";
     private static final String ADDRESS_PREVIOUS_VALUE = "regAddress";
-    private static final String USER_EXIST = "user.exist";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
@@ -66,14 +66,14 @@ public class UserRegisterAction implements Action{
         UserService userService = new UserService();
         List<String> errorMessage = new ArrayList<>();
         try {
-            User savedUser = userService.saveUser(user);
+            User savedUser = userService.register(user);
             log.trace("user {} with id {} was registered successfully",savedUser.getLogin(),savedUser.getId());
             HttpSession session = req.getSession(true);
             session.setAttribute(ATTRIBUTE_SESSION_USER_NAME,user);
             return REGISTER_SUCCESS;
-        } catch (ServiceNonUniqueFieldException e) {
+        } catch (ServiceExceptionError e) {
             log.trace("user {} already exist",user.getLogin());
-            errorMessage.add(USER_EXIST);
+            errorMessage.add(e.getMessage());
             req.setAttribute(REGISTER_ERROR_PARAMETER,errorMessage);
             return FORM_NAME;
         }catch (ServiceException e) {
