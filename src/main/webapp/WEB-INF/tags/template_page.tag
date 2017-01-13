@@ -26,8 +26,8 @@
     <div class="btn-group">
         <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">Change language<span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu">
-            <li><a href="${pageContext.request.contextPath}/lang.do?language=en&referrer=${currentURL}">en</a></li>
-            <li><a href="${pageContext.request.contextPath}/lang.do?language=ru&referrer=${currentURL}">ru</a></li>
+            <li onclick="$.get('${pageContext.request.contextPath}/lang.do?language=en');location.reload();"><a>en</a></li>
+            <li onclick="$.get('${pageContext.request.contextPath}/lang.do?language=ru');location.reload();"><a>ru</a></li>
         </ul>
     </div>
 </div>
