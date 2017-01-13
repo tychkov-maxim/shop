@@ -14,7 +14,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
+public class JdbcProductDao extends JdbcDao<Product> implements ProductDao {
 
 
     private static final String INSERT_QUERY = "INSERT INTO products VALUES(DEFAULT,?,?,?,?,?,?)";
@@ -35,18 +35,18 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
     protected List<Product> createEntityFromResultSet(ResultSet rs) throws JdbcException, JdbcNoDataException {
         List<Product> products = new ArrayList<>();
         try {
-            while (rs.next()){
+            while (rs.next()) {
                 Product product = new Product();
                 product.setId(rs.getInt("id"));
                 product.setName(rs.getString("name"));
                 product.setDescription(rs.getString("description"));
-                product.setPrice(Money.of(CurrencyUnit.getInstance(rs.getString("price_unit")),rs.getBigDecimal("price")));
+                product.setPrice(Money.of(CurrencyUnit.getInstance(rs.getString("price_unit")), rs.getBigDecimal("price")));
                 product.setImagePath(rs.getString("image_path"));
-                product.setProductCategory(new ProductCategory(rs.getInt("categories.id"),rs.getString("categories.name"),rs.getString("categories.description")));
+                product.setProductCategory(new ProductCategory(rs.getInt("categories.id"), rs.getString("categories.name"), rs.getString("categories.description")));
                 products.add(product);
             }
         } catch (SQLException e) {
-            throw new JdbcException("creating product entity from result set was failed",e);
+            throw new JdbcException("creating product entity from result set was failed", e);
         }
 
         if (products.size() == 0)
@@ -59,19 +59,19 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
     @Override
     protected void setPsFields(PreparedStatement ps, Product entity) throws JdbcException {
         try {
-            ps.setString(1,entity.getName());
-            ps.setString(2,entity.getDescription());
-            ps.setBigDecimal(3,entity.getPrice().getAmount());
-            ps.setString(4,entity.getPrice().getCurrencyUnit().toString());
-            ps.setInt(5,entity.getProductCategory().getId());
-            ps.setString(6,entity.getImagePath());
+            ps.setString(1, entity.getName());
+            ps.setString(2, entity.getDescription());
+            ps.setBigDecimal(3, entity.getPrice().getAmount());
+            ps.setString(4, entity.getPrice().getCurrencyUnit().toString());
+            ps.setInt(5, entity.getProductCategory().getId());
+            ps.setString(6, entity.getImagePath());
 
             Integer id = entity.getId();
             if (id != null)
-                ps.setInt(7,entity.getId());
+                ps.setInt(7, entity.getId());
 
         } catch (SQLException e) {
-            throw new JdbcException("set product entity to ps was failed",e);
+            throw new JdbcException("set product entity to ps was failed", e);
         }
     }
 
@@ -97,26 +97,26 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao{
 
     @Override
     public List<Product> findAllProductsByCartId(int cartId) throws JdbcException, JdbcNoDataException {
-            return findAllById(cartId,SELECT_QUERY_BY_CART_ID);
+        return findAllById(cartId, SELECT_QUERY_BY_CART_ID);
     }
 
     @Override
     public List<Product> findProductsByCategoryWithPagination(String category, int offset, int limit) throws JdbcException, JdbcNoDataException {
-            return findByString(category,SELECT_QUERY_BY_CATEGORY + " LIMIT " + offset + "," + limit);
+        return findByString(category, SELECT_QUERY_BY_CATEGORY + " LIMIT " + offset + "," + limit);
     }
 
     @Override
     public List<Product> findAllProductsWithPagination(int offset, int limit) throws JdbcException, JdbcNoDataException {
-        log.trace("start to find all products with pagination {},{}",offset,limit);
+        log.trace("start to find all products with pagination {},{}", offset, limit);
         try {
             PreparedStatement ps = connection.prepareStatement(SELECT_ALL_PRODUCTS + " LIMIT " + offset + "," + limit);
             ResultSet rs = ps.executeQuery();
             List<Product> products = createEntityFromResultSet(rs);
             ps.close();
-            log.trace("finding all products with pagination {},{} was finished successfully",offset,limit);
+            log.trace("finding all products with pagination {},{} was finished successfully", offset, limit);
             return products;
         } catch (SQLException e) {
-            throw new JdbcException(MessageFormat.format("finding all products with pagination {},{} was failed",offset,limit),e);
+            throw new JdbcException(MessageFormat.format("finding all products with pagination {},{} was failed", offset, limit), e);
         }
     }
 }

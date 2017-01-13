@@ -1,6 +1,6 @@
 package com.epam.tm.shop.dao;
 
-public class DaoNonUniqueFieldException extends Exception{
+public class DaoNonUniqueFieldException extends Exception {
     public DaoNonUniqueFieldException(String message) {
         super(message);
     }

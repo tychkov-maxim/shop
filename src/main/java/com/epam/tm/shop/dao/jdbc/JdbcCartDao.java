@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +33,7 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
 
     @Override
     public Cart save(Cart entity) throws JdbcException {
-        if (entity.getId() == null){
+        if (entity.getId() == null) {
             PreparedStatement ps;
             AtomicInteger id = new AtomicInteger();
             try {
@@ -42,14 +41,14 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
                 ps.executeUpdate();
                 ResultSet generatedKeys = ps.getGeneratedKeys();
                 if (generatedKeys.next()) {
-                     id.set(generatedKeys.getInt(1));
+                    id.set(generatedKeys.getInt(1));
                 }
                 ps.close();
                 return insert(entity, id.get());
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 throw new JdbcException(e);
             }
-        }else
+        } else
             return update(entity);
     }
 
@@ -60,14 +59,14 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
             ps = connection.prepareStatement(INSERT_QUERY);
 
             for (Map.Entry<Product, Integer> entry : cart.getCart().entrySet()) {
-                ps.setInt(1,id);
-                ps.setInt(2,entry.getKey().getId());
-                ps.setInt(3,entry.getValue());
+                ps.setInt(1, id);
+                ps.setInt(2, entry.getKey().getId());
+                ps.setInt(3, entry.getValue());
                 ps.executeUpdate();
             }
             ps.close();
         } catch (SQLException e) {
-            throw new JdbcException("inserting cart was failed",e);
+            throw new JdbcException("inserting cart was failed", e);
         }
 
         cart.setId(id);
@@ -76,7 +75,7 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
 
     private Cart update(Cart cart) throws JdbcException {
         deleteById(cart.getId());
-        return insert(cart,cart.getId());
+        return insert(cart, cart.getId());
     }
 
 
@@ -104,19 +103,20 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
     protected String getDeleteQuery() {
         return DELETE_QUERY;
     }
+
     @Override
     protected List<Cart> createEntityFromResultSet(ResultSet rs) throws JdbcException, JdbcNoDataException {
         List<Cart> carts = new ArrayList<>();
         Cart cart = new Cart();
-        Map<Product,Integer> map = new HashMap<>();
+        Map<Product, Integer> map = new HashMap<>();
         Integer id = null, oldId = null;
         try {
-            while (rs.next()){
+            while (rs.next()) {
                 Product product = new Product();
                 product.setId(rs.getInt("product_id"));
-                map.put(product,rs.getInt("quantity"));
+                map.put(product, rs.getInt("quantity"));
                 id = rs.getInt("cart_id");
-                if ( oldId != null ) {
+                if (oldId != null) {
                     if (!oldId.equals(id)) {
                         cart.setId(id);
                         cart.setCart(map);
@@ -128,7 +128,7 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
                 oldId = id;
             }
         } catch (SQLException e) {
-            throw new JdbcException("creating cart entity from result set was failed",e);
+            throw new JdbcException("creating cart entity from result set was failed", e);
         }
 
         cart.setId(id);
@@ -143,7 +143,7 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
 
     @Override
     public List<Cart> findAllCartsByOrderStatus(OrderStatus orderStatus) throws DaoException, DaoNoDataException {
-       return findAllById(orderStatus.getId(),SELECT_QUERY_BY_ORDER_STATUS);
+        return findAllById(orderStatus.getId(), SELECT_QUERY_BY_ORDER_STATUS);
     }
 
 

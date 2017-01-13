@@ -9,30 +9,29 @@ import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class JdbcDaoFactory extends DaoFactory{
+public class JdbcDaoFactory extends DaoFactory {
 
     public static final Logger log = LoggerFactory.getLogger(JdbcDaoFactory.class);
-
-    private Connection connection;
     private static ConnectionPool pool;
+    private Connection connection;
 
     public JdbcDaoFactory() throws JdbcException {
         try {
-            if (pool == null){
+            if (pool == null) {
                 throw new JdbcException("pool wasn't set");
             }
             connection = pool.getConnection();
         } catch (PoolException e) {
-            throw new JdbcException("can't get connection from connection pool",e);
+            throw new JdbcException("can't get connection from connection pool", e);
         }
-    }
-
-    public static void setPool(ConnectionPool pool) {
-        JdbcDaoFactory.pool = pool;
     }
 
     public static ConnectionPool getPool() {
         return JdbcDaoFactory.pool;
+    }
+
+    public static void setPool(ConnectionPool pool) {
+        JdbcDaoFactory.pool = pool;
     }
 
     @Override
@@ -44,6 +43,7 @@ public class JdbcDaoFactory extends DaoFactory{
     public ProductDao getProductDao() {
         return new JdbcProductDao(connection);
     }
+
     @Override
     public ProductCategoryDao getProductCategoryDao() {
         return new JdbcProductCategory(connection);

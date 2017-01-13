@@ -3,7 +3,10 @@ package com.epam.tm.shop.dao.jdbc;
 import com.epam.tm.shop.dao.DaoException;
 import com.epam.tm.shop.dao.DaoNoDataException;
 import com.epam.tm.shop.dao.OrderDao;
-import com.epam.tm.shop.entity.*;
+import com.epam.tm.shop.entity.Cart;
+import com.epam.tm.shop.entity.Order;
+import com.epam.tm.shop.entity.OrderStatus;
+import com.epam.tm.shop.entity.User;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
@@ -31,19 +34,19 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     protected void setPsFields(PreparedStatement ps, Order entity) throws JdbcException {
 
         try {
-            ps.setInt(1,entity.getCart().getId());
-            ps.setInt(2,entity.getUser().getId());
-            ps.setTimestamp(3,new Timestamp(entity.getTime().getMillis()));
-            ps.setBigDecimal(4,entity.getTotal().getAmount());
-            ps.setString(5,entity.getTotal().getCurrencyUnit().toString());
-            ps.setInt(6,entity.getStatus().getId());
+            ps.setInt(1, entity.getCart().getId());
+            ps.setInt(2, entity.getUser().getId());
+            ps.setTimestamp(3, new Timestamp(entity.getTime().getMillis()));
+            ps.setBigDecimal(4, entity.getTotal().getAmount());
+            ps.setString(5, entity.getTotal().getCurrencyUnit().toString());
+            ps.setInt(6, entity.getStatus().getId());
 
             Integer id = entity.getId();
             if (id != null)
-                ps.setInt(7,entity.getId());
+                ps.setInt(7, entity.getId());
 
         } catch (SQLException e) {
-            throw new JdbcException("set order entity to ps was failed",e);
+            throw new JdbcException("set order entity to ps was failed", e);
         }
 
     }
@@ -67,14 +70,15 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     protected String getDeleteQuery() {
         return DELETE_QUERY;
     }
+
     @Override
     protected List<Order> createEntityFromResultSet(ResultSet rs) throws JdbcException, JdbcNoDataException {
         List<Order> orders = new ArrayList<>();
         try {
-            while (rs.next()){
+            while (rs.next()) {
                 Order order = new Order();
                 order.setId(rs.getInt("id"));
-                order.setStatus(new OrderStatus(rs.getInt("order_status.id"),rs.getString("order_status.name")));
+                order.setStatus(new OrderStatus(rs.getInt("order_status.id"), rs.getString("order_status.name")));
                 order.setTime(new DateTime(rs.getTimestamp("time")));
                 order.setTotal(Money.of(CurrencyUnit.of(rs.getString("total_unit")), rs.getBigDecimal("total")));
                 User user = new User();
@@ -86,7 +90,7 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
                 orders.add(order);
             }
         } catch (SQLException e) {
-            throw new JdbcException("creating order entity from result set was failed",e);
+            throw new JdbcException("creating order entity from result set was failed", e);
         }
 
         if (orders.size() == 0)
@@ -102,18 +106,18 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
 
     @Override
     public List<Order> findUserOrdersByStatus(int userId, OrderStatus orderStatus) throws DaoException, DaoNoDataException {
-        log.trace("start to find user {} orders by status {}",userId, orderStatus.getName());
+        log.trace("start to find user {} orders by status {}", userId, orderStatus.getName());
         try {
             PreparedStatement ps = connection.prepareStatement(SELECT_QUERY_USER_BY_STATUS);
-            ps.setInt(1,orderStatus.getId());
-            ps.setInt(2,userId);
+            ps.setInt(1, orderStatus.getId());
+            ps.setInt(2, userId);
             ResultSet rs = ps.executeQuery();
             List<Order> orders = createEntityFromResultSet(rs);
             ps.close();
-            log.trace("finding user {} orders by status {} was finished successfully",userId, orderStatus.getName());
+            log.trace("finding user {} orders by status {} was finished successfully", userId, orderStatus.getName());
             return orders;
         } catch (SQLException e) {
-            throw new JdbcException(MessageFormat.format("finding user {0} orders by status {1} was failed", userId, orderStatus.getName()),e);
+            throw new JdbcException(MessageFormat.format("finding user {0} orders by status {1} was failed", userId, orderStatus.getName()), e);
         }
     }
 }
