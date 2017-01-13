@@ -21,7 +21,7 @@ public class ProductsByCategoryAction implements Action {
     public static final Logger log = LoggerFactory.getLogger(ProductsByCategoryAction.class);
 
     private static final String NO_ONE_PRODUCT_IN_CATEGORY_MESSAGE = "no.one.product.in.category";
-    private static final String NO_ONE_CATEGORY = "no.one.category";
+    private static final String NO_ONE_CATEGORY_MESSAGE = "no.one.category";
     private static final String CHOSEN_CATEGORY_PARAMETER = "chosenCategory";
     private static final String FORM_NAME = "show-products";
     private static final String PAGE_PAGINATION_PARAMETER = "page";
@@ -56,7 +56,7 @@ public class ProductsByCategoryAction implements Action {
 
             if (allProductCategory.size() == 0) {
                 List<String> message = new ArrayList<>();
-                message.add(NO_ONE_CATEGORY);
+                message.add(NO_ONE_CATEGORY_MESSAGE);
                 req.setAttribute(PRODUCT_MESSAGE_ATTRIBUTE, message);
                 log.trace("no one category was found");
                 return FORM_NAME;

@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet(value = "*.do")
+@MultipartConfig
 public class MainServlet extends HttpServlet {
 
     public static final Logger log = LoggerFactory.getLogger(MainServlet.class);

@@ -8,13 +8,15 @@ import java.util.List;
 
 public class ProductCategoryService {
 
-    public List<ProductCategory> getAllProductCategory() throws ServiceException {
+    public List<ProductCategory> getAllProductCategory() throws ServiceException, ServiceNoDataException {
 
         try (DaoFactory factory = DaoFactory.createFactory()) {
             ProductCategoryDao productCategoryDao = factory.getProductCategoryDao();
             return productCategoryDao.getAllProductCategory();
-        } catch (DaoException | DaoNoDataException e) {
+        } catch (DaoException  e) {
             throw new ServiceException(e);
+        } catch (DaoNoDataException e) {
+            throw new ServiceNoDataException(e);
         }
 
     }

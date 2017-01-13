@@ -22,7 +22,7 @@ public class Main {
 
     public static final Logger log = LoggerFactory.getLogger(Main.class);
     public static void main(String[] args) throws ValidatorException, ServiceException, DaoException, DaoNoDataException, DaoNonUniqueFieldException, ServiceNoDataException {
-        String url, username, password, driverName;
+       /* String url, username, password, driverName;
         int maxCon;
 
         try {
@@ -50,7 +50,8 @@ public class Main {
             System.out.println(ordersByOrderStatu);
             System.out.println("==========================");
             System.out.println(ordersByOrderStatu.getTime().toDate());
-        }
+        }*/
+
 
     }
 
