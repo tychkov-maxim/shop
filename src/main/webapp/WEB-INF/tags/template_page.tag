@@ -5,7 +5,6 @@
 <%@attribute name="tittle" required="true"%>
 
 <c:set var="role" value="${sessionScope.user.role}"/>
-<c:set var="currentURL" value="${requestScope['javax.servlet.forward.request_uri']}"/>
 
 <html>
 <head>

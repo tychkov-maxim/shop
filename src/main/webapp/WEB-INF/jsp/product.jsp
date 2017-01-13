@@ -35,27 +35,15 @@
                        class="btn btn-success" role="button"><fmt:message key="buy"/></a>
                     <br/>
                     <br/>
-                    <form class="form-inline" method="get"
-                          action="${pageContext.request.contextPath}/cart.do">
-                        <button type="submit" class="btn btn-primary"><fmt:message key="cart.add"/></button>
-                        <input type="number" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput"
+                    <form class="form-inline">
+                        <button onclick="$.get('${pageContext.request.contextPath}/cart.do?add=${product.id}&quantity='+$('#inlineFormInputQuantity').val());location.reload();" class="btn btn-primary" type="reset"><fmt:message key="cart.add"/></button>
+                        <input type="number" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInputQuantity"
                                name="quantity" value="1">
-                        <input type="hidden" name="add" value="${product.id}">
-                        <input type="hidden" name="category" value="/" id="fieldCategory">
                     </form>
                 </div>
             </div>
             <div class="col-sm-4"></div>
         </c:if>
         </div>
-        <%--        <script>
-                    field = document.getElementById('fieldCategory');
-                    ref = document.referrer;
-                    found = ref.search('[?].+');
-                    if (found != -1) {
-                        field.href = field.href + '&' + ref.substr(found + 1);
-                    }
-
-                </script>--%>
     </jsp:body>
 </t:template_page>
