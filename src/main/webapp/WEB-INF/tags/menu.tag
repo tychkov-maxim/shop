@@ -22,7 +22,7 @@
             <a href="${pageContext.request.contextPath}/orders.do?status=all">
                 <li class="list-group-item">Обработать заказы</li>
             </a>
-            <a href="${pageContext.request.contextPath}/find.do">
+            <a href="${pageContext.request.contextPath}/findUser.do">
                 <li class="list-group-item">Работа с пользователями</li>
             </a>
             <a href="${pageContext.request.contextPath}/category.do">

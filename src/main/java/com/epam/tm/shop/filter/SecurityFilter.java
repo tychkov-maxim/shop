@@ -69,7 +69,7 @@ public class SecurityFilter implements Filter {
         adminActions.add("profile");
         adminActions.add("changeStatus");
         adminActions.add("user");
-        adminActions.add("find");
+        adminActions.add("findUser");
         adminActions.add("addCategory");
         adminActions.add("addProduct");
         adminActions.add("products");

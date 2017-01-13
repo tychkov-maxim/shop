@@ -29,7 +29,12 @@ public class MainServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        actionFactory = new ActionFactory();
+        try {
+            actionFactory = new ActionFactory();
+        } catch (ActionFactoryException e) {
+            log.error("Action factory error");
+            throw new ServletException(e);
+        }
     }
 
     @Override

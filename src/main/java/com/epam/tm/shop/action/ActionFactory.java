@@ -1,39 +1,60 @@
 package com.epam.tm.shop.action;
 
 
+import com.epam.tm.shop.util.PropertyManager;
+import com.epam.tm.shop.util.PropertyManagerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ActionFactory {
 
-    private Map<String,Action> matches;
-//// FIXME: 07.01.2017 fix that to const min
-    public ActionFactory() {
-        matches = new HashMap<>();
-        matches.put("login",new LoginAction());
-        matches.put("logout",new LogoutAction());
-        matches.put("register",new UserRegisterAction());
-        matches.put("show",new ProductsByCategoryAction());
-        matches.put("lang",new ChangeLanguageAction());
-        matches.put("product",new ProductAction());
-        matches.put("cart",new CartAction());
-        matches.put("showRegister",new ShowPageAction("register"));
-        matches.put("showLogin",new ShowPageAction("login"));
-        matches.put("checkout",new CheckoutAction());
-        matches.put("order",new OrderAction());
-        matches.put("permission",new ShowPageAction("permission-error"));
-        matches.put("orders",new GetOrdersAction());
-        matches.put("profile",new ShowPageAction("profile"));
-        matches.put("changeStatus",new ChangeOrderStatusAction());
-        matches.put("user",new UserAction());
-        matches.put("find",new ShowPageAction("find-user"));
-        matches.put("addCategory",new AddCategoryAction());
-        matches.put("category",new ShowPageAction("add-category"));
-        matches.put("products",new ShowAddProductForm());
-        matches.put("addProduct",new AddProductAction());
+    public static final Logger log = LoggerFactory.getLogger(ActionFactory.class);
+
+    private static final String ACTION_PROPERTIES_FILE_NAME = "action.properties";
+
+    private Map<String, String> actions;
+
+    public ActionFactory() throws ActionFactoryException {
+
+        try {
+            actions = readActions(ACTION_PROPERTIES_FILE_NAME);
+            log.debug("{} actions was read",actions.size());
+        } catch (PropertyManagerException e) {
+            throw new ActionFactoryException(e);
+        }
     }
 
     public Action getAction(String actionName) throws ActionFactoryException {
-            return matches.get(actionName);
+
+        String actionClassPath = null;
+
+        for (Map.Entry<String, String> entry : actions.entrySet()) {
+            if (entry.getKey().equals(actionName))
+                actionClassPath = entry.getValue();
+        }
+        if (actionClassPath == null) throw new ActionFactoryException("couldn't find action");
+        try {
+            Class<?> actionClass = Class.forName(actionClassPath);
+            log.trace("{} action was created",actionName);
+            return (Action) actionClass.newInstance();
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+            throw new ActionFactoryException(e);
+        }
+    }
+
+    private Map<String, String> readActions(String fileName) throws PropertyManagerException {
+        Map<String, String> actions = new HashMap<>();
+        PropertyManager propertyManager = new PropertyManager(fileName);
+        Enumeration propertyNames = propertyManager.getPropertyNames();
+        while (propertyNames.hasMoreElements()) {
+            String key = (String) propertyNames.nextElement();
+            String action = propertyManager.getPropertyKey(key);
+            actions.put(key, action);
+        }
+        return actions;
     }
 }
