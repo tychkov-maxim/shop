@@ -59,7 +59,8 @@
                                                     </h6>
                                                 </div>
                                                 <div class="col-xs-2">
-                                                    <a onclick="$.get('${pageContext.request.contextPath}/cart.do?delete=${product.id}');location.reload()" href="#">
+                                                    <a onclick="$.get('${pageContext.request.contextPath}/cart.do?delete=${product.id}');location.reload()"
+                                                       href="#">
                                                         <span class="glyphicon glyphicon-trash"> </span>
                                                     </a>
                                                 </div>

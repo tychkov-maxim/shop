@@ -10,50 +10,50 @@
     <jsp:body>
         <div class="container-fluid">
             <t:menu>
-                    <form class="form-horizontal" method="post" action="addCategory.do">
-                        <fieldset>
+                <form class="form-horizontal" method="post" action="addCategory.do">
+                    <fieldset>
 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"></label>
-                                <div class="col-md-4">
-                                    <t:get_errors errors="${categoryErrors}"/>
-                                    <t:get_messages messages="${categoryMessages}"/>
-                                    <fmt:message key="add.category"/>
-                                </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label"></label>
+                            <div class="col-md-4">
+                                <t:get_errors errors="${categoryErrors}"/>
+                                <t:get_messages messages="${categoryMessages}"/>
+                                <fmt:message key="add.category"/>
                             </div>
-                            <!-- Text input-->
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="categoryName"><fmt:message
-                                        key="category.name"/></label>
-                                <div class="col-md-4">
-                                    <input id="categoryName" name="name" type="text"
-                                           placeholder="<fmt:message key="enter.category.name"/>"
-                                           class="form-control input-md"
-                                           value="${oldName}" required>
-                                    <t:get_errors errors="${nameErrors}"/>
-                                </div>
+                        </div>
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="categoryName"><fmt:message
+                                    key="category.name"/></label>
+                            <div class="col-md-4">
+                                <input id="categoryName" name="name" type="text"
+                                       placeholder="<fmt:message key="enter.category.name"/>"
+                                       class="form-control input-md"
+                                       value="${oldName}" required>
+                                <t:get_errors errors="${nameErrors}"/>
                             </div>
+                        </div>
 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="description"><fmt:message
-                                        key="description"/></label>
-                                <div class="col-md-4">
-                                    <input id="description" name="description" type="text"
-                                           class="form-control input-md"
-                                           value="${oldDescription}">
-                                    <t:get_errors errors="${descriptionErrors}"/>
-                                </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="description"><fmt:message
+                                    key="description"/></label>
+                            <div class="col-md-4">
+                                <input id="description" name="description" type="text"
+                                       class="form-control input-md"
+                                       value="${oldDescription}">
+                                <t:get_errors errors="${descriptionErrors}"/>
                             </div>
+                        </div>
 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="category"></label>
-                                <div class="col-md-4">
-                                    <button id="category" name="category" class="btn btn-primary"><fmt:message
-                                            key="add"/></button>
-                                </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="category"></label>
+                            <div class="col-md-4">
+                                <button id="category" name="category" class="btn btn-primary"><fmt:message
+                                        key="add"/></button>
                             </div>
-                        </fieldset>
-                    </form>
+                        </div>
+                    </fieldset>
+                </form>
             </t:menu>
         </div>
     </jsp:body>

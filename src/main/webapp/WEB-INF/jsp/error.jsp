@@ -8,7 +8,7 @@
 <t:template_page tittle="${tittle}">
     <jsp:body>
         <div class="col-sm-12 alert-success">
-        <h1><fmt:message key="error.occured"/> </h1>
+            <h1><fmt:message key="error.occured"/></h1>
         </div>
     </jsp:body>
 </t:template_page>

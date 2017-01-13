@@ -56,9 +56,10 @@
                                 </div>
                                 <div class="col-xs-3">
                                     <c:if test="${empty checkoutErrors}">
-                                    <a role="button" class="btn btn-success btn-block" href="${pageContext.request.contextPath}/order.do">
-                                        <fmt:message key="confirm"/>
-                                    </a>
+                                        <a role="button" class="btn btn-success btn-block"
+                                           href="${pageContext.request.contextPath}/order.do">
+                                            <fmt:message key="confirm"/>
+                                        </a>
                                     </c:if>
                                 </div>
                             </div>

@@ -10,7 +10,8 @@
     <jsp:body>
         <div class="container-fluid">
             <t:menu>
-                <form class="form-horizontal" method="post" action="${pageContext.request.contextPath}/addProduct.do" enctype="multipart/form-data">
+                <form class="form-horizontal" method="post" action="${pageContext.request.contextPath}/addProduct.do"
+                      enctype="multipart/form-data">
                     <fieldset>
 
                         <div class="form-group">
@@ -26,7 +27,8 @@
                             <label class="col-md-4 control-label" for="name"><fmt:message key="product.name"/></label>
                             <div class="col-md-4">
                                 <input id="name" name="name" type="text"
-                                       placeholder="<fmt:message key="enter.product.name"/>" class="form-control input-md"
+                                       placeholder="<fmt:message key="enter.product.name"/>"
+                                       class="form-control input-md"
                                        value="${oldName}" required>
                                 <t:get_errors errors="${nameErrors}"/>
                             </div>
@@ -34,7 +36,8 @@
 
                         <!-- Text input-->
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="category"><fmt:message key="category.name"/></label>
+                            <label class="col-md-4 control-label" for="category"><fmt:message
+                                    key="category.name"/></label>
                             <div class="col-md-4">
                                 <select class="form-control" id="category" name="category">
                                     <c:forEach items="${categories}" var="category">

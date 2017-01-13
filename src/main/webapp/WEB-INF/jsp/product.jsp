@@ -36,7 +36,8 @@
                     <br/>
                     <br/>
                     <form class="form-inline">
-                        <button onclick="$.get('${pageContext.request.contextPath}/cart.do?add=${product.id}&quantity='+$('#inlineFormInputQuantity').val());location.reload();" class="btn btn-primary" type="reset"><fmt:message key="cart.add"/></button>
+                        <button onclick="$.get('${pageContext.request.contextPath}/cart.do?add=${product.id}&quantity='+$('#inlineFormInputQuantity').val());location.reload();"
+                                class="btn btn-primary" type="reset"><fmt:message key="cart.add"/></button>
                         <input type="number" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInputQuantity"
                                name="quantity" value="1">
                     </form>
