@@ -1,8 +1,8 @@
 package com.epam.tm.shop.validator;
 
-public abstract class ValidatorImpl implements Validator{
+public abstract class ValidatorImpl implements Validator {
     private String message;
-    
+
     public String getMessage() {
         return message;
     }
