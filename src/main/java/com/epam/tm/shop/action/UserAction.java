@@ -6,8 +6,8 @@ import com.epam.tm.shop.service.ServiceException;
 import com.epam.tm.shop.service.ServiceNoDataException;
 import com.epam.tm.shop.service.ServiceNonUniqueFieldException;
 import com.epam.tm.shop.service.UserService;
+import com.epam.tm.shop.validator.MoneyValidator;
 import com.epam.tm.shop.validator.NotEmptyParameterValidator;
-import com.epam.tm.shop.validator.OnlyNumberValidator;
 import com.epam.tm.shop.validator.Validator;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
@@ -38,7 +38,7 @@ public class UserAction implements Action {
 
         List<String> errorMessage = new ArrayList<>();
         Validator notEmptyParameterValidator = new NotEmptyParameterValidator();
-        Validator onlyNumberValidator = new OnlyNumberValidator();
+        Validator moneyValidator = new MoneyValidator();
         String loginParam = req.getParameter(USER_LOGIN_PARAMETER);
 
 
@@ -50,7 +50,7 @@ public class UserAction implements Action {
                 log.trace("got user {}", user.getLogin());
                 String moneyParam = req.getParameter(USER_MONEY_PARAMETER);
                 String adminParam = req.getParameter(USER_ADMIN_PARAMETER);
-                if (onlyNumberValidator.isValid(moneyParam)) {
+                if (moneyValidator.isValid(moneyParam)) {
                     double money = Double.parseDouble(moneyParam);
                     if (money >= 0) {
                         user.setAccount(Money.of(CurrencyUnit.USD, money));
