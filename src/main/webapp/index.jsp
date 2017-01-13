@@ -8,7 +8,7 @@
 <t:template_page tittle="${welcome}">
     <jsp:body>
         <div class="col-sm-12 alert-success">
-        <h1>${welcome}</h1>
+            <h1>${welcome}</h1>
         </div>
         <c:redirect url="${pageContext.request.contextPath}/show.do"/>
     </jsp:body>

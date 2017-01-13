@@ -4,7 +4,7 @@
 <fmt:setBundle basename="lang"/>
 <%@attribute name="messages" required="true" type="java.util.List" %>
 
-<c:forEach items="${messages}"  var="message">
+<c:forEach items="${messages}" var="message">
     <div class="alert alert-info col-md-12 text-center">
         <fmt:message key="${message}"/><br/>
         <br/>

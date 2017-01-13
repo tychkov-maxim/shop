@@ -1,8 +1,8 @@
 <%@tag description="Tag gererates template page" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setBundle basename="lang"/>
-<%@attribute name="tittle" required="true"%>
+<%@attribute name="tittle" required="true" %>
 
 <c:set var="role" value="${sessionScope.user.role}"/>
 
@@ -23,10 +23,13 @@
         <h1>Online Store</h1>
     </div>
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><fmt:message key="change.lang"/> <span class="caret"></span></button>
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><fmt:message key="change.lang"/> <span
+                class="caret"></span></button>
         <ul class="dropdown-menu" role="menu">
-            <li onclick="$.get('${pageContext.request.contextPath}/lang.do?language=en');location.reload();"><a>en</a></li>
-            <li onclick="$.get('${pageContext.request.contextPath}/lang.do?language=ru');location.reload();"><a>ru</a></li>
+            <li onclick="$.get('${pageContext.request.contextPath}/lang.do?language=en');location.reload();"><a>en</a>
+            </li>
+            <li onclick="$.get('${pageContext.request.contextPath}/lang.do?language=ru');location.reload();"><a>ru</a>
+            </li>
         </ul>
     </div>
 </div>
@@ -46,18 +49,23 @@
                 <li><a href="${pageContext.request.contextPath}/show.do"><fmt:message key="products"/></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="" data-toggle="modal" data-target="#cart"><span class="glyphicon glyphicon-shopping-cart"></span>
-                    <fmt:message key="cart"/> <c:if test="${(not empty cart) && (cart.size > 0)}"><span class="badge">${cart.size}</span></c:if>
+                <li><a href="" data-toggle="modal" data-target="#cart"><span
+                        class="glyphicon glyphicon-shopping-cart"></span>
+                    <fmt:message key="cart"/> <c:if test="${(not empty cart) && (cart.size > 0)}"><span
+                            class="badge">${cart.size}</span></c:if>
                 </a></li>
                 <c:if test="${empty role}">
-                <li><a href="" data-toggle="modal" data-target="#auth"><span class="glyphicon glyphicon-user"></span>
-                    <fmt:message key="your.account"/> </a></li>
+                    <li><a href="" data-toggle="modal" data-target="#auth"><span
+                            class="glyphicon glyphicon-user"></span>
+                        <fmt:message key="your.account"/> </a></li>
                 </c:if>
                 <c:if test="${not empty role}">
-                    <li><a href="${pageContext.request.contextPath}/profile.do"><span class="glyphicon glyphicon-user"></span>
-                    ${sessionScope.user.firstName}</a></li>
-                    <li><a href="${pageContext.request.contextPath}/logout.do"><span class="glyphicon glyphicon-remove"></span>
-                            <fmt:message key="exit"/> </a></li>
+                    <li><a href="${pageContext.request.contextPath}/profile.do"><span
+                            class="glyphicon glyphicon-user"></span>
+                            ${sessionScope.user.firstName}</a></li>
+                    <li><a href="${pageContext.request.contextPath}/logout.do"><span
+                            class="glyphicon glyphicon-remove"></span>
+                        <fmt:message key="exit"/> </a></li>
                 </c:if>
             </ul>
         </div>
@@ -69,7 +77,6 @@
 
 <jsp:include page="/WEB-INF/jsp/authorization.jsp"/>
 <jsp:include page="/WEB-INF/jsp/cart.jsp"/>
-
 
 
 <footer class="container-fluid text-center">
