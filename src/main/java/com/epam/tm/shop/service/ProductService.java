@@ -11,33 +11,33 @@ public class ProductService {
         try (DaoFactory factory = DaoFactory.createFactory()) {
             ProductDao productDao = factory.getProductDao();
             return productDao.findById(id);
-        } catch (DaoException  e) {
+        } catch (DaoException e) {
             throw new ServiceException(e);
-        } catch (DaoNoDataException e){
+        } catch (DaoNoDataException e) {
             throw new ServiceNoDataException(e);
         }
     }
 
-    public List<Product> getProductsByCategoryWithPagination(String category,int offset,int limit) throws ServiceException, ServiceNoDataException {
+    public List<Product> getProductsByCategoryWithPagination(String category, int offset, int limit) throws ServiceException, ServiceNoDataException {
 
         try (DaoFactory factory = DaoFactory.createFactory()) {
             ProductDao productDao = factory.getProductDao();
-            return productDao.findProductsByCategoryWithPagination(category,offset,limit);
-        } catch (DaoException  e) {
+            return productDao.findProductsByCategoryWithPagination(category, offset, limit);
+        } catch (DaoException e) {
             throw new ServiceException(e);
-        } catch (DaoNoDataException e){
+        } catch (DaoNoDataException e) {
             throw new ServiceNoDataException(e);
         }
     }
 
-    public List<Product> getProductsWithPagination(int offset,int limit) throws ServiceException, ServiceNoDataException {
+    public List<Product> getProductsWithPagination(int offset, int limit) throws ServiceException, ServiceNoDataException {
 
         try (DaoFactory factory = DaoFactory.createFactory()) {
             ProductDao productDao = factory.getProductDao();
-            return productDao.findAllProductsWithPagination(offset,limit);
-        } catch (DaoException  e) {
+            return productDao.findAllProductsWithPagination(offset, limit);
+        } catch (DaoException e) {
             throw new ServiceException(e);
-        } catch (DaoNoDataException e){
+        } catch (DaoNoDataException e) {
             throw new ServiceNoDataException(e);
         }
     }
@@ -46,9 +46,9 @@ public class ProductService {
         try (DaoFactory factory = DaoFactory.createFactory()) {
             ProductDao productDao = factory.getProductDao();
             return productDao.save(product);
-        } catch (DaoException  e) {
+        } catch (DaoException e) {
             throw new ServiceException(e);
-        } catch (DaoNonUniqueFieldException e){
+        } catch (DaoNonUniqueFieldException e) {
             throw new ServiceNonUniqueFieldException(e);
         }
     }

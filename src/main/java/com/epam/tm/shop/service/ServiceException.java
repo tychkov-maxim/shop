@@ -1,7 +1,7 @@
 package com.epam.tm.shop.service;
 
 
-public class ServiceException extends Exception{
+public class ServiceException extends Exception {
     public ServiceException(String message) {
         super(message);
     }

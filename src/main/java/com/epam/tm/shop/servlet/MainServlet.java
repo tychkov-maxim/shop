@@ -1,6 +1,9 @@
 package com.epam.tm.shop.servlet;
 
-import com.epam.tm.shop.action.*;
+import com.epam.tm.shop.action.Action;
+import com.epam.tm.shop.action.ActionException;
+import com.epam.tm.shop.action.ActionFactory;
+import com.epam.tm.shop.action.ActionFactoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,9 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.jstl.core.Config;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 @WebServlet(value = "*.do")
 @MultipartConfig
@@ -38,31 +39,30 @@ public class MainServlet extends HttpServlet {
     }
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException  {
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String requestURI = req.getRequestURI();
         int startIndex = requestURI.lastIndexOf(START_URL);
         int endIndex = requestURI.lastIndexOf(END_URL);
-        String actionName = requestURI.substring(startIndex+1,endIndex);
+        String actionName = requestURI.substring(startIndex + 1, endIndex);
 
 
         try {
             Action action = actionFactory.getAction(actionName);
             String result = action.execute(req, resp);
 
-            if (result.startsWith(REDIRECT)){
+            if (result.startsWith(REDIRECT)) {
                 resp.sendRedirect(req.getContextPath() + result.substring(REDIRECT.length()));
-            }else{
-                req.getRequestDispatcher(VIEW_PATH + result + VIEW_EXTENSION).forward(req,resp);
+            } else {
+                req.getRequestDispatcher(VIEW_PATH + result + VIEW_EXTENSION).forward(req, resp);
             }
 
         } catch (ActionFactoryException | ActionException e) {
-            log.error("Error was occurred",e);
+            log.error("Error was occurred", e);
             throw new ServletException(e);
         }
 
 
     }
-
 
 
 }

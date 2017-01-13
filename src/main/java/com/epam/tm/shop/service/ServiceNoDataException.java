@@ -1,6 +1,6 @@
 package com.epam.tm.shop.service;
 
-public class ServiceNoDataException  extends Exception{
+public class ServiceNoDataException extends Exception {
     public ServiceNoDataException(String message) {
         super(message);
     }

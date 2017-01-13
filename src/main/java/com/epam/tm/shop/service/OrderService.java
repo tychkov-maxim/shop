@@ -1,7 +1,6 @@
 package com.epam.tm.shop.service;
 
 import com.epam.tm.shop.dao.*;
-import com.epam.tm.shop.dao.jdbc.JdbcNonUniqueFieldException;
 import com.epam.tm.shop.entity.Cart;
 import com.epam.tm.shop.entity.Order;
 import com.epam.tm.shop.entity.OrderStatus;
@@ -49,7 +48,7 @@ public class OrderService {
 
             User user = userDao.findById(order.getUser().getId());
             Money userAccount = user.getAccount();
-            if (userAccount.isLessThan(order.getTotal())){
+            if (userAccount.isLessThan(order.getTotal())) {
                 throw new ServiceExceptionError(NOT_ENOUGH_MONEY_ERROR);
             } else {
                 Money balance = userAccount.minus(order.getTotal());
@@ -71,29 +70,30 @@ public class OrderService {
     }
 
     // FIXME: 11.01.2017 fix N+! and add pagination
-    public List<Order> getUserOrdersByOrderStatus(int userId ,OrderStatus orderStatus) throws ServiceException, ServiceNoDataException {
+    public List<Order> getUserOrdersByOrderStatus(int userId, OrderStatus orderStatus) throws ServiceException, ServiceNoDataException {
         try (DaoFactory factory = DaoFactory.createFactory()) {
 
             OrderDao orderDao = factory.getOrderDao();
             UserDao userDao = factory.getUserDao();
 
-            List<Order> allOrdersByStatus = orderDao.findUserOrdersByStatus(userId,orderStatus);
+            List<Order> allOrdersByStatus = orderDao.findUserOrdersByStatus(userId, orderStatus);
             User user = userDao.findById(userId);
 
             CartService cartService = new CartService();
             for (Order order : allOrdersByStatus) {
-               order.setUser(user);
+                order.setUser(user);
                 Cart cartById = cartService.getCartById(order.getCart().getId());
                 order.setCart(cartById);
             }
             return allOrdersByStatus;
         } catch (DaoException e) {
             throw new ServiceException(e);
-        } catch (DaoNoDataException e){
+        } catch (DaoNoDataException e) {
             throw new ServiceNoDataException(e);
         }
 
     }
+
     // FIXME: 11.01.2017 fix N+! and add pagination
     public List<Order> getAllOrdersByOrderStatus(OrderStatus orderStatus) throws ServiceException, ServiceNoDataException {
         try (DaoFactory factory = DaoFactory.createFactory()) {
@@ -107,7 +107,7 @@ public class OrderService {
             CartService cartService = new CartService();
             for (Order order : allOrdersByStatus) {
                 for (User user : allUsersByOrderStatus) {
-                    if (order.getUser().getId().equals(user.getId())){
+                    if (order.getUser().getId().equals(user.getId())) {
                         order.setUser(user);
                         break;
                     }
@@ -120,7 +120,7 @@ public class OrderService {
             return allOrdersByStatus;
         } catch (DaoException e) {
             throw new ServiceException(e);
-        } catch (DaoNoDataException e){
+        } catch (DaoNoDataException e) {
             throw new ServiceNoDataException(e);
         }
 
@@ -136,7 +136,7 @@ public class OrderService {
             return orderDao.save(order);
         } catch (DaoException | DaoNonUniqueFieldException e) {
             throw new ServiceException(e);
-        } catch (DaoNoDataException e){
+        } catch (DaoNoDataException e) {
             throw new ServiceNoDataException(e);
         }
 

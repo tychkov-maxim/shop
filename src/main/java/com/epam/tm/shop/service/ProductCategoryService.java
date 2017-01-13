@@ -1,7 +1,6 @@
 package com.epam.tm.shop.service;
 
 import com.epam.tm.shop.dao.*;
-import com.epam.tm.shop.dao.jdbc.JdbcNonUniqueFieldException;
 import com.epam.tm.shop.entity.ProductCategory;
 
 import java.util.List;
@@ -13,7 +12,7 @@ public class ProductCategoryService {
         try (DaoFactory factory = DaoFactory.createFactory()) {
             ProductCategoryDao productCategoryDao = factory.getProductCategoryDao();
             return productCategoryDao.getAllProductCategory();
-        } catch (DaoException  e) {
+        } catch (DaoException e) {
             throw new ServiceException(e);
         } catch (DaoNoDataException e) {
             throw new ServiceNoDataException(e);

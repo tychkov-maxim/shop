@@ -16,7 +16,7 @@ public class UserService {
             return userDao.findByLogin(login);
         } catch (DaoException e) {
             throw new ServiceException(e);
-        } catch (DaoNoDataException e){
+        } catch (DaoNoDataException e) {
             throw new ServiceNoDataException(e);
         }
 
@@ -31,7 +31,7 @@ public class UserService {
             return saveUser(user);
         } catch (ServiceNonUniqueFieldException e) {
             throw new ServiceExceptionError(USER_EXIST_MESSAGE);
-        } catch (HashGeneratorException e){
+        } catch (HashGeneratorException e) {
             throw new ServiceException(e);
         }
     }
@@ -42,7 +42,7 @@ public class UserService {
             return userDao.save(user);
         } catch (DaoException e) {
             throw new ServiceException(e);
-        } catch (DaoNonUniqueFieldException e){
+        } catch (DaoNonUniqueFieldException e) {
             throw new ServiceNonUniqueFieldException(e);
         }
     }
@@ -53,12 +53,11 @@ public class UserService {
             return userDao.findById(id);
         } catch (DaoException e) {
             throw new ServiceException(e);
-        } catch (DaoNoDataException e){
+        } catch (DaoNoDataException e) {
             throw new ServiceNoDataException(e);
         }
 
     }
-
 
 
 }
