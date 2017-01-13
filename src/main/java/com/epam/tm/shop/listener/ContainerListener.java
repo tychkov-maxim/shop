@@ -12,16 +12,17 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionAttributeListener;
+import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
-import javax.servlet.http.HttpSessionBindingEvent;
 
 @WebListener()
 public class ContainerListener implements ServletContextListener,
         HttpSessionListener, HttpSessionAttributeListener {
 
-    private ConnectionPool pool;
     public static final Logger log = LoggerFactory.getLogger(ContainerListener.class);
+    private ConnectionPool pool;
+
     // Public constructor is required by servlet spec
     public ContainerListener() {
     }
@@ -30,7 +31,7 @@ public class ContainerListener implements ServletContextListener,
     // ServletContextListener implementation
     // -------------------------------------------------------
     public void contextInitialized(ServletContextEvent sce) {
-        String url,username,password,driverName;
+        String url, username, password, driverName;
         int maxCon;
         log.info("start to initialize container listener");
         try {
@@ -40,13 +41,13 @@ public class ContainerListener implements ServletContextListener,
             password = manager.getPropertyKey("db.password");
             maxCon = manager.getIntPropertyKey("max.connections");
             driverName = manager.getPropertyKey("db.driverClassName");
-            ConnectionPool pool = new ConnectionPool(url, username, password, maxCon,driverName);
+            ConnectionPool pool = new ConnectionPool(url, username, password, maxCon, driverName);
             JdbcDaoFactory.setPool(pool);
             log.info("connection pool was created successfully");
         } catch (PropertyManagerException e) {
-            log.error("getting properties was failed and connection pool was not created",e);
+            log.error("getting properties was failed and connection pool was not created", e);
         } catch (PoolException e) {
-            log.error("creating connection pool was failed",e);
+            log.error("creating connection pool was failed", e);
         }
 
     }

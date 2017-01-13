@@ -2,7 +2,7 @@ package com.epam.tm.shop.entity;
 
 import org.joda.money.Money;
 
-public class User extends BaseEntity{
+public class User extends BaseEntity {
     private String firstName;
     private String lastName;
     private String login;
@@ -57,12 +57,12 @@ public class User extends BaseEntity{
         this.password = password;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
     public Role getRole() {
         return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public Money getAccount() {

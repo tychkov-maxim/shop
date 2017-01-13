@@ -15,19 +15,18 @@ import java.util.concurrent.TimeUnit;
 public class ConnectionPool {
 
 
+    private static final long TIME_OUT = 1000;
+    private static final TimeUnit TIME_UNIT = TimeUnit.MILLISECONDS;
+    private static final Logger log = LoggerFactory.getLogger(ConnectionPool.class);
     private String url;
     private String username;
     private String password;
     private int maxCon;
     private String driverName;
-    private static final long TIME_OUT = 1000;
-    private static final TimeUnit TIME_UNIT = TimeUnit.MILLISECONDS;
-
-    private static final Logger log = LoggerFactory.getLogger(ConnectionPool.class);
     private BlockingQueue<PooledConnection> freeConn;
     private int ConnectionCount;
 
-    public ConnectionPool(String url,String username, String password, int maxCon,String driverName) throws PoolException {
+    public ConnectionPool(String url, String username, String password, int maxCon, String driverName) throws PoolException {
 
         this.url = url;
         this.username = username;
@@ -35,12 +34,12 @@ public class ConnectionPool {
         this.maxCon = maxCon;
         this.driverName = driverName;
 
-        freeConn = new ArrayBlockingQueue<>(maxCon,true);
+        freeConn = new ArrayBlockingQueue<>(maxCon, true);
 
         try {
             Class.forName(driverName);
         } catch (ClassNotFoundException e) {
-            throw new PoolException("Can't find jdbc driver",e);
+            throw new PoolException("Can't find jdbc driver", e);
         }
 
         for (int i = 0; i < maxCon; i++) {
@@ -51,9 +50,9 @@ public class ConnectionPool {
     private synchronized PooledConnection newConnection() throws PoolException {
         ConnectionCount++;
         try {
-           return new PooledConnection(DriverManager.getConnection(url, username, password));
+            return new PooledConnection(DriverManager.getConnection(url, username, password));
         } catch (SQLException e) {
-            throw new PoolException("trying to create new connection was failed",e);
+            throw new PoolException("trying to create new connection was failed", e);
         }
     }
 
@@ -61,9 +60,9 @@ public class ConnectionPool {
         PooledConnection connection;
         try {
             connection = freeConn.poll(TIME_OUT, TIME_UNIT);
-            } catch (InterruptedException e) {
-                throw new PoolException("trying to get connection was failed",e);
-            }
+        } catch (InterruptedException e) {
+            throw new PoolException("trying to get connection was failed", e);
+        }
 
         if (connection == null) throw new PoolException("can't find any connections");
 
@@ -72,7 +71,7 @@ public class ConnectionPool {
                 return newConnection();
             }
         } catch (SQLException e) {
-            throw new PoolException("Creating new connection was failed",e);
+            throw new PoolException("Creating new connection was failed", e);
         }
 
         return connection;
@@ -80,16 +79,16 @@ public class ConnectionPool {
 
     public void close() throws PoolException {
 
-            try {
-                for (PooledConnection pooledConnection : freeConn) {
-                    pooledConnection.connection.close();
-                }
-            } catch (SQLException e) {
-                throw new PoolException("closing connection was failed",e);
+        try {
+            for (PooledConnection pooledConnection : freeConn) {
+                pooledConnection.connection.close();
             }
+        } catch (SQLException e) {
+            throw new PoolException("closing connection was failed", e);
+        }
     }
 
-    private class PooledConnection implements Connection{
+    private class PooledConnection implements Connection {
         private Connection connection;
 
         public PooledConnection(Connection connection) {
@@ -97,11 +96,11 @@ public class ConnectionPool {
         }
 
         @Override
-        public void close() throws PooledConnectionException{
+        public void close() throws PooledConnectionException {
             try {
                 freeConn.put(this);
             } catch (InterruptedException e) {
-                throw new PooledConnectionException("trying to put connection to the pool was failed",e);
+                throw new PooledConnectionException("trying to put connection to the pool was failed", e);
             }
         }
 
@@ -116,18 +115,13 @@ public class ConnectionPool {
         }
 
         @Override
-        public void setReadOnly(boolean readOnly) throws SQLException {
-            connection.setReadOnly(readOnly);
-        }
-
-        @Override
         public boolean isReadOnly() throws SQLException {
             return connection.isReadOnly();
         }
 
         @Override
-        public void setCatalog(String catalog) throws SQLException {
-            connection.setCatalog(catalog);
+        public void setReadOnly(boolean readOnly) throws SQLException {
+            connection.setReadOnly(readOnly);
         }
 
         @Override
@@ -136,13 +130,18 @@ public class ConnectionPool {
         }
 
         @Override
-        public void setTransactionIsolation(int level) throws SQLException {
-            connection.setTransactionIsolation(level);
+        public void setCatalog(String catalog) throws SQLException {
+            connection.setCatalog(catalog);
         }
 
         @Override
         public int getTransactionIsolation() throws SQLException {
             return connection.getTransactionIsolation();
+        }
+
+        @Override
+        public void setTransactionIsolation(int level) throws SQLException {
+            connection.setTransactionIsolation(level);
         }
 
         @Override
@@ -181,13 +180,13 @@ public class ConnectionPool {
         }
 
         @Override
-        public void setHoldability(int holdability) throws SQLException {
-            connection.setHoldability(holdability);
+        public int getHoldability() throws SQLException {
+            return connection.getHoldability();
         }
 
         @Override
-        public int getHoldability() throws SQLException {
-            return connection.getHoldability();
+        public void setHoldability(int holdability) throws SQLException {
+            connection.setHoldability(holdability);
         }
 
         @Override
@@ -271,11 +270,6 @@ public class ConnectionPool {
         }
 
         @Override
-        public void setClientInfo(Properties properties) throws SQLClientInfoException {
-            connection.setClientInfo(properties);
-        }
-
-        @Override
         public String getClientInfo(String name) throws SQLException {
             return connection.getClientInfo(name);
         }
@@ -283,6 +277,11 @@ public class ConnectionPool {
         @Override
         public Properties getClientInfo() throws SQLException {
             return connection.getClientInfo();
+        }
+
+        @Override
+        public void setClientInfo(Properties properties) throws SQLClientInfoException {
+            connection.setClientInfo(properties);
         }
 
         @Override
@@ -296,13 +295,13 @@ public class ConnectionPool {
         }
 
         @Override
-        public void setSchema(String schema) throws SQLException {
-            connection.setSchema(schema);
+        public String getSchema() throws SQLException {
+            return connection.getSchema();
         }
 
         @Override
-        public String getSchema() throws SQLException {
-            return connection.getSchema();
+        public void setSchema(String schema) throws SQLException {
+            connection.setSchema(schema);
         }
 
         @Override
@@ -351,13 +350,13 @@ public class ConnectionPool {
         }
 
         @Override
-        public void setAutoCommit(boolean autoCommit) throws SQLException {
-            connection.setAutoCommit(autoCommit);
+        public boolean getAutoCommit() throws SQLException {
+            return connection.getAutoCommit();
         }
 
         @Override
-        public boolean getAutoCommit() throws SQLException {
-            return connection.getAutoCommit();
+        public void setAutoCommit(boolean autoCommit) throws SQLException {
+            connection.setAutoCommit(autoCommit);
         }
 
         @Override

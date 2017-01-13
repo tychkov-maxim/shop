@@ -1,9 +1,6 @@
 package com.epam.tm.shop.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ProductCategory extends BaseEntity{
+public class ProductCategory extends BaseEntity {
 
     private String name;
     private String description;
