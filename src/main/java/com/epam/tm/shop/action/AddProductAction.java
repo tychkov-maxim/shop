@@ -21,7 +21,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-//fixme add more const
+
 public class AddProductAction implements Action {
 
     public static final Logger log = LoggerFactory.getLogger(AddProductAction.class);
@@ -44,12 +44,21 @@ public class AddProductAction implements Action {
     private static final String NOT_CORRECT_IMAGE_MESSAGE = "not.correct.image";
     private static final String NOT_CORRECT_IMAGE_ATTRIBUTE = "imageErrors";
     private static final String PRODUCT_ADDED_SUCCESSFULLY = "product.added";
+    private static final int MAX_SIZE_IMAGE_MB = 5;
+    private static final int ONE_MEGABYTE_BY_BYTES = 1024 * 1024;
+    private static final int BUFFER_SIZE = 1024;
+    private static final String CHECK_IMAGE_EXTENSION_REGEX = ".+[.]jpg$|.+[.]png$";
+    private static final String DOT = ".";
+    private static final String FOLDER_SEPARATOR = "/";
+    private static final String IMAGE_FOLDER = "image";
+    private static final int NO_MORE_DATA_IN_STREAM = -1;
+    private static final int START_OFFSET_IN_THE_DATA = 0;
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
         List<String> errorMessages = new ArrayList<>();
-        List<ProductCategory>  allProductCategory;
+        List<ProductCategory> allProductCategory;
         ProductCategory productCategory = null;
         log.trace("start to add product action");
 
@@ -57,11 +66,11 @@ public class AddProductAction implements Action {
         try {
             log.trace("getting all categories");
             allProductCategory = productCategoryService.getAllProductCategory();
-            log.trace("got category {}",allProductCategory.size());
-            req.setAttribute(ALL_CATEGORY_ATTRIBUTE,allProductCategory);
+            log.trace("got category {}", allProductCategory.size());
+            req.setAttribute(ALL_CATEGORY_ATTRIBUTE, allProductCategory);
         } catch (ServiceException e) {
             throw new ActionException(e);
-        }catch (ServiceNoDataException e) {
+        } catch (ServiceNoDataException e) {
             log.trace("no one category");
             errorMessages.add(NO_ONE_PRODUCT_CATEGORY_ERROR_MESSAGE);
             req.setAttribute(ADD_PRODUCT_ERROR_ATTRIBUTE, errorMessages);
@@ -76,11 +85,11 @@ public class AddProductAction implements Action {
 
         try {
             FormValidator categoryFormValidator = FormValidatorFactory.getFormValidatorByNameOfForm(FORM_NAME_ADD_PRODUCT);
-            if (categoryFormValidator.validate(req)){
-                req.setAttribute(NAME_PREVIOUS_PARAMETER,nameParam);
-                req.setAttribute(DESCRIPTION_PREVIOUS_PARAMETER,descriptionParam);
-                req.setAttribute(CATEGORY_PREVIOUS_PARAMETER,categoryParam);
-                req.setAttribute(PRICE_PREVIOUS_PARAMETER,priceParam);
+            if (categoryFormValidator.validate(req)) {
+                req.setAttribute(NAME_PREVIOUS_PARAMETER, nameParam);
+                req.setAttribute(DESCRIPTION_PREVIOUS_PARAMETER, descriptionParam);
+                req.setAttribute(CATEGORY_PREVIOUS_PARAMETER, categoryParam);
+                req.setAttribute(PRICE_PREVIOUS_PARAMETER, priceParam);
                 log.trace("product form's parameters are not valid");
                 return FORM_NAME;
             }
@@ -95,7 +104,7 @@ public class AddProductAction implements Action {
             }
         }
 
-        if (productCategory == null){
+        if (productCategory == null) {
             log.trace("not right category");
             return FORM_NAME;
         }
@@ -104,20 +113,20 @@ public class AddProductAction implements Action {
         log.trace("start to receive file");
         try {
             Part filePart = req.getPart(IMAGE_PARAMETER);
-            if ((filePart != null) && (filePart.getSize() < 5 * 1024 * 1024)) {
+            if ((filePart != null) && (filePart.getSize() < MAX_SIZE_IMAGE_MB * ONE_MEGABYTE_BY_BYTES)) {
 
                 String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
                 File file;
                 String uniqueFileName;
                 log.trace("fileName = {}, fileSize = {}", fileName, filePart.getSize());
 
-                if (fileName.matches(".+[.]jpg$|.+[.]png$")) {
+                if (fileName.matches(CHECK_IMAGE_EXTENSION_REGEX)) {
 
-                    String extension = fileName.substring(fileName.lastIndexOf("."));
+                    String extension = fileName.substring(fileName.lastIndexOf(DOT));
                     uniqueFileName = getUniqueFileName(extension);
-                    String realPath = req.getServletContext().getRealPath("/");
-                    uniqueFileName = "/" + uniqueFileName;
-                    file = new File(realPath + "image" + uniqueFileName);
+                    String realPath = req.getServletContext().getRealPath(FOLDER_SEPARATOR);
+                    uniqueFileName = FOLDER_SEPARATOR + uniqueFileName;
+                    file = new File(realPath + IMAGE_FOLDER + uniqueFileName);
                 } else {
                     log.trace("file doesn't have jpg or png extension");
                     errorMessages.add(NOT_CORRECT_IMAGE_MESSAGE);
@@ -126,16 +135,16 @@ public class AddProductAction implements Action {
                 }
 
                 log.trace("start to save new product");
-                Product product = new Product(nameParam,descriptionParam,Money.of(CurrencyUnit.USD, Double.parseDouble(priceParam)),productCategory ,uniqueFileName);
+                Product product = new Product(nameParam, descriptionParam, Money.of(CurrencyUnit.USD, Double.parseDouble(priceParam)), productCategory, uniqueFileName);
                 ProductService productService = new ProductService();
 
                 try {
                     Product savedProduct = productService.saveProduct(product);
-                    log.trace("product {} was save successfully",savedProduct.getId());
+                    log.trace("product {} was save successfully", savedProduct.getId());
                 } catch (ServiceException e) {
                     throw new ActionException(e);
                 } catch (ServiceNonUniqueFieldException e) {
-                    log.trace("product {} already exist",product.getName());
+                    log.trace("product {} already exist", product.getName());
                     errorMessages.add(PRODUCT_EXIST_ERROR_MESSAGE);
                     req.setAttribute(ADD_PRODUCT_ERROR_ATTRIBUTE, errorMessages);
                     return FORM_NAME;
@@ -144,9 +153,9 @@ public class AddProductAction implements Action {
                 try (InputStream fileContent = filePart.getInputStream();
                      FileOutputStream fileOutputStream = new FileOutputStream(file)) {
                     int read;
-                    final byte[] bytes = new byte[1024];
-                    while ((read = fileContent.read(bytes)) != -1) {
-                        fileOutputStream.write(bytes, 0, read);
+                    final byte[] bytes = new byte[BUFFER_SIZE];
+                    while ((read = fileContent.read(bytes)) != NO_MORE_DATA_IN_STREAM) {
+                        fileOutputStream.write(bytes, START_OFFSET_IN_THE_DATA, read);
                     }
                     log.trace("file was uploaded");
                 }
@@ -169,10 +178,10 @@ public class AddProductAction implements Action {
         }
 
     }
-    
-    private String getUniqueFileName(String extension){
+
+    private String getUniqueFileName(String extension) {
         UUID id = UUID.randomUUID();
-        return id.toString().replaceAll("-","") + extension;
+        return id.toString().replaceAll("-", "") + extension;
     }
 
 }

@@ -30,15 +30,15 @@ public class AddCategoryAction implements Action {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
-       log.trace("start to add product category action");
+        log.trace("start to add product category action");
         String nameParam = req.getParameter(NAME_PARAMETER);
         String descriptionParam = req.getParameter(DESCRIPTION_PARAMETER);
         List<String> errorMessage = new ArrayList<>();
         try {
             FormValidator categoryFormValidator = FormValidatorFactory.getFormValidatorByNameOfForm(FORM_NAME_ADD_CATEGORY);
-            if (categoryFormValidator.validate(req)){
-                req.setAttribute(NAME_PREVIOUS_PARAMETER,nameParam);
-                req.setAttribute(DESCRIPTION_PREVIOUS_PARAMETER,descriptionParam);
+            if (categoryFormValidator.validate(req)) {
+                req.setAttribute(NAME_PREVIOUS_PARAMETER, nameParam);
+                req.setAttribute(DESCRIPTION_PREVIOUS_PARAMETER, descriptionParam);
                 log.trace("product category form's parameters are not valid");
                 return FORM_NAME;
             }
@@ -47,21 +47,21 @@ public class AddCategoryAction implements Action {
         }
 
 
-        ProductCategory productCategory = new ProductCategory(nameParam,descriptionParam);
+        ProductCategory productCategory = new ProductCategory(nameParam, descriptionParam);
         ProductCategoryService productCategoryService = new ProductCategoryService();
         try {
             ProductCategory savedProductCategory = productCategoryService.saveProductCategory(productCategory);
-            log.trace("product category {} was added successfully",savedProductCategory.getName());
+            log.trace("product category {} was added successfully", savedProductCategory.getName());
             errorMessage.add(PRODUCT_CATEGORY_ADDED_MESSAGE);
-            req.setAttribute(ADD_PRODUCT_CATEGORY_MESSAGES_ATTRIBUTE,errorMessage);
+            req.setAttribute(ADD_PRODUCT_CATEGORY_MESSAGES_ATTRIBUTE, errorMessage);
             return FORM_NAME;
         } catch (ServiceException e) {
             throw new ActionException(e);
         } catch (ServiceNonUniqueFieldException e) {
             errorMessage.add(PRODUCT_CATEGORY_EXIST_ERROR_MESSAGE);
-            req.setAttribute(ADD_PRODUCT_CATEGORY_ERROR_ATTRIBUTE,errorMessage);
-            req.setAttribute(NAME_PREVIOUS_PARAMETER,nameParam);
-            req.setAttribute(DESCRIPTION_PREVIOUS_PARAMETER,descriptionParam);
+            req.setAttribute(ADD_PRODUCT_CATEGORY_ERROR_ATTRIBUTE, errorMessage);
+            req.setAttribute(NAME_PREVIOUS_PARAMETER, nameParam);
+            req.setAttribute(DESCRIPTION_PREVIOUS_PARAMETER, descriptionParam);
         }
 
 
