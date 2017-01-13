@@ -21,7 +21,8 @@ public class ActionFactory {
     public ActionFactory() throws ActionFactoryException {
 
         try {
-            actions = readActions(ACTION_PROPERTIES_FILE_NAME);
+            PropertyManager propertyManager = new PropertyManager(ACTION_PROPERTIES_FILE_NAME);
+            actions = propertyManager.getHashMap();
             log.debug("{} actions was read",actions.size());
         } catch (PropertyManagerException e) {
             throw new ActionFactoryException(e);
@@ -44,17 +45,5 @@ public class ActionFactory {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             throw new ActionFactoryException(e);
         }
-    }
-
-    private Map<String, String> readActions(String fileName) throws PropertyManagerException {
-        Map<String, String> actions = new HashMap<>();
-        PropertyManager propertyManager = new PropertyManager(fileName);
-        Enumeration propertyNames = propertyManager.getPropertyNames();
-        while (propertyNames.hasMoreElements()) {
-            String key = (String) propertyNames.nextElement();
-            String action = propertyManager.getPropertyKey(key);
-            actions.put(key, action);
-        }
-        return actions;
     }
 }

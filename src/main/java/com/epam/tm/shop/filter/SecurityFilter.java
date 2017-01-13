@@ -2,6 +2,8 @@ package com.epam.tm.shop.filter;
 
 import com.epam.tm.shop.entity.Role;
 import com.epam.tm.shop.entity.User;
+import com.epam.tm.shop.util.PropertyManager;
+import com.epam.tm.shop.util.PropertyManagerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +23,11 @@ public class SecurityFilter implements Filter {
     private static final String ATTRIBUTE_SESSION_USER_NAME = "user";
     private static final String END_URL = ".do";
     private static final String START_URL = "/";
+    private static final String ACTION_SECURITY_PROPERTIES_FILE_NAME = "security.properties";
+    private static final String ADMIN_PREFIX = "admin";
+    private static final String USER_PREFIX = "user";
+    private static final String ANONYMOUS_PREFIX = "anon";
+
 
     private List<String> userActions;
     private List<String> anonActions;
@@ -28,53 +35,16 @@ public class SecurityFilter implements Filter {
 
     public void destroy() {
     }
-//// FIXME: 11.01.2017 move it to property
     public void init(FilterConfig config) throws ServletException {
 
-        userActions = new ArrayList<>();
-        anonActions = new ArrayList<>();
-        adminActions = new ArrayList<>();
-
-        anonActions.add("login");
-        anonActions.add("register");
-        anonActions.add("show");
-        anonActions.add("lang");
-        anonActions.add("product");
-        anonActions.add("cart");
-        anonActions.add("showRegister");
-        anonActions.add("showLogin");
-        anonActions.add("permission");
-
-        userActions.add("logout");
-        userActions.add("show");
-        userActions.add("lang");
-        userActions.add("product");
-        userActions.add("cart");
-        userActions.add("permission");
-        userActions.add("checkout");
-        userActions.add("order");
-        userActions.add("orders");
-        userActions.add("profile");
-        userActions.add("changeStatus");
-
-        adminActions.add("logout");
-        adminActions.add("show");
-        adminActions.add("lang");
-        adminActions.add("product");
-        adminActions.add("cart");
-        adminActions.add("permission");
-        adminActions.add("checkout");
-        adminActions.add("order");
-        adminActions.add("orders");
-        adminActions.add("profile");
-        adminActions.add("changeStatus");
-        adminActions.add("user");
-        adminActions.add("findUser");
-        adminActions.add("addCategory");
-        adminActions.add("addProduct");
-        adminActions.add("products");
-        adminActions.add("category");
-
+        try {
+            PropertyManager propertyManager = new PropertyManager(ACTION_SECURITY_PROPERTIES_FILE_NAME);
+            anonActions = propertyManager.getListWithPrefix(ANONYMOUS_PREFIX);
+            userActions = propertyManager.getListWithPrefix(USER_PREFIX);
+            adminActions = propertyManager.getListWithPrefix(ADMIN_PREFIX);
+        } catch (PropertyManagerException e) {
+            throw new ServletException(e);
+        }
 
         log.debug("Security filter was initialized successfully");
         log.debug("Anonymous has {} actions", anonActions.size());

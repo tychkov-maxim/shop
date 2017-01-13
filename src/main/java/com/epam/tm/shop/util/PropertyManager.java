@@ -5,8 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Enumeration;
-import java.util.Properties;
+import java.util.*;
 
 public class PropertyManager {
     public static final Logger log = LoggerFactory.getLogger(PropertyManager.class);
@@ -20,7 +19,7 @@ public class PropertyManager {
             properties.load(is);
             log.trace("Property file: " + fileName + " was loaded successfully.");
         } catch (IOException e) {
-            throw new PropertyManagerException("Error, unable to load: " + fileName,e);
+            throw new PropertyManagerException("Error, unable to load: " + fileName, e);
         }
     }
 
@@ -28,7 +27,7 @@ public class PropertyManager {
 
         String value = properties.getProperty(key);
 
-        if (value == null){
+        if (value == null) {
             throw new PropertyManagerException("Can not find value with this key: " + key);
         }
 
@@ -36,11 +35,34 @@ public class PropertyManager {
         return value;
     }
 
-    public Enumeration<?> getPropertyNames(){
+    public Enumeration<?> getPropertyNames() {
         return properties.propertyNames();
     }
 
     public int getIntPropertyKey(String key) throws PropertyManagerException {
         return Integer.parseInt(getPropertyKey(key));
+    }
+
+    public Map<String,String> getHashMap() {
+        Map<String, String> map = new HashMap<>();
+        Enumeration<?> enumeration = properties.propertyNames();
+        while (enumeration.hasMoreElements()) {
+            String key = (String) enumeration.nextElement();
+            String value = properties.getProperty(key);
+            map.put(key, value);
+        }
+        return map;
+    }
+
+    public List<String> getListWithPrefix(String prefix) {
+        List<String> list = new ArrayList<>();
+
+        Enumeration<?> enumeration = properties.propertyNames();
+        while (enumeration.hasMoreElements()) {
+            String key = (String) enumeration.nextElement();
+            if (key.startsWith(prefix))
+                list.add(properties.getProperty(key));
+        }
+        return list;
     }
 }
