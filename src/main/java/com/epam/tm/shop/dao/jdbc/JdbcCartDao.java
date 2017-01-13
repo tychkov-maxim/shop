@@ -6,6 +6,7 @@ import com.epam.tm.shop.dao.DaoNoDataException;
 import com.epam.tm.shop.entity.Cart;
 import com.epam.tm.shop.entity.OrderStatus;
 import com.epam.tm.shop.entity.Product;
+import com.epam.tm.shop.util.ConstantHolder;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,6 +28,10 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
     private static final String DELETE_QUERY = "DELETE FROM cart_to_products WHERE cart_id = ?";
 
 
+    private static final String PRODUCT_ID_COLUMN_NAME = "product_id";
+    private static final String QUANTITY_COLUMN_NAME = "quantity";
+    private static final String CART_ID_COLUMN_NAME = "cart_id";
+
     public JdbcCartDao(Connection connection) {
         super(connection);
     }
@@ -41,7 +46,7 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
                 ps.executeUpdate();
                 ResultSet generatedKeys = ps.getGeneratedKeys();
                 if (generatedKeys.next()) {
-                    id.set(generatedKeys.getInt(1));
+                    id.set(generatedKeys.getInt(ConstantHolder.FIRST_INDEX));
                 }
                 ps.close();
                 return insert(entity, id.get());
@@ -59,9 +64,9 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
             ps = connection.prepareStatement(INSERT_QUERY);
 
             for (Map.Entry<Product, Integer> entry : cart.getCart().entrySet()) {
-                ps.setInt(1, id);
-                ps.setInt(2, entry.getKey().getId());
-                ps.setInt(3, entry.getValue());
+                ps.setInt(ConstantHolder.FIRST_INDEX, id);
+                ps.setInt(ConstantHolder.SECOND_INDEX, entry.getKey().getId());
+                ps.setInt(ConstantHolder.THIRD_INDEX, entry.getValue());
                 ps.executeUpdate();
             }
             ps.close();
@@ -113,9 +118,9 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
         try {
             while (rs.next()) {
                 Product product = new Product();
-                product.setId(rs.getInt("product_id"));
-                map.put(product, rs.getInt("quantity"));
-                id = rs.getInt("cart_id");
+                product.setId(rs.getInt(PRODUCT_ID_COLUMN_NAME));
+                map.put(product, rs.getInt(QUANTITY_COLUMN_NAME));
+                id = rs.getInt(CART_ID_COLUMN_NAME);
                 if (oldId != null) {
                     if (!oldId.equals(id)) {
                         cart.setId(id);
@@ -134,7 +139,7 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
         cart.setId(id);
         cart.setCart(map);
 
-        if (cart.getCart().size() == 0)
+        if (cart.getCart().size() == ConstantHolder.EMPTY_LIST_SIZE)
             throw new JdbcNoDataException("no one cart was found");
 
         carts.add(cart);

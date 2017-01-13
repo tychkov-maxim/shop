@@ -65,7 +65,7 @@
                                     </div>
                                 </div>
                             </c:if>
-                            <c:if test="${(param.status == 'all') && (role.id == 3)}">
+                            <c:if test="${(param.status == 'all')}">
                                 <div class="panel-footer ">
                                     <div>
                                         <a href="${pageContext.request.contextPath}/changeStatus.do?order=${order.id}&status=shipping"

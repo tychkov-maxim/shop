@@ -4,6 +4,7 @@ import com.epam.tm.shop.dao.DaoException;
 import com.epam.tm.shop.dao.DaoNoDataException;
 import com.epam.tm.shop.dao.ProductCategoryDao;
 import com.epam.tm.shop.entity.ProductCategory;
+import com.epam.tm.shop.util.ConstantHolder;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,6 +22,10 @@ public class JdbcProductCategory extends JdbcDao<ProductCategory> implements Pro
     private static final String DELETE_QUERY = "DELETE FROM categories WHERE id = ?";
     private static final String SELECT_QUERY_BY_NAME = "SELECT * FROM categories WHERE name = ?";
 
+    private static final String ID_COLUMN_NAME = "id";
+    private static final String NAME_COLUMN_NAME = "name";
+    private static final String DESCRIPTION_COLUMN_NAME = "description";
+
     public JdbcProductCategory(Connection connection) {
         super(connection);
     }
@@ -31,16 +36,16 @@ public class JdbcProductCategory extends JdbcDao<ProductCategory> implements Pro
         try {
             while (rs.next()) {
                 ProductCategory productCategory = new ProductCategory();
-                productCategory.setId(rs.getInt("id"));
-                productCategory.setName(rs.getString("name"));
-                productCategory.setDescription(rs.getString("description"));
+                productCategory.setId(rs.getInt(ID_COLUMN_NAME));
+                productCategory.setName(rs.getString(NAME_COLUMN_NAME));
+                productCategory.setDescription(rs.getString(DESCRIPTION_COLUMN_NAME));
                 productCategories.add(productCategory);
             }
         } catch (SQLException e) {
             throw new JdbcException("creating product category entity from result set was failed", e);
         }
 
-        if (productCategories.size() == 0)
+        if (productCategories.size() == ConstantHolder.EMPTY_LIST_SIZE)
             throw new JdbcNoDataException("no one product category was found");
 
         return productCategories;
@@ -50,12 +55,12 @@ public class JdbcProductCategory extends JdbcDao<ProductCategory> implements Pro
     @Override
     protected void setPsFields(PreparedStatement ps, ProductCategory entity) throws JdbcException {
         try {
-            ps.setString(1, entity.getName());
-            ps.setString(2, entity.getDescription());
+            ps.setString(ConstantHolder.FIRST_INDEX, entity.getName());
+            ps.setString(ConstantHolder.SECOND_INDEX, entity.getDescription());
 
             Integer id = entity.getId();
             if (id != null)
-                ps.setInt(3, entity.getId());
+                ps.setInt(ConstantHolder.THIRD_INDEX, entity.getId());
 
         } catch (SQLException e) {
             throw new JdbcException("set product category entity to ps was failed", e);
@@ -93,7 +98,7 @@ public class JdbcProductCategory extends JdbcDao<ProductCategory> implements Pro
             throw new JdbcException(e);
         }
 
-        return productCategories.get(0);
+        return productCategories.get(ConstantHolder.FIRST_ELEMENT_IN_LIST);
     }
 
     @Override
