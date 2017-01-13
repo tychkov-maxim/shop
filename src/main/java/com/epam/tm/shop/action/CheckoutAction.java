@@ -3,7 +3,6 @@ package com.epam.tm.shop.action;
 import com.epam.tm.shop.entity.Cart;
 import com.epam.tm.shop.entity.User;
 import com.epam.tm.shop.service.ServiceException;
-import com.epam.tm.shop.service.ServiceExceptionError;
 import com.epam.tm.shop.service.ServiceNoDataException;
 import com.epam.tm.shop.service.UserService;
 import org.joda.money.Money;
@@ -52,8 +51,8 @@ public class CheckoutAction implements Action {
             }
         }
 
-    return FORM_NAME;
-}
+        return FORM_NAME;
+    }
 
     private User updateUser(User user) throws ServiceNoDataException, ServiceException {
         UserService userService = new UserService();
