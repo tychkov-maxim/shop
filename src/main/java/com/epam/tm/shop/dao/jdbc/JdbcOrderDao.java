@@ -7,6 +7,7 @@ import com.epam.tm.shop.entity.Cart;
 import com.epam.tm.shop.entity.Order;
 import com.epam.tm.shop.entity.OrderStatus;
 import com.epam.tm.shop.entity.User;
+import com.epam.tm.shop.util.ConstantHolder;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
@@ -24,16 +25,6 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     private static final String DELETE_QUERY = "DELETE FROM orders WHERE id = ?";
     private static final String SELECT_QUERY_BY_STATUS = "SELECT * FROM orders JOIN order_status ON orders.order_status = order_status.id WHERE order_status.id = ?";
     private static final String SELECT_QUERY_USER_BY_STATUS = "SELECT * FROM orders JOIN order_status ON orders.order_status = order_status.id WHERE order_status.id = ? and user_id = ?";
-
-
-    private static final int EMPTY_LIST_SIZE = 0;
-    private static final int FIRST_INDEX = 1;
-    private static final int SECOND_INDEX = 2;
-    private static final int THIRD_INDEX = 3;
-    private static final int FOURTH_INDEX = 4;
-    private static final int FIFTH_INDEX = 5;
-    private static final int SIXTH_INDEX = 6;
-    private static final int SEVENTH_INDEX = 7;
 
 
     private static final String ID_COLUMN_NAME = "id";
@@ -54,16 +45,16 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
     protected void setPsFields(PreparedStatement ps, Order entity) throws JdbcException {
 
         try {
-            ps.setInt(FIRST_INDEX, entity.getCart().getId());
-            ps.setInt(SECOND_INDEX, entity.getUser().getId());
-            ps.setTimestamp(THIRD_INDEX, new Timestamp(entity.getTime().getMillis()));
-            ps.setBigDecimal(FOURTH_INDEX, entity.getTotal().getAmount());
-            ps.setString(FIFTH_INDEX, entity.getTotal().getCurrencyUnit().toString());
-            ps.setInt(SIXTH_INDEX, entity.getStatus().getId());
+            ps.setInt(ConstantHolder.FIRST_INDEX, entity.getCart().getId());
+            ps.setInt(ConstantHolder.SECOND_INDEX, entity.getUser().getId());
+            ps.setTimestamp(ConstantHolder.THIRD_INDEX, new Timestamp(entity.getTime().getMillis()));
+            ps.setBigDecimal(ConstantHolder.FOURTH_INDEX, entity.getTotal().getAmount());
+            ps.setString(ConstantHolder.FIFTH_INDEX, entity.getTotal().getCurrencyUnit().toString());
+            ps.setInt(ConstantHolder.SIXTH_INDEX, entity.getStatus().getId());
 
             Integer id = entity.getId();
             if (id != null)
-                ps.setInt(SEVENTH_INDEX, entity.getId());
+                ps.setInt(ConstantHolder.SEVENTH_INDEX, entity.getId());
 
         } catch (SQLException e) {
             throw new JdbcException("set order entity to ps was failed", e);
@@ -113,7 +104,7 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
             throw new JdbcException("creating order entity from result set was failed", e);
         }
 
-        if (orders.size() == EMPTY_LIST_SIZE)
+        if (orders.size() == ConstantHolder.EMPTY_LIST_SIZE)
             throw new JdbcNoDataException("no one order was found");
 
         return orders;
@@ -129,8 +120,8 @@ public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
         log.trace("start to find user {} orders by status {}", userId, orderStatus.getName());
         try {
             PreparedStatement ps = connection.prepareStatement(SELECT_QUERY_USER_BY_STATUS);
-            ps.setInt(FIRST_INDEX, orderStatus.getId());
-            ps.setInt(SECOND_INDEX, userId);
+            ps.setInt(ConstantHolder.FIRST_INDEX, orderStatus.getId());
+            ps.setInt(ConstantHolder.SECOND_INDEX, userId);
             ResultSet rs = ps.executeQuery();
             List<Order> orders = createEntityFromResultSet(rs);
             ps.close();

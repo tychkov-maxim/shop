@@ -2,6 +2,7 @@ package com.epam.tm.shop.dao.jdbc;
 
 import com.epam.tm.shop.dao.Dao;
 import com.epam.tm.shop.entity.BaseEntity;
+import com.epam.tm.shop.util.ConstantHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,9 +17,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     public static final Logger log = LoggerFactory.getLogger(JdbcDao.class);
     private static final int ERROR_CODE_OF_NON_UNIQUE_FIELD = 23505;
 
-    private static final int FIRST_COLUMN_INDEX = 1;
-    private static final int FIRST_PARAMETER_INDEX = 1;
-    private static final int FIRST_ELEMENT_IN_LIST = 0;
+
 
     protected Connection connection;
 
@@ -45,7 +44,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             ps.executeUpdate();
             ResultSet generatedKeys = ps.getGeneratedKeys();
             if (generatedKeys.next())
-                entity.setId(generatedKeys.getInt(FIRST_COLUMN_INDEX));
+                entity.setId(generatedKeys.getInt(ConstantHolder.FIRST_INDEX));
             ps.close();
 
             log.trace("saving entity {} was finished successfully", entity);
@@ -59,7 +58,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     @Override
     public T findById(int id) throws JdbcException, JdbcNoDataException {
-        return findAllById(id, getSelectQueryById()).get(FIRST_ELEMENT_IN_LIST);
+        return findAllById(id, getSelectQueryById()).get(ConstantHolder.FIRST_ELEMENT_IN_LIST);
     }
 
 
@@ -73,7 +72,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         log.trace("start to delete entity by id {}", id);
         try {
             PreparedStatement ps = connection.prepareStatement(getDeleteQuery());
-            ps.setInt(FIRST_PARAMETER_INDEX, id);
+            ps.setInt(ConstantHolder.FIRST_INDEX, id);
             ps.executeUpdate();
             ps.close();
             log.trace("deleting entity by id {} was finished successfully", id);
@@ -87,7 +86,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         log.trace("start to find entities by parameter {}", key);
         try {
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setString(FIRST_PARAMETER_INDEX, key);
+            ps.setString(ConstantHolder.FIRST_INDEX, key);
             ResultSet rs = ps.executeQuery();
             entities = createEntityFromResultSet(rs);
             ps.close();
@@ -104,7 +103,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         log.trace("start to find entities by id {}", id);
         try {
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setInt(FIRST_PARAMETER_INDEX, id);
+            ps.setInt(ConstantHolder.FIRST_INDEX, id);
             ResultSet rs = ps.executeQuery();
             entities = createEntityFromResultSet(rs);
             ps.close();
