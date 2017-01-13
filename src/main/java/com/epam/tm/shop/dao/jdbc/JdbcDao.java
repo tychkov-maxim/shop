@@ -73,7 +73,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             ps.close();
             log.trace("deleting entity by id {} was finished successfully", id);
         } catch (SQLException e) {
-            throw new JdbcException(MessageFormat.format("deleting entity by id = {} was failed",id),e);
+            throw new JdbcException(MessageFormat.format("deleting entity by id = {0} was failed",id),e);
         }
     }
 
@@ -89,7 +89,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             log.trace("finding entities by parameter: {} was finished successfully", key);
             return entities;
         } catch (SQLException e) {
-            throw new JdbcException(MessageFormat.format("finding entity by parameter = {} was failed",key),e);
+            throw new JdbcException(MessageFormat.format("finding entity by parameter = {0} was failed",key),e);
         }
     }
 
@@ -106,7 +106,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             log.trace("finding entities by id {} was finished successfully", id);
             return entities;
         } catch (SQLException e) {
-            throw new JdbcException(MessageFormat.format("finding entities by id = {} was failed",id),e);
+            throw new JdbcException(MessageFormat.format("finding entities by id = {0} was failed",id),e);
         }
     }
 

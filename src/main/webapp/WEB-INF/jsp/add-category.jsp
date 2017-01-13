@@ -17,6 +17,7 @@
                                 <label class="col-md-4 control-label"></label>
                                 <div class="col-md-4">
                                     <t:get_errors errors="${categoryErrors}"/>
+                                    <t:get_messages messages="${categoryMessages}"/>
                                     <fmt:message key="add.category"/>
                                 </div>
                             </div>
