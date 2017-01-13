@@ -4,7 +4,9 @@ import com.epam.tm.shop.entity.ProductCategory;
 import com.epam.tm.shop.service.ProductCategoryService;
 import com.epam.tm.shop.service.ServiceException;
 import com.epam.tm.shop.service.ServiceNonUniqueFieldException;
-import com.epam.tm.shop.validator.*;
+import com.epam.tm.shop.validator.FormValidator;
+import com.epam.tm.shop.validator.FormValidatorFactory;
+import com.epam.tm.shop.validator.ValidatorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

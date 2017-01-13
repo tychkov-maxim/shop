@@ -42,24 +42,23 @@ public class LoginAction implements Action {
             User user = checkUser(login);
             String hashedPassword = user.getPassword();
             HashGenerator hashGenerator = new MD5Generator();
-            if (!hashGenerator.isHashAndParameterEquals(hashedPassword,password)){
+            if (!hashGenerator.isHashAndParameterEquals(hashedPassword, password)) {
                 errorMessage.add(INCORRECT_PASSWORD);
-                req.setAttribute(LOGIN_ERROR_PARAMETER,errorMessage);
-                log.trace("incorrect password with login {}",user.getLogin());
+                req.setAttribute(LOGIN_ERROR_PARAMETER, errorMessage);
+                log.trace("incorrect password with login {}", user.getLogin());
                 return FORM_NAME;
-            }
-            else {
+            } else {
                 HttpSession session = req.getSession(true);
-                session.setAttribute(ATTRIBUTE_SESSION_USER_NAME,user);
-                log.trace("login success as {} with id {}",user.getLogin(),user.getId());
+                session.setAttribute(ATTRIBUTE_SESSION_USER_NAME, user);
+                log.trace("login success as {} with id {}", user.getLogin(), user.getId());
                 return LOGIN_SUCCESS;
             }
         } catch (ServiceNoDataException e) {
             errorMessage.add(USER_NOT_FOUND);
-            req.setAttribute(LOGIN_ERROR_PARAMETER,errorMessage);
+            req.setAttribute(LOGIN_ERROR_PARAMETER, errorMessage);
             log.trace("User not found with login {}", login);
             return FORM_NAME;
-        } catch (HashGeneratorException e){
+        } catch (HashGeneratorException e) {
             throw new ActionException(e);
         }
 

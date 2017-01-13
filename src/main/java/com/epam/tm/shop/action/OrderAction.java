@@ -39,8 +39,8 @@ public class OrderAction implements Action {
         try {
             Order savedOrder = orderService.makeOrder(order);
             log.trace("order was ordered successfully with id:{}", savedOrder.getId());
-            session.setAttribute(ATTRIBUTE_SESSION_CART_NAME,new Cart());
-            session.setAttribute(ATTRIBUTE_SESSION_USER_NAME,updateUser(user));
+            session.setAttribute(ATTRIBUTE_SESSION_CART_NAME, new Cart());
+            session.setAttribute(ATTRIBUTE_SESSION_USER_NAME, updateUser(user));
             return ROOT_REDIRECT;
         } catch (ServiceException | ServiceNonUniqueFieldException | ServiceNoDataException e) {
             throw new ActionException(e);

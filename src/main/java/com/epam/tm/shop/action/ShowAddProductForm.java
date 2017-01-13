@@ -32,10 +32,10 @@ public class ShowAddProductForm implements Action {
             req.setAttribute(CATEGORIES_ATTRIBUTE, allProductCategory);
         } catch (ServiceException e) {
             throw new ActionException(e);
-        } catch (ServiceNoDataException e){
+        } catch (ServiceNoDataException e) {
             List<String> errorMessage = new ArrayList<>();
             errorMessage.add(NO_ONE_CATEGORY_MESSAGE);
-            req.setAttribute(ADD_PRODUCT_MESSAGE_ATTRIBUTE,errorMessage);
+            req.setAttribute(ADD_PRODUCT_MESSAGE_ATTRIBUTE, errorMessage);
         }
 
 

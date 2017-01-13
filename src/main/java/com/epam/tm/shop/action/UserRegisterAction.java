@@ -4,7 +4,6 @@ import com.epam.tm.shop.entity.Role;
 import com.epam.tm.shop.entity.User;
 import com.epam.tm.shop.service.ServiceException;
 import com.epam.tm.shop.service.ServiceExceptionError;
-import com.epam.tm.shop.service.ServiceNonUniqueFieldException;
 import com.epam.tm.shop.service.UserService;
 import com.epam.tm.shop.validator.FormValidator;
 import com.epam.tm.shop.validator.FormValidatorFactory;
@@ -20,7 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserRegisterAction implements Action{
+public class UserRegisterAction implements Action {
 
     public static final Logger log = LoggerFactory.getLogger(LoginAction.class);
     private static final String FORM_NAME = "register";
@@ -50,10 +49,10 @@ public class UserRegisterAction implements Action{
         try {
             FormValidator registerValidator = FormValidatorFactory.getFormValidatorByNameOfForm(FORM_NAME);
             if (registerValidator.validate(req)) {
-                req.setAttribute(LOGIN_PREVIOUS_VALUE,login);
-                req.setAttribute(FIRST_NAME_PREVIOUS_VALUE,firstName);
-                req.setAttribute(SECOND_NAME_PREVIOUS_VALUE,secondName);
-                req.setAttribute(ADDRESS_PREVIOUS_VALUE,address);
+                req.setAttribute(LOGIN_PREVIOUS_VALUE, login);
+                req.setAttribute(FIRST_NAME_PREVIOUS_VALUE, firstName);
+                req.setAttribute(SECOND_NAME_PREVIOUS_VALUE, secondName);
+                req.setAttribute(ADDRESS_PREVIOUS_VALUE, address);
                 log.trace("register form's parameters are not valid");
                 return FORM_NAME;
             }
@@ -67,16 +66,16 @@ public class UserRegisterAction implements Action{
         List<String> errorMessage = new ArrayList<>();
         try {
             User savedUser = userService.register(user);
-            log.trace("user {} with id {} was registered successfully",savedUser.getLogin(),savedUser.getId());
+            log.trace("user {} with id {} was registered successfully", savedUser.getLogin(), savedUser.getId());
             HttpSession session = req.getSession(true);
-            session.setAttribute(ATTRIBUTE_SESSION_USER_NAME,user);
+            session.setAttribute(ATTRIBUTE_SESSION_USER_NAME, user);
             return REGISTER_SUCCESS;
         } catch (ServiceExceptionError e) {
-            log.trace("user {} already exist",user.getLogin());
+            log.trace("user {} already exist", user.getLogin());
             errorMessage.add(e.getMessage());
-            req.setAttribute(REGISTER_ERROR_PARAMETER,errorMessage);
+            req.setAttribute(REGISTER_ERROR_PARAMETER, errorMessage);
             return FORM_NAME;
-        }catch (ServiceException e) {
+        } catch (ServiceException e) {
             log.trace("user registration was failed");
             throw new ActionException(e);
         }

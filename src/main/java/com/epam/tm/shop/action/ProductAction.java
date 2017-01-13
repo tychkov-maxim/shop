@@ -32,16 +32,16 @@ public class ProductAction implements Action {
         String idParam = req.getParameter(ID_PARAMETER);
         Validator validator = new OnlyNumberValidator();
 
-        if (validator.isValid(idParam)){
-                id = Integer.parseInt(idParam);
-            log.trace("id parameter is valid - {}",id);
+        if (validator.isValid(idParam)) {
+            id = Integer.parseInt(idParam);
+            log.trace("id parameter is valid - {}", id);
             try {
                 Product product = productService.getProductById(id);
-                req.setAttribute(PRODUCT_ATTRIBUTE,product);
+                req.setAttribute(PRODUCT_ATTRIBUTE, product);
                 log.trace("got product {}", product);
             } catch (ServiceNoDataException e) {
                 message.add(NO_ONE_PRODUCT_WITH_ID_MESSAGE);
-                req.setAttribute(PRODUCT_MESSAGE,message);
+                req.setAttribute(PRODUCT_MESSAGE, message);
                 log.trace("couldn't get product");
             } catch (ServiceException e) {
                 throw new ActionException(e);
@@ -49,7 +49,7 @@ public class ProductAction implements Action {
 
         } else {
             message.add(NO_ONE_PRODUCT_WITH_ID_MESSAGE);
-            req.setAttribute(PRODUCT_MESSAGE,message);
+            req.setAttribute(PRODUCT_MESSAGE, message);
             log.trace("id parameter is not valid");
         }
 

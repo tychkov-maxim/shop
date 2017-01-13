@@ -24,11 +24,11 @@ public class ChangeLanguageAction implements Action {
         String language = req.getParameter(LANGUAGE_PARAMETER);
         Validator notEmptyValidator = new NotEmptyParameterValidator();
 
-        if (notEmptyValidator.isValid(language)){
-            log.trace("language parameter is valid - {}",language);
+        if (notEmptyValidator.isValid(language)) {
+            log.trace("language parameter is valid - {}", language);
             if (language.equals(ENGLISH_LOCALE) || language.equals(RUSSIAN_LOCALE)) {
                 Config.set(req.getSession(), Config.FMT_LOCALE, new java.util.Locale(language));
-                log.trace("changed language to {}",language);
+                log.trace("changed language to {}", language);
             }
         }
         return REDIRECT;

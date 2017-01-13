@@ -21,7 +21,7 @@ public class ActionFactory {
         try {
             PropertyManager propertyManager = new PropertyManager(ACTION_PROPERTIES_FILE_NAME);
             actions = propertyManager.getHashMap();
-            log.debug("{} actions was read",actions.size());
+            log.debug("{} actions was read", actions.size());
         } catch (PropertyManagerException e) {
             throw new ActionFactoryException(e);
         }
@@ -38,7 +38,7 @@ public class ActionFactory {
         if (actionClassPath == null) throw new ActionFactoryException("couldn't find action");
         try {
             Class<?> actionClass = Class.forName(actionClassPath);
-            log.trace("{} action was created",actionName);
+            log.trace("{} action was created", actionName);
             return (Action) actionClass.newInstance();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             throw new ActionFactoryException(e);

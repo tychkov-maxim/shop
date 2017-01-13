@@ -47,13 +47,13 @@ public class UserAction implements Action {
             try {
                 User user = userService.getUserByLogin(loginParam);
 
-                String moneyParam  = req.getParameter(USER_MONEY_PARAMETER);
+                String moneyParam = req.getParameter(USER_MONEY_PARAMETER);
                 String adminParam = req.getParameter(USER_ADMIN_PARAMETER);
-                if (onlyNumberValidator.isValid(moneyParam)){
+                if (onlyNumberValidator.isValid(moneyParam)) {
                     int money = Integer.parseInt(moneyParam);
                     user.setAccount(Money.of(CurrencyUnit.USD, money));
                     user = userService.saveUser(user);
-                } else if (notEmptyParameterValidator.isValid(adminParam)){
+                } else if (notEmptyParameterValidator.isValid(adminParam)) {
                     user.setRole(Role.getAdministratorRole());
                     user = userService.saveUser(user);
                 }

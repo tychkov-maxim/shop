@@ -42,7 +42,7 @@ public class CartAction implements Action {
         notEmptyParameterValidator = new NotEmptyParameterValidator();
 
         cart = (Cart) session.getAttribute(CART_ATTRIBUTE_IN_SESSION);
-        if (cart == null){
+        if (cart == null) {
             cart = new Cart();
             log.trace("cart was created");
         }
@@ -91,10 +91,10 @@ public class CartAction implements Action {
                     quantity = DEFAULT_PRODUCT_QUANTITY;
                 }
 
-                    if (quantity > 0) {
-                        cart.addProduct(product, quantity);
-                        log.trace("product {} was added in the amount of {} pieces to cart successfully", product.getName(), quantity);
-                    }
+                if (quantity > 0) {
+                    cart.addProduct(product, quantity);
+                    log.trace("product {} was added in the amount of {} pieces to cart successfully", product.getName(), quantity);
+                }
             } catch (ServiceNoDataException e) {
                 log.trace("It's impossible to add not found product to cart");
             }
@@ -130,7 +130,7 @@ public class CartAction implements Action {
                     quantity = DEFAULT_PRODUCT_QUANTITY;
                 }
 
-                cart.changeQuantity(product,quantity);
+                cart.changeQuantity(product, quantity);
             } catch (ServiceNoDataException e) {
                 log.trace("It's impossible to change quantity not found product from cart");
             }
