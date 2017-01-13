@@ -16,6 +16,10 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     public static final Logger log = LoggerFactory.getLogger(JdbcDao.class);
     private static final int ERROR_CODE_OF_NON_UNIQUE_FIELD = 23505;
 
+    private static final int FIRST_COLUMN_INDEX = 1;
+    private static final int FIRST_PARAMETER_INDEX = 1;
+    private static final int FIRST_ELEMENT_IN_LIST = 0;
+
     protected Connection connection;
 
     public JdbcDao(Connection connection) {
@@ -41,7 +45,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
             ps.executeUpdate();
             ResultSet generatedKeys = ps.getGeneratedKeys();
             if (generatedKeys.next())
-                entity.setId(generatedKeys.getInt(1));
+                entity.setId(generatedKeys.getInt(FIRST_COLUMN_INDEX));
             ps.close();
 
             log.trace("saving entity {} was finished successfully", entity);
@@ -55,7 +59,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
 
     @Override
     public T findById(int id) throws JdbcException, JdbcNoDataException {
-        return findAllById(id, getSelectQueryById()).get(0);
+        return findAllById(id, getSelectQueryById()).get(FIRST_ELEMENT_IN_LIST);
     }
 
 
@@ -69,7 +73,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         log.trace("start to delete entity by id {}", id);
         try {
             PreparedStatement ps = connection.prepareStatement(getDeleteQuery());
-            ps.setInt(1, id);
+            ps.setInt(FIRST_PARAMETER_INDEX, id);
             ps.executeUpdate();
             ps.close();
             log.trace("deleting entity by id {} was finished successfully", id);
@@ -83,7 +87,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         log.trace("start to find entities by parameter {}", key);
         try {
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setString(1, key);
+            ps.setString(FIRST_PARAMETER_INDEX, key);
             ResultSet rs = ps.executeQuery();
             entities = createEntityFromResultSet(rs);
             ps.close();
@@ -100,7 +104,7 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
         log.trace("start to find entities by id {}", id);
         try {
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setInt(1, id);
+            ps.setInt(FIRST_PARAMETER_INDEX, id);
             ResultSet rs = ps.executeQuery();
             entities = createEntityFromResultSet(rs);
             ps.close();
