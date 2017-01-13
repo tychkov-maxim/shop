@@ -31,7 +31,6 @@ public class ChangeOrderStatusAction implements Action {
     private static final String ORDER_STATUS_SHIPPING_PARAMETER = "shipping";
     private static final String ORDER_STATUS_COMPLETED_PARAMETER = "completed";
 
-    // FIXME: 12.01.2017 add logging
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
         log.trace("start to change status action");
@@ -48,6 +47,7 @@ public class ChangeOrderStatusAction implements Action {
         if (notEmptyParameterValidator.isValid(orderStatusParam) && onlyNumberValidator.isValid(orderIdParam)) {
             int orderId = Integer.parseInt(orderIdParam);
             OrderService orderService = new OrderService();
+            log.trace("try to change order status to {} in order {}", orderStatusParam, orderId);
 
             try {
 
@@ -55,12 +55,15 @@ public class ChangeOrderStatusAction implements Action {
                     switch (orderStatusParam) {
                         case ORDER_STATUS_PROCESSING_PARAMETER:
                             orderService.changeOrderStatusById(orderId, OrderStatus.getProcessingStatus());
+                            log.trace("order status was changed successfully");
                             break;
                         case ORDER_STATUS_SHIPPING_PARAMETER:
                             orderService.changeOrderStatusById(orderId, OrderStatus.getShippingStatus());
+                            log.trace("order status was changed successfully");
                             return REDIRECT_PROCESSING;
                         case ORDER_STATUS_COMPLETED_PARAMETER:
                             orderService.changeOrderStatusById(orderId, OrderStatus.getCompletedStatus());
+                            log.trace("order status was changed successfully");
                             break;
                     }
                 }
@@ -69,8 +72,10 @@ public class ChangeOrderStatusAction implements Action {
                     if (orderStatusParam.equals(ORDER_STATUS_COMPLETED_PARAMETER)) {
                         Order order = orderService.getOrderById(orderId);
                         if (order.getStatus().equals(OrderStatus.getShippingStatus()))
-                            if (user.equals(order.getUser()))
+                            if (user.equals(order.getUser())) {
                                 orderService.changeOrderStatusById(orderId, OrderStatus.getCompletedStatus());
+                                log.trace("order status was changed successfully");
+                            }
                     }
                 }
 
