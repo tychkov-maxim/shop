@@ -3,9 +3,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <fmt:setBundle basename="lang"/>
-<c:set value="${sessionScope.user.role}" var="role"/>
+<fmt:message key="tittle.profile" var="tittle"/>
 
-<t:template_page tittle="Online Store">
+<t:template_page tittle="${tittle}">
     <jsp:body>
         <div class="container-fluid">
             <t:get_messages messages="${profileMessages}"/>
@@ -18,35 +18,35 @@
 
                     <c:if test="${empty profileMessages}">
                         <div class="panel panel-primary">
-                            <div class="panel-heading">Info</div>
+                            <div class="panel-heading"><fmt:message key="profile.info"/> </div>
                             <h3>
                                 <div class="panel-body text-center">
-                                    <div> Name: ${user.firstName}</div>
+                                    <div> <fmt:message key="profile.name"/> ${user.firstName}</div>
                                 </div>
                                 <div class="panel-body text-center">
-                                    <div> Last name: ${user.lastName}</div>
+                                    <div> <fmt:message key="profile.last.name"/> ${user.lastName}</div>
                                 </div>
                                 <div class="panel-body text-center">
-                                    <div> Login: ${user.login}</div>
+                                    <div> <fmt:message key="profile.login"/> ${user.login}</div>
                                 </div>
                                 <div class="panel-body text-center">
-                                    <div> Role: ${user.role.name}</div>
+                                    <div> <fmt:message key="profile.role"/> ${user.role.name}</div>
                                 </div>
                                 <div class="panel-body text-center">
-                                    <div> Account: ${user.account}</div>
+                                    <div> <fmt:message key="profile.acount"/> ${user.account}</div>
                                 </div>
                                 <div class="panel-body text-center">
-                                    <div> Address: ${user.address}</div>
+                                    <div> <fmt:message key="profile.address"/> ${user.address}</div>
                                 </div>
                             </h3>
                             <c:if test="${not empty requestScope.user}">
                                 <div class="panel-footer" align="center">
-                                    <a href="${pageContext.request.contextPath}/user.do?login=${user.login}&admin=true" class="btn btn-success" role="button">Повысить до одмена</a>
+                                    <a href="${pageContext.request.contextPath}/user.do?login=${user.login}&admin=true" class="btn btn-success" role="button"><fmt:message key="promote.admin"/></a>
                                     <br/>
                                     <br/>
 
                                     <form class="form-inline" method="get" action="${pageContext.request.contextPath}/user.do">
-                                        <button type="submit" class="btn btn-primary">Изменить счет</button>
+                                        <button type="submit" class="btn btn-primary"><fmt:message key="change.account"/></button>
                                         <input type="number" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" name="money">
                                         <input type="hidden" name="login" value="${user.login}">
                                     </form>

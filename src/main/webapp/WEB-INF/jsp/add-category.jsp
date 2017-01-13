@@ -4,7 +4,7 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <fmt:setBundle basename="lang"/>
 
-<fmt:message key="tittle.register" var="tittle"/>
+<fmt:message key="tittle.add.category" var="tittle"/>
 
 <t:template_page tittle="${tittle}">
     <jsp:body>

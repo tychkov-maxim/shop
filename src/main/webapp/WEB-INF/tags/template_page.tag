@@ -23,7 +23,7 @@
         <h1>Online Store</h1>
     </div>
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">Change language<span class="caret"></span></button>
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><fmt:message key="change.lang"/> <span class="caret"></span></button>
         <ul class="dropdown-menu" role="menu">
             <li onclick="$.get('${pageContext.request.contextPath}/lang.do?language=en');location.reload();"><a>en</a></li>
             <li onclick="$.get('${pageContext.request.contextPath}/lang.do?language=ru');location.reload();"><a>ru</a></li>
@@ -42,21 +42,22 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li><a href="${pageContext.request.contextPath}/profile.do">Home</a></li>
-                <li><a href="${pageContext.request.contextPath}/show.do">Products</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="${pageContext.request.contextPath}/orders.do"><fmt:message key="my.orders"/></a></li>
+                <li><a href="${pageContext.request.contextPath}/show.do"><fmt:message key="products"/></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="" data-toggle="modal" data-target="#cart"><span class="glyphicon glyphicon-shopping-cart"></span>
-                    Cart <c:if test="${(not empty cart) && (cart.size > 0)}"><span class="badge">${cart.size}</span></c:if>
+                    <fmt:message key="cart"/> <c:if test="${(not empty cart) && (cart.size > 0)}"><span class="badge">${cart.size}</span></c:if>
                 </a></li>
                 <c:if test="${empty role}">
                 <li><a href="" data-toggle="modal" data-target="#auth"><span class="glyphicon glyphicon-user"></span>
-                    Your Account</a></li>
+                    <fmt:message key="your.account"/> </a></li>
                 </c:if>
                 <c:if test="${not empty role}">
-                    <li><a href="${pageContext.request.contextPath}/logout.do"><span class="glyphicon glyphicon-user"></span>
+                    <li><a href="${pageContext.request.contextPath}/profile.do"><span class="glyphicon glyphicon-user"></span>
                     ${sessionScope.user.firstName}</a></li>
+                    <li><a href="${pageContext.request.contextPath}/logout.do"><span class="glyphicon glyphicon-remove"></span>
+                            <fmt:message key="exit"/> </a></li>
                 </c:if>
             </ul>
         </div>

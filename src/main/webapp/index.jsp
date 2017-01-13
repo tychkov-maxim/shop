@@ -4,10 +4,12 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <fmt:setBundle basename="lang"/>
 
-<t:template_page tittle="OnlineStore">
+<fmt:message key="welcome" var="welcome"/>
+<t:template_page tittle="${welcome}">
     <jsp:body>
         <div class="col-sm-12 alert-success">
-        <h1><fmt:message key="welcome"/></h1>
+        <h1>${welcome}</h1>
         </div>
+        <c:redirect url="${pageContext.request.contextPath}/show.do"/>
     </jsp:body>
 </t:template_page>

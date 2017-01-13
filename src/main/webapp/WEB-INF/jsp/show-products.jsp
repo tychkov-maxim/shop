@@ -5,7 +5,9 @@
 <fmt:setBundle basename="lang"/>
 <c:set var="productsInRow" value="4"/>
 
-<t:template_page tittle="Online Store">
+<fmt:message key="products" var="tittle"/>
+
+<t:template_page tittle="${tittle}">
     <jsp:body>
         <div class="container-fluid">
             <t:get_messages messages="${productsMessage}"/>
@@ -50,12 +52,12 @@
             <ul class="pager">
                 <c:if test="${not empty previousPage}">
                     <li>
-                        <a href="${pageContext.request.contextPath}/show.do?page=${previousPage}&category=${param.category}">Previous</a>
+                        <a href="${pageContext.request.contextPath}/show.do?page=${previousPage}&category=${param.category}"><fmt:message key="previous"/> </a>
                     </li>
                 </c:if>
                 <c:if test="${not empty nextPage}">
                     <li>
-                        <a href="${pageContext.request.contextPath}/show.do?page=${nextPage}&category=${param.category}">Next</a>
+                        <a href="${pageContext.request.contextPath}/show.do?page=${nextPage}&category=${param.category}"><fmt:message key="next"/></a>
                     </li>
                 </c:if>
             </ul>

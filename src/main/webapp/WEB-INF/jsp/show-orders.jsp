@@ -3,9 +3,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <fmt:setBundle basename="lang"/>
-<c:set value="${sessionScope.user.role}" var="role"/>
+<fmt:message key="tittle.orders" var="tittle"/>
 
-<t:template_page tittle="Online Store">
+<t:template_page tittle="${tittle}">
     <jsp:body>
         <div class="container-fluid">
         <t:get_messages messages="${ordersMessages}"/>
@@ -18,8 +18,8 @@
                 <c:forEach items="${Orders}" var="order">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <div class="text-left">Код заказа: ${order.id}</div>
-                            <c:if test="${param.status == 'all'}"> <div class="text-left">Пользователь: ${order.user.login}</div></c:if>
+                            <div class="text-left"><fmt:message key="order.code"/> ${order.id}</div>
+                            <c:if test="${param.status == 'all'}"> <div class="text-left"><fmt:message key="user"/> ${order.user.login}</div></c:if>
                         </div>
                         <div class="panel-body">
                             <c:forEach items="${order.cart.cart}" var="cartEntrySet">
@@ -52,16 +52,16 @@
                                 <hr>
 
                             </c:forEach>
-                            <div class="text-right"><strong>Total: ${order.total}</strong></div>
+                            <div class="text-right"><strong><fmt:message key="cart.total"/> ${order.total}</strong></div>
                         </div>
                         <c:if test="${param.status == 'shipping'}">
                         <div class="panel-footer ">
-                            <div><a href="${pageContext.request.contextPath}/changeStatus.do?order=${order.id}&status=completed" class="btn btn-primary" role="button">Получил</a></div>
+                            <div><a href="${pageContext.request.contextPath}/changeStatus.do?order=${order.id}&status=completed" class="btn btn-primary" role="button"><fmt:message key="order.got"/></a></div>
                         </div>
                         </c:if>
                         <c:if test="${(param.status == 'all') && (role.id == 3)}">
                             <div class="panel-footer ">
-                                <div><a href="${pageContext.request.contextPath}/changeStatus.do?order=${order.id}&status=shipping" class="btn btn-primary" role="button">Отправить заказ</a></div>
+                                <div><a href="${pageContext.request.contextPath}/changeStatus.do?order=${order.id}&status=shipping" class="btn btn-primary" role="button"><fmt:message key="order.send"/></a></div>
                             </div>
                         </c:if>
                     </div>
