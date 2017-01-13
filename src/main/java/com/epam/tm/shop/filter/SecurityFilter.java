@@ -35,6 +35,7 @@ public class SecurityFilter implements Filter {
 
     public void destroy() {
     }
+
     public void init(FilterConfig config) throws ServletException {
 
         try {
@@ -63,7 +64,7 @@ public class SecurityFilter implements Filter {
         String requestURI = request.getRequestURI();
         int startIndex = requestURI.lastIndexOf(START_URL);
         int endIndex = requestURI.lastIndexOf(END_URL);
-        String actionName = requestURI.substring(startIndex+1,endIndex);
+        String actionName = requestURI.substring(startIndex + 1, endIndex);
 
         Role role;
         if (user == null) {
@@ -73,7 +74,7 @@ public class SecurityFilter implements Filter {
 
 
         if (!hasRights(role, actionName)) {
-            log.trace("user permission error, role = {} want to get {}",role,actionName);
+            log.trace("user permission error, role = {} want to get {}", role, actionName);
             response.sendRedirect(request.getContextPath() + "/permission.do");
             return;
         }
@@ -82,17 +83,16 @@ public class SecurityFilter implements Filter {
     }
 
 
-
     private boolean hasRights(Role role, String actionName) {
         List<String> availableActions = new ArrayList<>();
 
-       if (role.equals(Role.getAdministratorRole())) {
-           availableActions = adminActions;
-       } else if (role.equals(Role.getUserRole())){
-           availableActions = userActions;
-       } else if (role.equals(Role.getAnonymousRole())){
-           availableActions = anonActions;
-       }
+        if (role.equals(Role.getAdministratorRole())) {
+            availableActions = adminActions;
+        } else if (role.equals(Role.getUserRole())) {
+            availableActions = userActions;
+        } else if (role.equals(Role.getAnonymousRole())) {
+            availableActions = anonActions;
+        }
 
         return availableActions.contains(actionName);
     }

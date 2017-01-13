@@ -50,9 +50,6 @@ public class Main {
             System.out.println("==========================");
             System.out.println(ordersByOrderStatu.getTime().toDate());
         }*/
-        HashGenerator hashGenerator = new MD5Generator();
-        String hashedPassword = hashGenerator.generateHashByString("asd");
-        System.out.println(hashedPassword);
 
     }
 
