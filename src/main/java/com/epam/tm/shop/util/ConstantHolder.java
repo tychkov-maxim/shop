@@ -10,4 +10,6 @@ public class ConstantHolder {
     public static final int FIFTH_INDEX = 5;
     public static final int SIXTH_INDEX = 6;
     public static final int SEVENTH_INDEX = 7;
+    public static final int EIGHTH_INDEX = 8;
+    public static final int NINTH_INDEX = 9;
 }
