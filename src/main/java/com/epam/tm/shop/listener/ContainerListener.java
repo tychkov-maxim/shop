@@ -41,6 +41,11 @@ public class ContainerListener implements ServletContextListener,
             password = manager.getPropertyKey("db.password");
             maxCon = manager.getIntPropertyKey("max.connections");
             driverName = manager.getPropertyKey("db.driverClassName");
+            log.debug("url : {}",url);
+            log.debug("username : {}",username);
+            log.debug("password : {}",password);
+            log.debug("maxCon : {}",maxCon);
+            log.debug("driverName : {}",driverName);
             ConnectionPool pool = new ConnectionPool(url, username, password, maxCon, driverName);
             JdbcDaoFactory.setPool(pool);
             log.info("connection pool was created successfully");
