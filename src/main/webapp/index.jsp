@@ -10,6 +10,6 @@
         <div class="col-sm-12 alert-success">
             <h1>${welcome}</h1>
         </div>
-        <c:redirect url="${pageContext.request.contextPath}/show.do"/>
+        <c:redirect url="/show.do"/>
     </jsp:body>
 </t:template_page>

@@ -45,6 +45,9 @@
                                 </div>
                                 <hr>
                             </c:forEach>
+                                <div class="panel-body" align="center">
+                                    <h4 class="text-left"><fmt:message key="delivery.address"/>${user.address}</h4>
+                                </div>
                         </div>
                         <div class="panel-footer">
                             <div class="row text-center">
