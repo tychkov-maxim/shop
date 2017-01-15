@@ -7,7 +7,7 @@
 <fmt:message key="tittle.error" var="tittle"/>
 <t:template_page tittle="${tittle}">
     <jsp:body>
-        <div class="col-sm-12 alert-success">
+        <div class="col-sm-12 alert-alert text-center">
             <h1><fmt:message key="error.occured"/></h1>
         </div>
     </jsp:body>

@@ -69,7 +69,6 @@ public class OrderService {
         }
     }
 
-    // FIXME: 11.01.2017 fix N+! and add pagination
     public List<Order> getUserOrdersByOrderStatus(int userId, OrderStatus orderStatus) throws ServiceException, ServiceNoDataException {
         try (DaoFactory factory = DaoFactory.createFactory()) {
 
@@ -94,7 +93,6 @@ public class OrderService {
 
     }
 
-    // FIXME: 11.01.2017 fix N+! and add pagination
     public List<Order> getAllOrdersByOrderStatus(OrderStatus orderStatus) throws ServiceException, ServiceNoDataException {
         try (DaoFactory factory = DaoFactory.createFactory()) {
 
