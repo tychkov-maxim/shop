@@ -26,7 +26,7 @@ public class JdbcUserDao extends JdbcDao<User> implements UserDao {
     private static final String SELECT_QUERY = "SELECT * FROM users JOIN roles ON users.role = roles.id WHERE users.id = ?";
     private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?";
     private static final String SELECT_QUERY_BY_LOGIN = "SELECT * FROM users JOIN roles ON users.role = roles.id WHERE users.login = ?";
-    private static final String SELECT_QUERY_BY_ORDER_STATUS = "SELECT * FROM users JOIN roles ON users.role = roles.id JOIN orders on users.id = orders.user_id WHERE orders.order_status = ?";
+    private static final String SELECT_QUERY_BY_ORDER_STATUS = "SELECT * FROM users JOIN roles ON users.role = roles.id WHERE users.id IN (SELECT orders.user_id FROM orders where order_status = ?)";
 
     private static final String ID_COLUMN_NAME = "id";
     private static final String LOGIN_COLUMN_NAME = "login";

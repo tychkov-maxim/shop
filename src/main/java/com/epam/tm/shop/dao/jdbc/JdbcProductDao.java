@@ -25,23 +25,11 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao {
     private static final String UPDATE_QUERY = "UPDATE products SET name = ?, description = ?, price = ?, price_unit = ?, category_id = ?, image_path = ? WHERE id = ?";
     private static final String SELECT_QUERY = "SELECT * FROM products JOIN categories ON products.category_id = categories.id WHERE products.id = ?";
     private static final String DELETE_QUERY = "DELETE FROM products WHERE id = ?";
-    private static final String SELECT_QUERY_BY_CART_ID = "SELECT * FROM cart_to_products " +
-            "JOIN products ON cart_to_products.product_id = products.id " +
-            "JOIN categories ON products.category_id = categories.id where cart_id = ?";
+    private static final String SELECT_QUERY_BY_CART_ID = "SELECT * FROM products JOIN categories ON products.category_id = categories.id WHERE products.id IN (SELECT product_id FROM cart_to_products WHERE cart_id = ?)";
     private static final String SELECT_QUERY_BY_CATEGORY = "SELECT * FROM products JOIN categories ON products.category_id = categories.id WHERE categories.name = ?";
     private static final String SELECT_ALL_PRODUCTS = "SELECT * FROM products JOIN categories ON products.category_id = categories.id";
-    private static final String SELECT_USER_PRODUCTS_BY_ORDER_STATUS = "SELECT *\n" +
-            "FROM products\n" +
-            "  JOIN categories ON products.category_id = categories.id\n" +
-            "WHERE products.id IN (SELECT product_id\n" +
-            "                      FROM cart_to_products\n" +
-            "                      WHERE cart_id IN (SELECT cart_id from orders where order_status = ? AND user_id = ?))";
-    private static final String SELECT_ALL_PRODUCTS_BY_ORDER_STATUS = "SELECT *\n" +
-            "FROM products\n" +
-            "  JOIN categories ON products.category_id = categories.id\n" +
-            "WHERE products.id IN (SELECT product_id\n" +
-            "                      FROM cart_to_products\n" +
-            "                      WHERE cart_id IN (SELECT cart_id from orders where order_status = ?))";
+    private static final String SELECT_USER_PRODUCTS_BY_ORDER_STATUS = "SELECT * FROM products JOIN categories ON products.category_id = categories.id WHERE products.id IN (SELECT product_id FROM cart_to_products WHERE cart_id IN (SELECT cart_id from orders where order_status = ? AND user_id = ?))";
+    private static final String SELECT_ALL_PRODUCTS_BY_ORDER_STATUS = "SELECT * FROM products JOIN categories ON products.category_id = categories.id WHERE products.id IN (SELECT product_id FROM cart_to_products WHERE cart_id IN (SELECT cart_id from orders where order_status = ?))";
 
     private static final String ID_COLUMN_NAME = "id";
     private static final String NAME_COLUMN_NAME = "name";

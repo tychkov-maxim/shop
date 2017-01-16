@@ -25,16 +25,8 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
     private static final String INSERT_CART_QUERY = "INSERT INTO carts VALUES(DEFAULT)";
     private static final String INSERT_QUERY = "INSERT INTO cart_to_products VALUES(?,?,?)";
     private static final String SELECT_QUERY = "SELECT * FROM cart_to_products WHERE cart_id = ?";
-    private static final String SELECT_QUERY_BY_ORDER_STATUS = "SELECT *\n" +
-            "FROM cart_to_products\n" +
-            "WHERE cart_to_products.cart_id IN (SELECT cart_id\n" +
-            "                                   FROM orders\n" +
-            "                                   WHERE orders.order_status = ?)";
-    private static final String SELECT_USER_CART_BY_ORDER_STATUS = "SELECT *\n" +
-            "FROM cart_to_products\n" +
-            "WHERE cart_to_products.cart_id IN (SELECT cart_id\n" +
-            "                                   FROM orders\n" +
-            "                                   WHERE orders.order_status = ? AND orders.user_id = ?)";
+    private static final String SELECT_QUERY_BY_ORDER_STATUS = "SELECT * FROM cart_to_products WHERE cart_to_products.cart_id IN (SELECT cart_id FROM orders WHERE orders.order_status = ?)";
+    private static final String SELECT_USER_CART_BY_ORDER_STATUS = "SELECT * FROM cart_to_products WHERE cart_to_products.cart_id IN (SELECT cart_id FROM orders WHERE orders.order_status = ? AND orders.user_id = ?)";
     private static final String DELETE_QUERY = "DELETE FROM cart_to_products WHERE cart_id = ?";
 
 
@@ -127,20 +119,28 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
         Integer id = null, oldId = null;
         try {
             while (rs.next()) {
+
+                oldId = id;
+
                 Product product = new Product();
                 product.setId(rs.getInt(PRODUCT_ID_COLUMN_NAME));
-                map.put(product, rs.getInt(QUANTITY_COLUMN_NAME));
                 id = rs.getInt(CART_ID_COLUMN_NAME);
+
                 if (oldId != null) {
                     if (!oldId.equals(id)) {
-                        cart.setId(id);
+                        cart.setId(oldId);
                         cart.setCart(map);
                         carts.add(cart);
                         map = new HashMap<>();
                         cart = new Cart();
                     }
                 }
-                oldId = id;
+
+
+                map.put(product, rs.getInt(QUANTITY_COLUMN_NAME));
+
+
+
             }
         } catch (SQLException e) {
             throw new JdbcException("creating cart entity from result set was failed", e);
@@ -148,11 +148,12 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
 
         cart.setId(id);
         cart.setCart(map);
+        carts.add(cart);
 
-        if (cart.getCart().size() == ConstantHolder.EMPTY_LIST_SIZE)
+        if (carts.size() == ConstantHolder.EMPTY_LIST_SIZE)
             throw new JdbcNoDataException("no one cart was found");
 
-        carts.add(cart);
+
         return carts;
     }
 
@@ -171,7 +172,7 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
             ResultSet rs = ps.executeQuery();
             List<Cart> carts = createEntityFromResultSet(rs);
             ps.close();
-            log.trace("finding user {} carts by order status {} was finished successfully", userId, orderStatus.getName());
+            log.trace("finding user {} carts by order status {} was finished successfully, find {} carts", userId, orderStatus.getName(),carts.size());
             return carts;
         } catch (SQLException e) {
             throw new JdbcException(MessageFormat.format("finding user {0} carts by order status {1} was failed", userId, orderStatus.getName()), e);

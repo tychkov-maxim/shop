@@ -45,7 +45,7 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li><a href="${pageContext.request.contextPath}/orders.do"><fmt:message key="my.orders"/></a></li>
+                <li><a href="${pageContext.request.contextPath}/orders.do?status=completed"><fmt:message key="my.orders"/></a></li>
                 <li><a href="${pageContext.request.contextPath}/show.do"><fmt:message key="products"/></a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
