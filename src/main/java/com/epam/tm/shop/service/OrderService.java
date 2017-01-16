@@ -1,15 +1,14 @@
 package com.epam.tm.shop.service;
 
 import com.epam.tm.shop.dao.*;
-import com.epam.tm.shop.entity.Cart;
-import com.epam.tm.shop.entity.Order;
-import com.epam.tm.shop.entity.OrderStatus;
-import com.epam.tm.shop.entity.User;
+import com.epam.tm.shop.entity.*;
 import org.joda.money.Money;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OrderService {
 
@@ -74,15 +73,25 @@ public class OrderService {
 
             OrderDao orderDao = factory.getOrderDao();
             UserDao userDao = factory.getUserDao();
+            CartDao cartDao = factory.getCartDao();
+            ProductDao productDao = factory.getProductDao();
+
 
             List<Order> allOrdersByStatus = orderDao.findUserOrdersByStatus(userId, orderStatus);
             User user = userDao.findById(userId);
+            List<Cart> userCartsByOrderStatus = cartDao.findUserCartsByOrderStatus(userId, orderStatus);
+            List<Product> userProductsByOrderStatus = productDao.findUserProductsByOrderStatus(userId, orderStatus);
 
-            CartService cartService = new CartService();
+            userCartsByOrderStatus = setProductsToCarts(userCartsByOrderStatus, userProductsByOrderStatus);
+
             for (Order order : allOrdersByStatus) {
                 order.setUser(user);
-                Cart cartById = cartService.getCartById(order.getCart().getId());
-                order.setCart(cartById);
+                for (Cart cart : userCartsByOrderStatus) {
+                    if (order.getCart().getId().equals(cart.getId())) {
+                        order.setCart(cart);
+                        break;
+                    }
+                }
             }
             return allOrdersByStatus;
         } catch (DaoException e) {
@@ -98,12 +107,18 @@ public class OrderService {
 
             OrderDao orderDao = factory.getOrderDao();
             UserDao userDao = factory.getUserDao();
+            CartDao cartDao = factory.getCartDao();
+            ProductDao productDao = factory.getProductDao();
 
             List<Order> allOrdersByStatus = orderDao.findAllOrdersByStatus(orderStatus);
             List<User> allUsersByOrderStatus = userDao.findAllUsersByOrderStatus(orderStatus);
+            List<Cart> allCartsByOrderStatus = cartDao.findAllCartsByOrderStatus(orderStatus);
+            List<Product> allProductsByOrderStatus = productDao.findAllProductsByOrderStatus(orderStatus);
 
-            CartService cartService = new CartService();
+            allCartsByOrderStatus = setProductsToCarts(allCartsByOrderStatus, allProductsByOrderStatus);
+
             for (Order order : allOrdersByStatus) {
+
                 for (User user : allUsersByOrderStatus) {
                     if (order.getUser().getId().equals(user.getId())) {
                         order.setUser(user);
@@ -111,8 +126,12 @@ public class OrderService {
                     }
                 }
 
-                Cart cartById = cartService.getCartById(order.getCart().getId());
-                order.setCart(cartById);
+                for (Cart cart : allCartsByOrderStatus) {
+                    if (order.getCart().getId().equals(cart.getId())) {
+                        order.setCart(cart);
+                        break;
+                    }
+                }
 
             }
             return allOrdersByStatus;
@@ -138,5 +157,21 @@ public class OrderService {
             throw new ServiceNoDataException(e);
         }
 
+    }
+
+    private List<Cart> setProductsToCarts(List<Cart> carts, List<Product> products) {
+        for (Cart cart : carts) {
+            Map<Product, Integer> cartMap = new HashMap<>();
+            for (Map.Entry<Product, Integer> productsQuantity : cart.getCart().entrySet()) {
+                for (Product product : products) {
+                    if (productsQuantity.getKey().getId().equals(product.getId())) {
+                        cartMap.put(product, productsQuantity.getValue());
+                        break;
+                    }
+                }
+            }
+            cart.setCart(cartMap);
+        }
+        return carts;
     }
 }

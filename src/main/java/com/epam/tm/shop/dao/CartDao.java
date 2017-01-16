@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface CartDao extends Dao<Cart> {
     List<Cart> findAllCartsByOrderStatus(OrderStatus orderStatus) throws DaoException, DaoNoDataException;
+
+    List<Cart> findUserCartsByOrderStatus(int userId, OrderStatus orderStatus) throws DaoException, DaoNoDataException;
 }

@@ -1,6 +1,9 @@
 package com.epam.tm.shop.dao.jdbc;
 
+import com.epam.tm.shop.dao.DaoException;
+import com.epam.tm.shop.dao.DaoNoDataException;
 import com.epam.tm.shop.dao.ProductDao;
+import com.epam.tm.shop.entity.OrderStatus;
 import com.epam.tm.shop.entity.Product;
 import com.epam.tm.shop.entity.ProductCategory;
 import com.epam.tm.shop.util.ConstantHolder;
@@ -27,6 +30,18 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao {
             "JOIN categories ON products.category_id = categories.id where cart_id = ?";
     private static final String SELECT_QUERY_BY_CATEGORY = "SELECT * FROM products JOIN categories ON products.category_id = categories.id WHERE categories.name = ?";
     private static final String SELECT_ALL_PRODUCTS = "SELECT * FROM products JOIN categories ON products.category_id = categories.id";
+    private static final String SELECT_USER_PRODUCTS_BY_ORDER_STATUS = "SELECT *\n" +
+            "FROM products\n" +
+            "  JOIN categories ON products.category_id = categories.id\n" +
+            "WHERE products.id IN (SELECT product_id\n" +
+            "                      FROM cart_to_products\n" +
+            "                      WHERE cart_id IN (SELECT cart_id from orders where order_status = ? AND user_id = ?))";
+    private static final String SELECT_ALL_PRODUCTS_BY_ORDER_STATUS = "SELECT *\n" +
+            "FROM products\n" +
+            "  JOIN categories ON products.category_id = categories.id\n" +
+            "WHERE products.id IN (SELECT product_id\n" +
+            "                      FROM cart_to_products\n" +
+            "                      WHERE cart_id IN (SELECT cart_id from orders where order_status = ?))";
 
     private static final String ID_COLUMN_NAME = "id";
     private static final String NAME_COLUMN_NAME = "name";
@@ -109,6 +124,29 @@ public class JdbcProductDao extends JdbcDao<Product> implements ProductDao {
     protected String getDeleteQuery() {
         return DELETE_QUERY;
     }
+
+    @Override
+    public List<Product> findAllProductsByOrderStatus(OrderStatus orderStatus) throws DaoException, DaoNoDataException {
+        return findAllById(orderStatus.getId(), SELECT_ALL_PRODUCTS_BY_ORDER_STATUS);
+    }
+
+    @Override
+    public List<Product> findUserProductsByOrderStatus(int userId, OrderStatus orderStatus) throws DaoException, DaoNoDataException {
+        log.trace("start to find user {} products by order status {}", userId, orderStatus.getName());
+        try {
+            PreparedStatement ps = connection.prepareStatement(SELECT_USER_PRODUCTS_BY_ORDER_STATUS);
+            ps.setInt(ConstantHolder.FIRST_INDEX, orderStatus.getId());
+            ps.setInt(ConstantHolder.SECOND_INDEX, userId);
+            ResultSet rs = ps.executeQuery();
+            List<Product> products = createEntityFromResultSet(rs);
+            ps.close();
+            log.trace("finding user {} products by order status {} was finished successfully", userId, orderStatus.getName());
+            return products;
+        } catch (SQLException e) {
+            throw new JdbcException(MessageFormat.format("finding user {0} products by order status {1} was failed", userId, orderStatus.getName()), e);
+        }
+    }
+
 
     @Override
     public List<Product> findAllProductsByCartId(int cartId) throws JdbcException, JdbcNoDataException {

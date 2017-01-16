@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +25,16 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
     private static final String INSERT_CART_QUERY = "INSERT INTO carts VALUES(DEFAULT)";
     private static final String INSERT_QUERY = "INSERT INTO cart_to_products VALUES(?,?,?)";
     private static final String SELECT_QUERY = "SELECT * FROM cart_to_products WHERE cart_id = ?";
-    private static final String SELECT_QUERY_BY_ORDER_STATUS = "SELECT * FROM cart_to_products JOIN orders on cart_to_products.cart_id = orders.cart_id WHERE orders.order_status = ?";
+    private static final String SELECT_QUERY_BY_ORDER_STATUS = "SELECT *\n" +
+            "FROM cart_to_products\n" +
+            "WHERE cart_to_products.cart_id IN (SELECT cart_id\n" +
+            "                                   FROM orders\n" +
+            "                                   WHERE orders.order_status = ?)";
+    private static final String SELECT_USER_CART_BY_ORDER_STATUS = "SELECT *\n" +
+            "FROM cart_to_products\n" +
+            "WHERE cart_to_products.cart_id IN (SELECT cart_id\n" +
+            "                                   FROM orders\n" +
+            "                                   WHERE orders.order_status = ? AND orders.user_id = ?)";
     private static final String DELETE_QUERY = "DELETE FROM cart_to_products WHERE cart_id = ?";
 
 
@@ -149,6 +159,23 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
     @Override
     public List<Cart> findAllCartsByOrderStatus(OrderStatus orderStatus) throws DaoException, DaoNoDataException {
         return findAllById(orderStatus.getId(), SELECT_QUERY_BY_ORDER_STATUS);
+    }
+
+    @Override
+    public List<Cart> findUserCartsByOrderStatus(int userId, OrderStatus orderStatus) throws DaoException, DaoNoDataException {
+        log.trace("start to find user {} carts by order status {}", userId, orderStatus.getName());
+        try {
+            PreparedStatement ps = connection.prepareStatement(SELECT_USER_CART_BY_ORDER_STATUS);
+            ps.setInt(ConstantHolder.FIRST_INDEX, orderStatus.getId());
+            ps.setInt(ConstantHolder.SECOND_INDEX, userId);
+            ResultSet rs = ps.executeQuery();
+            List<Cart> carts = createEntityFromResultSet(rs);
+            ps.close();
+            log.trace("finding user {} carts by order status {} was finished successfully", userId, orderStatus.getName());
+            return carts;
+        } catch (SQLException e) {
+            throw new JdbcException(MessageFormat.format("finding user {0} carts by order status {1} was failed", userId, orderStatus.getName()), e);
+        }
     }
 
 
