@@ -39,17 +39,14 @@ public class OrderAction implements Action {
             Order savedOrder = orderService.makeOrder(order);
             log.trace("order was ordered successfully with id:{}", savedOrder.getId());
             session.setAttribute(ATTRIBUTE_SESSION_CART_NAME, new Cart());
-            session.setAttribute(ATTRIBUTE_SESSION_USER_NAME, updateUser(user));
+            UserService userService = new UserService();
+            user = userService.getUserById(user.getId());
+            session.setAttribute(ATTRIBUTE_SESSION_USER_NAME, user);
             return REDIRECT;
         } catch (ServiceException | ServiceNonUniqueFieldException | ServiceNoDataException e) {
             throw new ActionException(e);
         } catch (ServiceExceptionError serviceExceptionError) {
             return CHECKOUT_REDIRECT;
         }
-    }
-
-    private User updateUser(User user) throws ServiceNoDataException, ServiceException {
-        UserService userService = new UserService();
-        return userService.getUserById(user.getId());
     }
 }
