@@ -143,14 +143,14 @@ public class OrderService {
 
     }
 
-    public Order changeOrderStatusById(int orderId, OrderStatus orderStatus) throws ServiceException, ServiceNoDataException {
+    public void changeOrderStatusById(int orderId, OrderStatus orderStatus) throws ServiceException, ServiceNoDataException {
         try (DaoFactory factory = DaoFactory.createFactory()) {
 
             OrderDao orderDao = factory.getOrderDao();
 
             Order order = orderDao.findById(orderId);
             order.setStatus(orderStatus);
-            return orderDao.save(order);
+            orderDao.save(order);
         } catch (DaoException | DaoNonUniqueFieldException e) {
             throw new ServiceException(e);
         } catch (DaoNoDataException e) {
