@@ -33,7 +33,7 @@ public class MainServlet extends HttpServlet {
         try {
             actionFactory = new ActionFactory();
         } catch (ActionFactoryException e) {
-            log.error("Action factory error");
+            log.error("Action factory error", e);
             throw new ServletException(e);
         }
     }
@@ -44,7 +44,6 @@ public class MainServlet extends HttpServlet {
         int startIndex = requestURI.lastIndexOf(START_URL);
         int endIndex = requestURI.lastIndexOf(END_URL);
         String actionName = requestURI.substring(startIndex + 1, endIndex);
-
 
         try {
             Action action = actionFactory.getAction(actionName);
@@ -63,6 +62,5 @@ public class MainServlet extends HttpServlet {
 
 
     }
-
 
 }
