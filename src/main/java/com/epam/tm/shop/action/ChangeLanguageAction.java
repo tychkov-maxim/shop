@@ -9,12 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.jstl.core.Config;
 
+import static com.epam.tm.shop.util.ConstantHolder.REDIRECT;
+
 public class ChangeLanguageAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(ChangeLanguageAction.class);
 
     private static final String LANGUAGE_PARAMETER = "language";
-    private static final String REDIRECT = "redirect:/";
     private static final String ENGLISH_LOCALE = "en";
     private static final String RUSSIAN_LOCALE = "ru";
 

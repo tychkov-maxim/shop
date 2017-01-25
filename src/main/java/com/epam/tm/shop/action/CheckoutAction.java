@@ -15,6 +15,9 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.tm.shop.util.ConstantHolder.ATTRIBUTE_SESSION_CART_NAME;
+import static com.epam.tm.shop.util.ConstantHolder.ATTRIBUTE_SESSION_USER_NAME;
+
 public class CheckoutAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(CheckoutAction.class);
@@ -22,8 +25,6 @@ public class CheckoutAction implements Action {
     private static final String ATTRIBUTE_ERROR_MESSAGE = "checkoutErrors";
     private static final String FORM_NAME = "checkout";
     private static final String NOT_ENOUGH_MONEY_ERROR = "not.enough.money.error.message";
-    private static final String ATTRIBUTE_SESSION_USER_NAME = "user";
-    private static final String ATTRIBUTE_SESSION_CART_NAME = "cart";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {

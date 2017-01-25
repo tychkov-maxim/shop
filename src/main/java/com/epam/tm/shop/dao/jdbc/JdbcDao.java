@@ -18,7 +18,6 @@ public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
     private static final int ERROR_CODE_OF_NON_UNIQUE_FIELD = 23505;
 
 
-
     protected Connection connection;
 
     public JdbcDao(Connection connection) {

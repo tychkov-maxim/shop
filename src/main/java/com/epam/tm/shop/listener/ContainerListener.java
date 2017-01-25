@@ -21,6 +21,12 @@ public class ContainerListener implements ServletContextListener,
         HttpSessionListener, HttpSessionAttributeListener {
 
     private static final Logger log = LoggerFactory.getLogger(ContainerListener.class);
+    private static final String URL_PROPERTY_KEY = "db.url";
+    private static final String USER_NAME_PROPERTY_KEY = "db.username";
+    private static final String PASSWORD_PROPERTY_KEY = "db.password";
+    private static final String MAX_CON_PROPERTY_KEY = "max.connections";
+    private static final String DRIVER_CLASS_NAME_PROPERTY_KEY = "db.driverClassName";
+
     private ConnectionPool pool;
 
     // Public constructor is required by servlet spec
@@ -36,16 +42,16 @@ public class ContainerListener implements ServletContextListener,
         log.info("start to initialize container listener");
         try {
             PropertyManager manager = new PropertyManager("connection-pool.properties");
-            url = manager.getPropertyKey("db.url");
-            username = manager.getPropertyKey("db.username");
-            password = manager.getPropertyKey("db.password");
-            maxCon = manager.getIntPropertyKey("max.connections");
-            driverName = manager.getPropertyKey("db.driverClassName");
-            log.debug("url : {}",url);
-            log.debug("username : {}",username);
-            log.debug("password : {}",password);
-            log.debug("maxCon : {}",maxCon);
-            log.debug("driverName : {}",driverName);
+            url = manager.getPropertyKey(URL_PROPERTY_KEY);
+            username = manager.getPropertyKey(USER_NAME_PROPERTY_KEY);
+            password = manager.getPropertyKey(PASSWORD_PROPERTY_KEY);
+            maxCon = manager.getIntPropertyKey(MAX_CON_PROPERTY_KEY);
+            driverName = manager.getPropertyKey(DRIVER_CLASS_NAME_PROPERTY_KEY);
+            log.debug("url : {}", url);
+            log.debug("username : {}", username);
+            log.debug("password : {}", password);
+            log.debug("maxCon : {}", maxCon);
+            log.debug("driverName : {}", driverName);
             ConnectionPool pool = new ConnectionPool(url, username, password, maxCon, driverName);
             JdbcDaoFactory.setPool(pool);
             log.info("connection pool was created successfully");

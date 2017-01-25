@@ -16,17 +16,18 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.tm.shop.util.ConstantHolder.ATTRIBUTE_SESSION_USER_NAME;
+import static com.epam.tm.shop.util.ConstantHolder.LOGIN_PARAMETER;
+
 public class LoginAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(LoginAction.class);
     private static final String LOGIN_ERROR_PARAMETER = "loginError";
-    private static final String LOGIN_PARAMETER = "login";
     private static final String FORM_NAME = "login";
     private static final String PASS_PARAMETER = "password";
     private static final String LOGIN_SUCCESS = "login-success";
     private static final String INCORRECT_PASSWORD = "incorrect.pass";
     private static final String USER_NOT_FOUND = "user.not.found";
-    private static final String ATTRIBUTE_SESSION_USER_NAME = "user";
 
 
     @Override

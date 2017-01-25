@@ -13,14 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import static com.epam.tm.shop.util.ConstantHolder.*;
+
 public class OrderAction implements Action {
     private static final Logger log = LoggerFactory.getLogger(OrderAction.class);
 
-    private static final String ATTRIBUTE_SESSION_USER_NAME = "user";
-    private static final String ATTRIBUTE_SESSION_CART_NAME = "cart";
 
     private static final String CHECKOUT_REDIRECT = "redirect:/checkout.do";
-    private static final String ROOT_REDIRECT = "redirect:/";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
@@ -41,7 +40,7 @@ public class OrderAction implements Action {
             log.trace("order was ordered successfully with id:{}", savedOrder.getId());
             session.setAttribute(ATTRIBUTE_SESSION_CART_NAME, new Cart());
             session.setAttribute(ATTRIBUTE_SESSION_USER_NAME, updateUser(user));
-            return ROOT_REDIRECT;
+            return REDIRECT;
         } catch (ServiceException | ServiceNonUniqueFieldException | ServiceNoDataException e) {
             throw new ActionException(e);
         } catch (ServiceExceptionError serviceExceptionError) {

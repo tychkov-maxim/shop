@@ -24,18 +24,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.epam.tm.shop.util.ConstantHolder.*;
+
 public class AddProductAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(AddProductAction.class);
     private static final String FORM_NAME = "add-products";
     private static final String FORM_NAME_ADD_PRODUCT = "product";
-    private static final String NAME_PARAMETER = "name";
-    private static final String DESCRIPTION_PARAMETER = "description";
-    private static final String CATEGORY_PARAMETER = "category";
     private static final String PRICE_PARAMETER = "price";
     private static final String IMAGE_PARAMETER = "image";
-    private static final String NAME_PREVIOUS_PARAMETER = "oldName";
-    private static final String DESCRIPTION_PREVIOUS_PARAMETER = "oldDescription";
     private static final String CATEGORY_PREVIOUS_PARAMETER = "oldCategory";
     private static final String PRICE_PREVIOUS_PARAMETER = "oldPrice";
     private static final String ALL_CATEGORY_ATTRIBUTE = "categories";

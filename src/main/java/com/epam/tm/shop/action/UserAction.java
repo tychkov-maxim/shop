@@ -19,15 +19,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.tm.shop.util.ConstantHolder.ATTRIBUTE_SESSION_USER_NAME;
+import static com.epam.tm.shop.util.ConstantHolder.LOGIN_PARAMETER;
+
 public class UserAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(UserAction.class);
 
-    private static final String ATTRIBUTE_USER_NAME = "user";
     private static final String FORM_NAME = "profile";
     private static final String USER_ERROR_PARAMETER = "profileMessages";
     private static final String USER_ERROR_MESSAGE = "user.not.found";
-    private static final String USER_LOGIN_PARAMETER = "login";
     private static final String USER_MONEY_PARAMETER = "money";
     private static final String USER_ADMIN_PARAMETER = "admin";
 
@@ -39,7 +40,7 @@ public class UserAction implements Action {
         List<String> errorMessage = new ArrayList<>();
         Validator notEmptyParameterValidator = new NotEmptyParameterValidator();
         Validator moneyValidator = new MoneyValidator();
-        String loginParam = req.getParameter(USER_LOGIN_PARAMETER);
+        String loginParam = req.getParameter(LOGIN_PARAMETER);
 
 
         if (notEmptyParameterValidator.isValid(loginParam)) {
@@ -62,7 +63,7 @@ public class UserAction implements Action {
                     user = userService.saveUser(user);
                     log.trace("change user {} status to administrator", user.getLogin());
                 }
-                req.setAttribute(ATTRIBUTE_USER_NAME, user);
+                req.setAttribute(ATTRIBUTE_SESSION_USER_NAME, user);
             } catch (ServiceException | ServiceNonUniqueFieldException e) {
                 throw new ActionException(e);
             } catch (ServiceNoDataException e) {

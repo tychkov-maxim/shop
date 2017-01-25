@@ -12,13 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.tm.shop.util.ConstantHolder.CATEGORIES_ATTRIBUTE;
+
 public class ShowAddProductForm implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(ShowAddProductForm.class);
 
     private static final String FORM_NAME = "add-products";
     private static final String NO_ONE_CATEGORY_MESSAGE = "no.one.category";
-    private static final String CATEGORIES_ATTRIBUTE = "categories";
     private static final String ADD_PRODUCT_MESSAGE_ATTRIBUTE = "addProductsMessage";
 
     @Override

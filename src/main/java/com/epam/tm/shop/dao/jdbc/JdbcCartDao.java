@@ -144,7 +144,6 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
                 map.put(product, rs.getInt(QUANTITY_COLUMN_NAME));
 
 
-
             }
         } catch (SQLException e) {
             throw new JdbcException("creating cart entity from result set was failed", e);
@@ -156,7 +155,6 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
         cart.setId(id);
         cart.setCart(map);
         carts.add(cart);
-
 
 
         return carts;
@@ -177,7 +175,7 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
             ResultSet rs = ps.executeQuery();
             List<Cart> carts = createEntityFromResultSet(rs);
             ps.close();
-            log.trace("finding user {} carts by order status {} was finished successfully, find {} carts", userId, orderStatus.getName(),carts.size());
+            log.trace("finding user {} carts by order status {} was finished successfully, find {} carts", userId, orderStatus.getName(), carts.size());
             return carts;
         } catch (SQLException e) {
             throw new JdbcException(MessageFormat.format("finding user {0} carts by order status {1} was failed", userId, orderStatus.getName()), e);

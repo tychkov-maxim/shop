@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.tm.shop.util.ConstantHolder.CATEGORIES_ATTRIBUTE;
+import static com.epam.tm.shop.util.ConstantHolder.CATEGORY_PARAMETER;
+
 public class ProductsByCategoryAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(ProductsByCategoryAction.class);
@@ -25,8 +28,6 @@ public class ProductsByCategoryAction implements Action {
     private static final String CHOSEN_CATEGORY_PARAMETER = "chosenCategory";
     private static final String FORM_NAME = "show-products";
     private static final String PAGE_PAGINATION_PARAMETER = "page";
-    private static final String CATEGORY_PARAMETER = "category";
-    private static final String CATEGORIES_ATTRIBUTE = "categories";
     private static final String PRODUCT_MESSAGE_ATTRIBUTE = "productsMessage";
     private static final String PRODUCTS_ATTRIBUTE = "products";
     private static final String NEXT_PAGE_ATTRIBUTE = "nextPage";

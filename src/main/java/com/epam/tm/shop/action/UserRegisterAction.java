@@ -19,15 +19,16 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.tm.shop.util.ConstantHolder.ATTRIBUTE_SESSION_USER_NAME;
+import static com.epam.tm.shop.util.ConstantHolder.LOGIN_PARAMETER;
+
 public class UserRegisterAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(LoginAction.class);
     private static final String FORM_NAME = "register";
     private static final String REGISTER_ERROR_PARAMETER = "registerError";
-    private static final String LOGIN_PARAMETER = "login";
     private static final String PASS_PARAMETER = "passwd";
     private static final String REGISTER_SUCCESS = "register-success";
-    private static final String ATTRIBUTE_SESSION_USER_NAME = "user";
     private static final String FIRST_NAME_PARAMETER = "first_name";
     private static final String SECOND_NAME_PARAMETER = "second_name";
     private static final String ADDRESS_PARAMETER = "address";

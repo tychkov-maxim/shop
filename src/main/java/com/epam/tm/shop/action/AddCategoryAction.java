@@ -15,16 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.tm.shop.util.ConstantHolder.*;
+
 public class AddCategoryAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(AddCategoryAction.class);
 
     private static final String FORM_NAME = "add-category";
     private static final String FORM_NAME_ADD_CATEGORY = "category";
-    private static final String NAME_PARAMETER = "name";
-    private static final String DESCRIPTION_PARAMETER = "description";
-    private static final String NAME_PREVIOUS_PARAMETER = "oldName";
-    private static final String DESCRIPTION_PREVIOUS_PARAMETER = "oldDescription";
     private static final String ADD_PRODUCT_CATEGORY_ERROR_ATTRIBUTE = "categoryErrors";
     private static final String PRODUCT_CATEGORY_EXIST_ERROR_MESSAGE = "product.category.exist";
     private static final String ADD_PRODUCT_CATEGORY_MESSAGES_ATTRIBUTE = "categoryMessages";

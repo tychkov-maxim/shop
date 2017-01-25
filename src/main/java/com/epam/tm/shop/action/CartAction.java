@@ -15,11 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import static com.epam.tm.shop.util.ConstantHolder.ATTRIBUTE_SESSION_CART_NAME;
+
 public class CartAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(CartAction.class);
 
-    private static final String CART_ATTRIBUTE_IN_SESSION = "cart";
     private static final String ADD_PARAMETER = "add";
     private static final String DELETE_PARAMETER = "delete";
     private static final String CHANGE_QUANTITY_PARAMETER = "change";
@@ -41,7 +42,7 @@ public class CartAction implements Action {
         onlyNumberValidator = new OnlyNumberValidator();
         notEmptyParameterValidator = new NotEmptyParameterValidator();
 
-        cart = (Cart) session.getAttribute(CART_ATTRIBUTE_IN_SESSION);
+        cart = (Cart) session.getAttribute(ATTRIBUTE_SESSION_CART_NAME);
         if (cart == null) {
             cart = new Cart();
             log.trace("cart was created");
@@ -59,7 +60,7 @@ public class CartAction implements Action {
             changeQuantity(req);
         }
 
-        session.setAttribute(CART_ATTRIBUTE_IN_SESSION, cart);
+        session.setAttribute(ATTRIBUTE_SESSION_CART_NAME, cart);
         log.trace("cart was saved in session");
 
         return REDIRECT_CHECKOUT;

@@ -16,13 +16,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.tm.shop.util.ConstantHolder.*;
+
 @WebFilter(filterName = "SecurityFilter", urlPatterns = "*.do")
 public class SecurityFilter implements Filter {
 
     private static final Logger log = LoggerFactory.getLogger(SecurityFilter.class);
-    private static final String ATTRIBUTE_SESSION_USER_NAME = "user";
-    private static final String END_URL = ".do";
-    private static final String START_URL = "/";
     private static final String ACTION_SECURITY_PROPERTIES_FILE_NAME = "security.properties";
     private static final String ADMIN_PREFIX = "admin";
     private static final String USER_PREFIX = "user";

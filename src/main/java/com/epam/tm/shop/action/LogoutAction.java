@@ -6,10 +6,11 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static com.epam.tm.shop.util.ConstantHolder.REDIRECT;
+
 public class LogoutAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(LogoutAction.class);
-    private static final String REDIRECT = "redirect:/";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {

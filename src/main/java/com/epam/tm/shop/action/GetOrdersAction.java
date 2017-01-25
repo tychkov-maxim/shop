@@ -18,21 +18,18 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.tm.shop.util.ConstantHolder.*;
+
 public class GetOrdersAction implements Action {
 
     private static final Logger log = LoggerFactory.getLogger(GetOrdersAction.class);
     private static final String FORM_NAME = "show-orders";
-    private static final String ATTRIBUTE_SESSION_USER_NAME = "user";
     private static final String NO_ONE_ORDER_MESSAGE = "no.one.order";
     private static final String NO_ONE_COMPLETED_ORDER_MESSAGE = "no.one.completed.order";
     private static final String NO_ONE_SHIPPING_ORDER_MESSAGE = "no.one.shipping.order";
     private static final String NO_ONE_PROCESSING_ORDER_MESSAGE = "no.one.processing.order";
     private static final String PRODUCT_MESSAGE_ATTRIBUTE = "ordersMessages";
-    private static final String STATUS_PARAMETER = "status";
-    private static final String SHIPPING_ORDERS_VALUE_OF_STATUS = "shipping";
-    private static final String PROCESSING_ORDERS_VALUE_OF_STATUS = "processing";
     private static final String ALL_ORDERS_PROCESSING_VALUE_OF_STATUS = "all";
-    private static final String COMPLETED_VALUE_OF_STATUS = "completed";
     private static final String ORDERS = "Orders";
     private static final String PERMISSION_REDIRECT = "redirect:/permission.do";
 

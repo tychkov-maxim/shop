@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import static com.epam.tm.shop.util.ConstantHolder.*;
+
 public class ChangeOrderStatusAction implements Action {
 
 
@@ -24,12 +26,7 @@ public class ChangeOrderStatusAction implements Action {
 
     private static final String REDIRECT_COMPLETED = "redirect:/orders.do?status=completed";
     private static final String REDIRECT_PROCESSING = "redirect:/orders.do?status=all";
-    private static final String ATTRIBUTE_SESSION_USER_NAME = "user";
     private static final String ORDER_ID_PARAMETER = "order";
-    private static final String ORDER_STATUS_PARAMETER = "status";
-    private static final String ORDER_STATUS_PROCESSING_PARAMETER = "processing";
-    private static final String ORDER_STATUS_SHIPPING_PARAMETER = "shipping";
-    private static final String ORDER_STATUS_COMPLETED_PARAMETER = "completed";
     private static final String CHANGED_STATUS_SUCCESSFULLY_LOGGER_MESSAGE = "order status was changed successfully";
 
     @Override
@@ -41,7 +38,7 @@ public class ChangeOrderStatusAction implements Action {
 
         Validator notEmptyParameterValidator = new NotEmptyParameterValidator();
         Validator onlyNumberValidator = new OnlyNumberValidator();
-        String orderStatusParam = req.getParameter(ORDER_STATUS_PARAMETER);
+        String orderStatusParam = req.getParameter(STATUS_PARAMETER);
         String orderIdParam = req.getParameter(ORDER_ID_PARAMETER);
 
 
@@ -54,15 +51,15 @@ public class ChangeOrderStatusAction implements Action {
 
                 if (user.getRole().equals(Role.getAdministratorRole())) {
                     switch (orderStatusParam) {
-                        case ORDER_STATUS_PROCESSING_PARAMETER:
+                        case PROCESSING_ORDERS_VALUE_OF_STATUS:
                             orderService.changeOrderStatusById(orderId, OrderStatus.getProcessingStatus());
                             log.trace(CHANGED_STATUS_SUCCESSFULLY_LOGGER_MESSAGE);
                             break;
-                        case ORDER_STATUS_SHIPPING_PARAMETER:
+                        case SHIPPING_ORDERS_VALUE_OF_STATUS:
                             orderService.changeOrderStatusById(orderId, OrderStatus.getShippingStatus());
                             log.trace(CHANGED_STATUS_SUCCESSFULLY_LOGGER_MESSAGE);
                             return REDIRECT_PROCESSING;
-                        case ORDER_STATUS_COMPLETED_PARAMETER:
+                        case COMPLETED_VALUE_OF_STATUS:
                             orderService.changeOrderStatusById(orderId, OrderStatus.getCompletedStatus());
                             log.trace(CHANGED_STATUS_SUCCESSFULLY_LOGGER_MESSAGE);
                             break;
@@ -70,7 +67,7 @@ public class ChangeOrderStatusAction implements Action {
                 }
 
                 if (user.getRole().equals(Role.getUserRole())) {
-                    if (orderStatusParam.equals(ORDER_STATUS_COMPLETED_PARAMETER)) {
+                    if (orderStatusParam.equals(COMPLETED_VALUE_OF_STATUS)) {
                         Order order = orderService.getOrderById(orderId);
                         if (order.getStatus().equals(OrderStatus.getShippingStatus()))
                             if (user.equals(order.getUser())) {

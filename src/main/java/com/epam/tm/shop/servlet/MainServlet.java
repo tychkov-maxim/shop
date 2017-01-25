@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.epam.tm.shop.util.ConstantHolder.END_URL;
+import static com.epam.tm.shop.util.ConstantHolder.START_URL;
+
 @WebServlet(value = "*.do")
 @MultipartConfig
 public class MainServlet extends HttpServlet {
@@ -22,9 +25,7 @@ public class MainServlet extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(MainServlet.class);
     private static final String VIEW_PATH = "/WEB-INF/jsp/";
     private static final String VIEW_EXTENSION = ".jsp";
-    private static final String REDIRECT = "redirect:";
-    private static final String END_URL = ".do";
-    private static final String START_URL = "/";
+    private static final String REDIRECT_PREFIX = "redirect:";
 
     private ActionFactory actionFactory;
 
@@ -49,8 +50,8 @@ public class MainServlet extends HttpServlet {
             Action action = actionFactory.getAction(actionName);
             String result = action.execute(req, resp);
 
-            if (result.startsWith(REDIRECT)) {
-                resp.sendRedirect(req.getContextPath() + result.substring(REDIRECT.length()));
+            if (result.startsWith(REDIRECT_PREFIX)) {
+                resp.sendRedirect(req.getContextPath() + result.substring(REDIRECT_PREFIX.length()));
             } else {
                 req.getRequestDispatcher(VIEW_PATH + result + VIEW_EXTENSION).forward(req, resp);
             }
