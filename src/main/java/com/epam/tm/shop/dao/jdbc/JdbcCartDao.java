@@ -119,7 +119,8 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
         List<Cart> carts = new ArrayList<>();
         Cart cart = new Cart();
         Map<Product, Integer> map = new HashMap<>();
-        Integer id = null, oldId = null;
+        Integer id = null;
+        Integer oldId;
         try {
             while (rs.next()) {
 
@@ -149,12 +150,13 @@ public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
             throw new JdbcException("creating cart entity from result set was failed", e);
         }
 
+        if (map.size() == ConstantHolder.EMPTY_LIST_SIZE)
+            throw new JdbcNoDataException("no one cart was found");
+
         cart.setId(id);
         cart.setCart(map);
         carts.add(cart);
 
-        if (carts.size() == ConstantHolder.EMPTY_LIST_SIZE)
-            throw new JdbcNoDataException("no one cart was found");
 
 
         return carts;
