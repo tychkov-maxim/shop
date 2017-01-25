@@ -33,16 +33,20 @@ public class GetOrdersAction implements Action {
     private static final String ORDERS = "Orders";
     private static final String PERMISSION_REDIRECT = "redirect:/permission.do";
 
+    private OrderService orderService;
+    private User user;
+    private List<String> message;
+
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
         log.trace("start to get order action");
         HttpSession session = req.getSession();
-        User user = (User) session.getAttribute(ATTRIBUTE_SESSION_USER_NAME);
+        user = (User) session.getAttribute(ATTRIBUTE_SESSION_USER_NAME);
 
         Validator notEmptyParameterValidator = new NotEmptyParameterValidator();
         String statusPar = req.getParameter(STATUS_PARAMETER);
-        List<String> message = new ArrayList<>();
+        message = new ArrayList<>();
 
         if (!notEmptyParameterValidator.isValid(statusPar)) {
             log.trace("parameter not valid - {}", statusPar);
@@ -51,75 +55,63 @@ public class GetOrdersAction implements Action {
             return FORM_NAME;
         }
 
-        OrderService orderService = new OrderService();
-        try {
-            switch (statusPar) {
-                case PROCESSING_ORDERS_VALUE_OF_STATUS:
-                    try {
-                        log.trace("trying to get all processing orders of user {}", user.getLogin());
-                        List<Order> userProcessOrders = orderService.getUserOrdersByOrderStatus(user.getId(), OrderStatus.getProcessingStatus());
-                        req.setAttribute(ORDERS, userProcessOrders);
-                        log.trace("got {} orders", userProcessOrders.size());
-                    } catch (ServiceNoDataException e) {
-                        message.add(NO_ONE_PROCESSING_ORDER_MESSAGE);
-                        req.setAttribute(PRODUCT_MESSAGE_ATTRIBUTE, message);
-                        log.trace("no one orders");
-                    }
+        orderService = new OrderService();
 
-                    break;
-                case COMPLETED_VALUE_OF_STATUS:
-                    try {
-                        log.trace("trying to get all completed orders of user {}", user.getLogin());
-                        List<Order> userComplettedOrders = orderService.getUserOrdersByOrderStatus(user.getId(), OrderStatus.getCompletedStatus());
-                        req.setAttribute(ORDERS, userComplettedOrders);
-                        log.trace("got {} orders", userComplettedOrders.size());
-                    } catch (ServiceNoDataException e) {
-                        message.add(NO_ONE_COMPLETED_ORDER_MESSAGE);
-                        req.setAttribute(PRODUCT_MESSAGE_ATTRIBUTE, message);
-                        log.trace("no one orders");
-                    }
-
-                    break;
-                case SHIPPING_ORDERS_VALUE_OF_STATUS:
-                    try {
-                        log.trace("trying to get all shipping orders of user {}", user.getLogin());
-                        List<Order> userShippOrders = orderService.getUserOrdersByOrderStatus(user.getId(), OrderStatus.getShippingStatus());
+        switch (statusPar) {
+            case PROCESSING_ORDERS_VALUE_OF_STATUS:
+                setAllUserOrdersByOrderStatusToAttributes(OrderStatus.getProcessingStatus(), NO_ONE_PROCESSING_ORDER_MESSAGE, req);
+                break;
+            case COMPLETED_VALUE_OF_STATUS:
+                setAllUserOrdersByOrderStatusToAttributes(OrderStatus.getCompletedStatus(), NO_ONE_COMPLETED_ORDER_MESSAGE, req);
+                break;
+            case SHIPPING_ORDERS_VALUE_OF_STATUS:
+                setAllUserOrdersByOrderStatusToAttributes(OrderStatus.getShippingStatus(), NO_ONE_SHIPPING_ORDER_MESSAGE, req);
+                break;
+            case ALL_ORDERS_PROCESSING_VALUE_OF_STATUS:
+                try {
+                    if (user.getRole().equals(Role.getAdministratorRole())) {
+                        log.trace("trying to get all processing orders");
+                        List<Order> userShippOrders = orderService.getAllOrdersByOrderStatus(OrderStatus.getProcessingStatus());
                         req.setAttribute(ORDERS, userShippOrders);
                         log.trace("got {} orders", userShippOrders.size());
-                    } catch (ServiceNoDataException e) {
-                        message.add(NO_ONE_SHIPPING_ORDER_MESSAGE);
-                        req.setAttribute(PRODUCT_MESSAGE_ATTRIBUTE, message);
-                        log.trace("no one orders");
-                    }
-                    break;
-                case ALL_ORDERS_PROCESSING_VALUE_OF_STATUS:
-                    try {
-                        if (user.getRole().equals(Role.getAdministratorRole())) {
-                            log.trace("trying to get all processing orders");
-                            List<Order> userShippOrders = orderService.getAllOrdersByOrderStatus(OrderStatus.getProcessingStatus());
-                            req.setAttribute(ORDERS, userShippOrders);
-                            log.trace("got {} orders", userShippOrders.size());
-                        } else
-                            return PERMISSION_REDIRECT;
-                    } catch (ServiceNoDataException e) {
-                        message.add(NO_ONE_SHIPPING_ORDER_MESSAGE);
-                        req.setAttribute(PRODUCT_MESSAGE_ATTRIBUTE, message);
-                        log.trace("no one orders");
-                    }
-                    break;
-                default:
-                    message.add(NO_ONE_ORDER_MESSAGE);
-                    req.setAttribute(PRODUCT_MESSAGE_ATTRIBUTE, message);
-                    log.trace("no one orders");
-                    break;
-            }
+                    } else
+                        return PERMISSION_REDIRECT;
+                } catch (ServiceNoDataException e) {
+                    setErrorToAttributes(NO_ONE_SHIPPING_ORDER_MESSAGE, req);
+                } catch (ServiceException e) {
+                    throw new ActionException(e);
+                }
 
-        } catch (ServiceException e) {
-            throw new ActionException(e);
+                break;
+            default:
+                setErrorToAttributes(NO_ONE_ORDER_MESSAGE, req);
+                break;
         }
+
 
         log.trace("get order action was finished");
         return FORM_NAME;
-
     }
+
+
+    private void setAllUserOrdersByOrderStatusToAttributes(OrderStatus orderStatus, String errorMessage, HttpServletRequest req) throws ActionException {
+        try {
+            log.trace("trying to get all {} orders of user {}", orderStatus.getName(), user.getLogin());
+            List<Order> userShippOrders = orderService.getUserOrdersByOrderStatus(user.getId(), orderStatus);
+            req.setAttribute(ORDERS, userShippOrders);
+            log.trace("got {} orders", userShippOrders.size());
+        } catch (ServiceNoDataException e) {
+            setErrorToAttributes(errorMessage, req);
+        } catch (ServiceException e) {
+            throw new ActionException(e);
+        }
+    }
+
+    private void setErrorToAttributes(String errorMessage, HttpServletRequest req) {
+        message.add(errorMessage);
+        req.setAttribute(PRODUCT_MESSAGE_ATTRIBUTE, message);
+        log.trace("no one orders");
+    }
+
+
 }
