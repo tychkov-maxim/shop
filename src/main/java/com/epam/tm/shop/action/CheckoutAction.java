@@ -36,7 +36,8 @@ public class CheckoutAction implements Action {
 
         if ((user != null) && (cart != null) && (cart.getSize() != 0)) {
             try {
-                user = updateUser(user);
+                UserService userService = new UserService();
+                user = userService.getUserById(user.getId());
                 Money userAccount = user.getAccount();
                 session.setAttribute(ATTRIBUTE_SESSION_USER_NAME, user);
                 log.trace("user in session was updated");
@@ -52,10 +53,5 @@ public class CheckoutAction implements Action {
         }
 
         return FORM_NAME;
-    }
-
-    private User updateUser(User user) throws ServiceNoDataException, ServiceException {
-        UserService userService = new UserService();
-        return userService.getUserById(user.getId());
     }
 }
