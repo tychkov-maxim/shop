@@ -30,6 +30,7 @@ public class ChangeOrderStatusAction implements Action {
     private static final String ORDER_STATUS_PROCESSING_PARAMETER = "processing";
     private static final String ORDER_STATUS_SHIPPING_PARAMETER = "shipping";
     private static final String ORDER_STATUS_COMPLETED_PARAMETER = "completed";
+    private static final String CHANGED_STATUS_SUCCESSFULLY_LOGGER_MESSAGE = "order status was changed successfully";
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
@@ -55,15 +56,15 @@ public class ChangeOrderStatusAction implements Action {
                     switch (orderStatusParam) {
                         case ORDER_STATUS_PROCESSING_PARAMETER:
                             orderService.changeOrderStatusById(orderId, OrderStatus.getProcessingStatus());
-                            log.trace("order status was changed successfully");
+                            log.trace(CHANGED_STATUS_SUCCESSFULLY_LOGGER_MESSAGE);
                             break;
                         case ORDER_STATUS_SHIPPING_PARAMETER:
                             orderService.changeOrderStatusById(orderId, OrderStatus.getShippingStatus());
-                            log.trace("order status was changed successfully");
+                            log.trace(CHANGED_STATUS_SUCCESSFULLY_LOGGER_MESSAGE);
                             return REDIRECT_PROCESSING;
                         case ORDER_STATUS_COMPLETED_PARAMETER:
                             orderService.changeOrderStatusById(orderId, OrderStatus.getCompletedStatus());
-                            log.trace("order status was changed successfully");
+                            log.trace(CHANGED_STATUS_SUCCESSFULLY_LOGGER_MESSAGE);
                             break;
                     }
                 }
@@ -74,7 +75,7 @@ public class ChangeOrderStatusAction implements Action {
                         if (order.getStatus().equals(OrderStatus.getShippingStatus()))
                             if (user.equals(order.getUser())) {
                                 orderService.changeOrderStatusById(orderId, OrderStatus.getCompletedStatus());
-                                log.trace("order status was changed successfully");
+                                log.trace(CHANGED_STATUS_SUCCESSFULLY_LOGGER_MESSAGE);
                             }
                     }
                 }
