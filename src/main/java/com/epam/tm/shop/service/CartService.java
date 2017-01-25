@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CartService {
-    public static final Logger log = LoggerFactory.getLogger(CartService.class);
+    private static final Logger log = LoggerFactory.getLogger(CartService.class);
 
     public Cart getCartById(int id) throws ServiceException {
 

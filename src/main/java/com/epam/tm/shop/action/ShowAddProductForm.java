@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ShowAddProductForm implements Action {
 
-    public static final Logger log = LoggerFactory.getLogger(ShowAddProductForm.class);
+    private static final Logger log = LoggerFactory.getLogger(ShowAddProductForm.class);
 
     private static final String FORM_NAME = "add-products";
     private static final String NO_ONE_CATEGORY_MESSAGE = "no.one.category";

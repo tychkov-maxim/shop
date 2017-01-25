@@ -21,7 +21,7 @@ import java.util.List;
 
 public class UserRegisterAction implements Action {
 
-    public static final Logger log = LoggerFactory.getLogger(LoginAction.class);
+    private static final Logger log = LoggerFactory.getLogger(LoginAction.class);
     private static final String FORM_NAME = "register";
     private static final String REGISTER_ERROR_PARAMETER = "registerError";
     private static final String LOGIN_PARAMETER = "login";

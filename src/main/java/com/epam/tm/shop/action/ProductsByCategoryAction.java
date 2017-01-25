@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ProductsByCategoryAction implements Action {
 
-    public static final Logger log = LoggerFactory.getLogger(ProductsByCategoryAction.class);
+    private static final Logger log = LoggerFactory.getLogger(ProductsByCategoryAction.class);
 
     private static final String NO_ONE_PRODUCT_IN_CATEGORY_MESSAGE = "no.one.product.in.category";
     private static final String NO_ONE_CATEGORY_MESSAGE = "no.one.category";

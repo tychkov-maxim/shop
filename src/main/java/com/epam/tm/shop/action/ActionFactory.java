@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class ActionFactory {
 
-    public static final Logger log = LoggerFactory.getLogger(ActionFactory.class);
+    private static final Logger log = LoggerFactory.getLogger(ActionFactory.class);
 
     private static final String ACTION_PROPERTIES_FILE_NAME = "action.properties";
 

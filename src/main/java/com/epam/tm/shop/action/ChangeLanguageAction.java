@@ -11,7 +11,7 @@ import javax.servlet.jsp.jstl.core.Config;
 
 public class ChangeLanguageAction implements Action {
 
-    public static final Logger log = LoggerFactory.getLogger(ChangeLanguageAction.class);
+    private static final Logger log = LoggerFactory.getLogger(ChangeLanguageAction.class);
 
     private static final String LANGUAGE_PARAMETER = "language";
     private static final String REDIRECT = "redirect:/";

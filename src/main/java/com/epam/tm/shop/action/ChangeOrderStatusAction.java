@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
 public class ChangeOrderStatusAction implements Action {
 
 
-    public static final Logger log = LoggerFactory.getLogger(ChangeOrderStatusAction.class);
+    private static final Logger log = LoggerFactory.getLogger(ChangeOrderStatusAction.class);
 
     private static final String REDIRECT_COMPLETED = "redirect:/orders.do?status=completed";
     private static final String REDIRECT_PROCESSING = "redirect:/orders.do?status=all";

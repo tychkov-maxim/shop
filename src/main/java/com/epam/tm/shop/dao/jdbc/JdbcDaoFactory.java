@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 public class JdbcDaoFactory extends DaoFactory {
 
-    public static final Logger log = LoggerFactory.getLogger(JdbcDaoFactory.class);
+    private static final Logger log = LoggerFactory.getLogger(JdbcDaoFactory.class);
     private static ConnectionPool pool;
     private Connection connection;
 

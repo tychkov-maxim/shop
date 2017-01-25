@@ -7,6 +7,8 @@ import com.epam.tm.shop.entity.Cart;
 import com.epam.tm.shop.entity.OrderStatus;
 import com.epam.tm.shop.entity.Product;
 import com.epam.tm.shop.util.ConstantHolder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,6 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class JdbcCartDao extends JdbcDao<Cart> implements CartDao {
 
 
+    private static final Logger log = LoggerFactory.getLogger(JdbcCartDao.class);
     private static final String INSERT_CART_QUERY = "INSERT INTO carts VALUES(DEFAULT)";
     private static final String INSERT_QUERY = "INSERT INTO cart_to_products VALUES(?,?,?)";
     private static final String SELECT_QUERY = "SELECT * FROM cart_to_products WHERE cart_id = ?";

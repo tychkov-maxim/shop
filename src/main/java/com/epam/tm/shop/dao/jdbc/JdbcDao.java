@@ -14,7 +14,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 public abstract class JdbcDao<T extends BaseEntity> implements Dao<T> {
-    public static final Logger log = LoggerFactory.getLogger(JdbcDao.class);
+    private static final Logger log = LoggerFactory.getLogger(JdbcDao.class);
     private static final int ERROR_CODE_OF_NON_UNIQUE_FIELD = 23505;
 
 

@@ -17,7 +17,7 @@ import java.util.List;
 
 public class CheckoutAction implements Action {
 
-    public static final Logger log = LoggerFactory.getLogger(CheckoutAction.class);
+    private static final Logger log = LoggerFactory.getLogger(CheckoutAction.class);
 
     private static final String ATTRIBUTE_ERROR_MESSAGE = "checkoutErrors";
     private static final String FORM_NAME = "checkout";

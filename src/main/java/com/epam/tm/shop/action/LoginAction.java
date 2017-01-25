@@ -18,7 +18,7 @@ import java.util.List;
 
 public class LoginAction implements Action {
 
-    public static final Logger log = LoggerFactory.getLogger(LoginAction.class);
+    private static final Logger log = LoggerFactory.getLogger(LoginAction.class);
     private static final String LOGIN_ERROR_PARAMETER = "loginError";
     private static final String LOGIN_PARAMETER = "login";
     private static final String FORM_NAME = "login";

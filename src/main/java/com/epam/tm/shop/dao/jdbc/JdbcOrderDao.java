@@ -11,6 +11,8 @@ import com.epam.tm.shop.util.ConstantHolder;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.text.MessageFormat;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcOrderDao extends JdbcDao<Order> implements OrderDao {
-
+    private static final Logger log = LoggerFactory.getLogger(JdbcOrderDao.class);
     private static final String INSERT_QUERY = "INSERT INTO orders VALUES(DEFAULT,?,?,?,?,?,?)";
     private static final String UPDATE_QUERY = "UPDATE orders SET cart_id = ?, user_id = ?, time = ?, total = ?, total_unit = ?, order_status = ? WHERE id = ?";
     private static final String SELECT_QUERY = "SELECT * FROM orders JOIN order_status ON orders.order_status = order_status.id WHERE orders.id = ?";

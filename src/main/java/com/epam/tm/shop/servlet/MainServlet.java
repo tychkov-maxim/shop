@@ -19,7 +19,7 @@ import java.io.IOException;
 @MultipartConfig
 public class MainServlet extends HttpServlet {
 
-    public static final Logger log = LoggerFactory.getLogger(MainServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(MainServlet.class);
     private static final String VIEW_PATH = "/WEB-INF/jsp/";
     private static final String VIEW_EXTENSION = ".jsp";
     private static final String REDIRECT = "redirect:";

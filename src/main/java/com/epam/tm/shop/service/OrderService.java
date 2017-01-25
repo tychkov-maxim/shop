@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class OrderService {
 
-    public static final Logger log = LoggerFactory.getLogger(OrderService.class);
+    private static final Logger log = LoggerFactory.getLogger(OrderService.class);
 
     private static final String NOT_ENOUGH_MONEY_ERROR = "not.enough.money.error.message";
 

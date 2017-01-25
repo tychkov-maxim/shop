@@ -16,7 +16,7 @@ import java.util.List;
 
 public class ProductAction implements Action {
 
-    public static final Logger log = LoggerFactory.getLogger(ProductAction.class);
+    private static final Logger log = LoggerFactory.getLogger(ProductAction.class);
     private static final String FORM_NAME = "product";
     private static final String PRODUCT_ATTRIBUTE = "product";
     private static final String ID_PARAMETER = "id";

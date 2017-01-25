@@ -20,7 +20,7 @@ import java.util.List;
 
 public class GetOrdersAction implements Action {
 
-    public static final Logger log = LoggerFactory.getLogger(GetOrdersAction.class);
+    private static final Logger log = LoggerFactory.getLogger(GetOrdersAction.class);
     private static final String FORM_NAME = "show-orders";
     private static final String ATTRIBUTE_SESSION_USER_NAME = "user";
     private static final String NO_ONE_ORDER_MESSAGE = "no.one.order";

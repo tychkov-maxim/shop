@@ -26,7 +26,7 @@ import java.util.UUID;
 
 public class AddProductAction implements Action {
 
-    public static final Logger log = LoggerFactory.getLogger(AddProductAction.class);
+    private static final Logger log = LoggerFactory.getLogger(AddProductAction.class);
     private static final String FORM_NAME = "add-products";
     private static final String FORM_NAME_ADD_PRODUCT = "product";
     private static final String NAME_PARAMETER = "name";

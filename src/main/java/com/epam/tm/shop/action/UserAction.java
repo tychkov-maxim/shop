@@ -21,7 +21,7 @@ import java.util.List;
 
 public class UserAction implements Action {
 
-    public static final Logger log = LoggerFactory.getLogger(UserAction.class);
+    private static final Logger log = LoggerFactory.getLogger(UserAction.class);
 
     private static final String ATTRIBUTE_USER_NAME = "user";
     private static final String FORM_NAME = "profile";

@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.util.*;
 
 public class PropertyManager {
-    public static final Logger log = LoggerFactory.getLogger(PropertyManager.class);
+    private static final Logger log = LoggerFactory.getLogger(PropertyManager.class);
 
     private Properties properties;
 

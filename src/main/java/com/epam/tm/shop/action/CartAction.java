@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 
 public class CartAction implements Action {
 
-    public static final Logger log = LoggerFactory.getLogger(CartAction.class);
+    private static final Logger log = LoggerFactory.getLogger(CartAction.class);
 
     private static final String CART_ATTRIBUTE_IN_SESSION = "cart";
     private static final String ADD_PARAMETER = "add";

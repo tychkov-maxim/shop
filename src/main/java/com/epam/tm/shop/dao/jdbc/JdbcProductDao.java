@@ -9,6 +9,8 @@ import com.epam.tm.shop.entity.ProductCategory;
 import com.epam.tm.shop.util.ConstantHolder;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +22,7 @@ import java.util.List;
 
 public class JdbcProductDao extends JdbcDao<Product> implements ProductDao {
 
-
+    private static final Logger log = LoggerFactory.getLogger(JdbcProductDao.class);
     private static final String INSERT_QUERY = "INSERT INTO products VALUES(DEFAULT,?,?,?,?,?,?)";
     private static final String UPDATE_QUERY = "UPDATE products SET name = ?, description = ?, price = ?, price_unit = ?, category_id = ?, image_path = ? WHERE id = ?";
     private static final String SELECT_QUERY = "SELECT * FROM products JOIN categories ON products.category_id = categories.id WHERE products.id = ?";

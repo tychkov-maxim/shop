@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class LogoutAction implements Action {
 
-    public static final Logger log = LoggerFactory.getLogger(LogoutAction.class);
+    private static final Logger log = LoggerFactory.getLogger(LogoutAction.class);
     private static final String REDIRECT = "redirect:/";
 
     @Override

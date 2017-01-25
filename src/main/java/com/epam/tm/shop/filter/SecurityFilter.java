@@ -19,7 +19,7 @@ import java.util.List;
 @WebFilter(filterName = "SecurityFilter", urlPatterns = "*.do")
 public class SecurityFilter implements Filter {
 
-    public static final Logger log = LoggerFactory.getLogger(SecurityFilter.class);
+    private static final Logger log = LoggerFactory.getLogger(SecurityFilter.class);
     private static final String ATTRIBUTE_SESSION_USER_NAME = "user";
     private static final String END_URL = ".do";
     private static final String START_URL = "/";

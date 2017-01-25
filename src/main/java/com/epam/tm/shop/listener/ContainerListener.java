@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSessionListener;
 public class ContainerListener implements ServletContextListener,
         HttpSessionListener, HttpSessionAttributeListener {
 
-    public static final Logger log = LoggerFactory.getLogger(ContainerListener.class);
+    private static final Logger log = LoggerFactory.getLogger(ContainerListener.class);
     private ConnectionPool pool;
 
     // Public constructor is required by servlet spec

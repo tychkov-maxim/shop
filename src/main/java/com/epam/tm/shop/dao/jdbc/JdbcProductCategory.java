@@ -5,6 +5,8 @@ import com.epam.tm.shop.dao.DaoNoDataException;
 import com.epam.tm.shop.dao.ProductCategoryDao;
 import com.epam.tm.shop.entity.ProductCategory;
 import com.epam.tm.shop.util.ConstantHolder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcProductCategory extends JdbcDao<ProductCategory> implements ProductCategoryDao {
-
+    private static final Logger log = LoggerFactory.getLogger(JdbcProductCategory.class);
     private static final String INSERT_QUERY = "INSERT INTO categories VALUES(DEFAULT,?,?)";
     private static final String UPDATE_QUERY = "UPDATE categories SET name = ?, description = ? WHERE id = ?";
     private static final String SELECT_QUERY = "SELECT * FROM categories WHERE id = ?";

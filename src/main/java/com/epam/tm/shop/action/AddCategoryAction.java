@@ -17,7 +17,7 @@ import java.util.List;
 
 public class AddCategoryAction implements Action {
 
-    public static final Logger log = LoggerFactory.getLogger(AddCategoryAction.class);
+    private static final Logger log = LoggerFactory.getLogger(AddCategoryAction.class);
 
     private static final String FORM_NAME = "add-category";
     private static final String FORM_NAME_ADD_CATEGORY = "category";

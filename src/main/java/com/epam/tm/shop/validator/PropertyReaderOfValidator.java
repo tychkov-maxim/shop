@@ -16,7 +16,7 @@ import java.util.*;
 
 public class PropertyReaderOfValidator {
 
-    public static final Logger log = LoggerFactory.getLogger(PropertyReaderOfValidator.class);
+    private static final Logger log = LoggerFactory.getLogger(PropertyReaderOfValidator.class);
     private static final String DOT_REGEX = "[.]";
     private static final String FORM = "form";
     private static final int NUMBER_OF_TYPE_OF_VALIDATOR = 0;
