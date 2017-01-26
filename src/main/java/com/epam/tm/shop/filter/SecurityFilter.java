@@ -43,6 +43,7 @@ public class SecurityFilter implements Filter {
             userActions = propertyManager.getListWithPrefix(USER_PREFIX);
             adminActions = propertyManager.getListWithPrefix(ADMIN_PREFIX);
         } catch (PropertyManagerException e) {
+            log.error("reading file with security actions was failed",e);
             throw new ServletException(e);
         }
 
