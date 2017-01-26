@@ -59,6 +59,7 @@ public class AddCategoryAction implements Action {
         } catch (ServiceException e) {
             throw new ActionException(e);
         } catch (ServiceNonUniqueFieldException e) {
+            log.trace("product category {} already exist", productCategory.getName());
             errorMessage.add(PRODUCT_CATEGORY_EXIST_ERROR_MESSAGE);
             req.setAttribute(ADD_PRODUCT_CATEGORY_ERROR_ATTRIBUTE, errorMessage);
             req.setAttribute(NAME_PREVIOUS_PARAMETER, nameParam);

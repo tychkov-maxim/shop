@@ -81,6 +81,7 @@ public class ChangeOrderStatusAction implements Action {
             } catch (ServiceException e) {
                 throw new ActionException(e);
             } catch (ServiceNoDataException e) {
+                log.trace("no one order was found");
                 return REDIRECT_COMPLETED;
             }
         }

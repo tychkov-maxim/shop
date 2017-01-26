@@ -48,6 +48,7 @@ public class OrderAction implements Action {
         } catch (ServiceException | ServiceNonUniqueFieldException | ServiceNoDataException e) {
             throw new ActionException(e);
         } catch (ServiceExceptionError serviceExceptionError) {
+            log.trace("make order impossible");
             return CHECKOUT_REDIRECT;
         }
     }

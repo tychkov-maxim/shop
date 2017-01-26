@@ -35,6 +35,7 @@ public class ShowAddProductForm implements Action {
         } catch (ServiceException e) {
             throw new ActionException(e);
         } catch (ServiceNoDataException e) {
+            log.trace("no one category was found");
             List<String> errorMessage = new ArrayList<>();
             errorMessage.add(NO_ONE_CATEGORY_MESSAGE);
             req.setAttribute(ADD_PRODUCT_MESSAGE_ATTRIBUTE, errorMessage);
