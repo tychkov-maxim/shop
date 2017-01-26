@@ -1,8 +1,8 @@
 package com.epam.tm.shop.dao;
 
 import com.epam.tm.shop.dao.jdbc.JdbcDaoFactory;
-import com.epam.tm.shop.exception.JdbcException;
 import com.epam.tm.shop.exception.DaoException;
+import com.epam.tm.shop.exception.JdbcException;
 
 public abstract class DaoFactory implements AutoCloseable {
 

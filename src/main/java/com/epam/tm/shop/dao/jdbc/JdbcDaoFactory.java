@@ -2,8 +2,8 @@ package com.epam.tm.shop.dao.jdbc;
 
 import com.epam.tm.shop.dao.*;
 import com.epam.tm.shop.exception.JdbcException;
-import com.epam.tm.shop.pool.ConnectionPool;
 import com.epam.tm.shop.exception.PoolException;
+import com.epam.tm.shop.pool.ConnectionPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

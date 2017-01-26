@@ -2,14 +2,11 @@ package com.epam.tm.shop.action;
 
 import com.epam.tm.shop.entity.Product;
 import com.epam.tm.shop.entity.ProductCategory;
-import com.epam.tm.shop.exception.ActionException;
-import com.epam.tm.shop.exception.ServiceException;
-import com.epam.tm.shop.exception.ServiceNoDataException;
-import com.epam.tm.shop.exception.ServiceNonUniqueFieldException;
-import com.epam.tm.shop.service.*;
+import com.epam.tm.shop.exception.*;
+import com.epam.tm.shop.service.ProductCategoryService;
+import com.epam.tm.shop.service.ProductService;
 import com.epam.tm.shop.validator.FormValidator;
 import com.epam.tm.shop.validator.FormValidatorFactory;
-import com.epam.tm.shop.exception.ValidatorException;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.slf4j.Logger;
@@ -58,6 +55,7 @@ public class AddProductAction implements Action {
     private static final int START_OFFSET_IN_THE_DATA = 0;
 
     private List<String> errorMessages;
+
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
@@ -171,7 +169,7 @@ public class AddProductAction implements Action {
             log.trace("some exception", e);
             setErrorToAttributes(NOT_CORRECT_IMAGE_MESSAGE, NOT_CORRECT_IMAGE_ATTRIBUTE, req);
             return FORM_NAME;
-        } catch (ServletException e){
+        } catch (ServletException e) {
             throw new ActionException(e);
         }
 
@@ -182,7 +180,7 @@ public class AddProductAction implements Action {
         return id.toString().replaceAll("-", "") + extension;
     }
 
-    private void setErrorToAttributes(String errorMessage, String attribute, HttpServletRequest req){
+    private void setErrorToAttributes(String errorMessage, String attribute, HttpServletRequest req) {
         errorMessages.add(errorMessage);
         req.setAttribute(attribute, errorMessages);
     }

@@ -1,7 +1,5 @@
 package com.epam.tm.shop.exception;
 
-import com.epam.tm.shop.exception.DaoNoDataException;
-
 public class JdbcNoDataException extends DaoNoDataException {
 
     public JdbcNoDataException(String message) {

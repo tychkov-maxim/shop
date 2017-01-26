@@ -1,12 +1,12 @@
 package com.epam.tm.shop.dao.jdbc;
 
-import com.epam.tm.shop.exception.DaoException;
-import com.epam.tm.shop.exception.DaoNoDataException;
 import com.epam.tm.shop.dao.OrderDao;
 import com.epam.tm.shop.entity.Cart;
 import com.epam.tm.shop.entity.Order;
 import com.epam.tm.shop.entity.OrderStatus;
 import com.epam.tm.shop.entity.User;
+import com.epam.tm.shop.exception.DaoException;
+import com.epam.tm.shop.exception.DaoNoDataException;
 import com.epam.tm.shop.exception.JdbcException;
 import com.epam.tm.shop.exception.JdbcNoDataException;
 import com.epam.tm.shop.util.ConstantHolder;

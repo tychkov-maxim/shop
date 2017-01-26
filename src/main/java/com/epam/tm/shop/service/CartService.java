@@ -1,11 +1,14 @@
 package com.epam.tm.shop.service;
 
-import com.epam.tm.shop.dao.*;
+import com.epam.tm.shop.dao.CartDao;
+import com.epam.tm.shop.dao.DaoFactory;
+import com.epam.tm.shop.dao.ProductDao;
 import com.epam.tm.shop.entity.Cart;
 import com.epam.tm.shop.entity.Product;
 import com.epam.tm.shop.exception.DaoException;
 import com.epam.tm.shop.exception.DaoNoDataException;
 import com.epam.tm.shop.exception.ServiceException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

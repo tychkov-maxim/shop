@@ -1,10 +1,10 @@
 package com.epam.tm.shop.listener;
 
 import com.epam.tm.shop.dao.jdbc.JdbcDaoFactory;
-import com.epam.tm.shop.pool.ConnectionPool;
 import com.epam.tm.shop.exception.PoolException;
-import com.epam.tm.shop.util.PropertyManager;
 import com.epam.tm.shop.exception.PropertyManagerException;
+import com.epam.tm.shop.pool.ConnectionPool;
+import com.epam.tm.shop.util.PropertyManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

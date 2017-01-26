@@ -2,11 +2,11 @@ package com.epam.tm.shop.action;
 
 import com.epam.tm.shop.entity.User;
 import com.epam.tm.shop.exception.ActionException;
+import com.epam.tm.shop.exception.HashGeneratorException;
 import com.epam.tm.shop.exception.ServiceException;
 import com.epam.tm.shop.exception.ServiceNoDataException;
 import com.epam.tm.shop.service.UserService;
 import com.epam.tm.shop.util.HashGenerator;
-import com.epam.tm.shop.exception.HashGeneratorException;
 import com.epam.tm.shop.util.MD5Generator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

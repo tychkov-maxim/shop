@@ -1,6 +1,7 @@
 package com.epam.tm.shop.service;
 
-import com.epam.tm.shop.dao.*;
+import com.epam.tm.shop.dao.DaoFactory;
+import com.epam.tm.shop.dao.ProductDao;
 import com.epam.tm.shop.entity.Product;
 import com.epam.tm.shop.exception.*;
 
