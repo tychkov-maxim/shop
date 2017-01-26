@@ -17,7 +17,7 @@ public class CartService {
 
     public Cart getCartById(int id) throws ServiceException {
 
-        Map<Product, Integer> productIntegerMap = new HashMap<>();
+        Map<Product, Integer> newCartMap = new HashMap<>();
         List<Product> allProductsByCartId;
         Cart cart;
 
@@ -30,12 +30,16 @@ public class CartService {
             throw new ServiceException(e);
         }
 
-        int counter = 0;
-        for (Map.Entry<Product, Integer> entry : cart.getCart().entrySet()) {
-            productIntegerMap.put(allProductsByCartId.get(counter++), entry.getValue());
+        for (Map.Entry<Product, Integer> cartMap : cart.getCart().entrySet()) {
+            for (Product product : allProductsByCartId) {
+                if (product.equals(cartMap.getKey())) {
+                    newCartMap.put(product, cartMap.getValue());
+                    break;
+                }
+            }
         }
 
-        cart.setCart(productIntegerMap);
+        cart.setCart(newCartMap);
         return cart;
     }
 
