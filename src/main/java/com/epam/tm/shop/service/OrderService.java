@@ -4,16 +4,12 @@ import com.epam.tm.shop.dao.*;
 import com.epam.tm.shop.entity.*;
 import com.epam.tm.shop.exception.*;
 import org.joda.money.Money;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class OrderService {
-
-    private static final Logger log = LoggerFactory.getLogger(OrderService.class);
 
     private static final String NOT_ENOUGH_MONEY_ERROR = "not.enough.money.error.message";
 
