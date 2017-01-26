@@ -2,8 +2,9 @@ package com.epam.tm.shop.service;
 
 import com.epam.tm.shop.dao.*;
 import com.epam.tm.shop.entity.User;
+import com.epam.tm.shop.exception.*;
 import com.epam.tm.shop.util.HashGenerator;
-import com.epam.tm.shop.util.HashGeneratorException;
+import com.epam.tm.shop.exception.HashGeneratorException;
 import com.epam.tm.shop.util.MD5Generator;
 
 public class UserService {

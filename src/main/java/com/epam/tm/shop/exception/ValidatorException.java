@@ -1,4 +1,4 @@
-package com.epam.tm.shop.validator;
+package com.epam.tm.shop.exception;
 
 public class ValidatorException extends Exception {
 

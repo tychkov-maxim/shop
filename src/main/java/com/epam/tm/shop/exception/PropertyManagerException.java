@@ -1,4 +1,4 @@
-package com.epam.tm.shop.util;
+package com.epam.tm.shop.exception;
 
 public class PropertyManagerException extends Exception {
 

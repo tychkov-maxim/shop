@@ -1,11 +1,13 @@
 package com.epam.tm.shop.dao.jdbc;
 
 import com.epam.tm.shop.dao.CartDao;
-import com.epam.tm.shop.dao.DaoException;
-import com.epam.tm.shop.dao.DaoNoDataException;
+import com.epam.tm.shop.exception.DaoException;
+import com.epam.tm.shop.exception.DaoNoDataException;
 import com.epam.tm.shop.entity.Cart;
 import com.epam.tm.shop.entity.OrderStatus;
 import com.epam.tm.shop.entity.Product;
+import com.epam.tm.shop.exception.JdbcException;
+import com.epam.tm.shop.exception.JdbcNoDataException;
 import com.epam.tm.shop.util.ConstantHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

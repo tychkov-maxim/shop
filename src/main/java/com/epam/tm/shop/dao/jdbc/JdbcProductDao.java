@@ -1,11 +1,13 @@
 package com.epam.tm.shop.dao.jdbc;
 
-import com.epam.tm.shop.dao.DaoException;
-import com.epam.tm.shop.dao.DaoNoDataException;
+import com.epam.tm.shop.exception.DaoException;
+import com.epam.tm.shop.exception.DaoNoDataException;
 import com.epam.tm.shop.dao.ProductDao;
 import com.epam.tm.shop.entity.OrderStatus;
 import com.epam.tm.shop.entity.Product;
 import com.epam.tm.shop.entity.ProductCategory;
+import com.epam.tm.shop.exception.JdbcException;
+import com.epam.tm.shop.exception.JdbcNoDataException;
 import com.epam.tm.shop.util.ConstantHolder;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;

@@ -1,4 +1,4 @@
-package com.epam.tm.shop.action;
+package com.epam.tm.shop.exception;
 
 public class ActionException extends Exception {
     public ActionException(String message) {

@@ -2,9 +2,10 @@ package com.epam.tm.shop.action;
 
 import com.epam.tm.shop.entity.Cart;
 import com.epam.tm.shop.entity.Product;
+import com.epam.tm.shop.exception.ActionException;
 import com.epam.tm.shop.service.ProductService;
-import com.epam.tm.shop.service.ServiceException;
-import com.epam.tm.shop.service.ServiceNoDataException;
+import com.epam.tm.shop.exception.ServiceException;
+import com.epam.tm.shop.exception.ServiceNoDataException;
 import com.epam.tm.shop.validator.NotEmptyParameterValidator;
 import com.epam.tm.shop.validator.OnlyNumberValidator;
 import com.epam.tm.shop.validator.Validator;

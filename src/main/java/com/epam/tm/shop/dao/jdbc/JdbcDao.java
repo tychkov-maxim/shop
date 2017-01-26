@@ -2,6 +2,9 @@ package com.epam.tm.shop.dao.jdbc;
 
 import com.epam.tm.shop.dao.Dao;
 import com.epam.tm.shop.entity.BaseEntity;
+import com.epam.tm.shop.exception.JdbcException;
+import com.epam.tm.shop.exception.JdbcNoDataException;
+import com.epam.tm.shop.exception.JdbcNonUniqueFieldException;
 import com.epam.tm.shop.util.ConstantHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

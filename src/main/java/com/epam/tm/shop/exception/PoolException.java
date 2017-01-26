@@ -1,4 +1,4 @@
-package com.epam.tm.shop.pool;
+package com.epam.tm.shop.exception;
 
 public class PoolException extends Exception {
 

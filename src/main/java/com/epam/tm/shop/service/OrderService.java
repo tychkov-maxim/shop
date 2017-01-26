@@ -2,6 +2,7 @@ package com.epam.tm.shop.service;
 
 import com.epam.tm.shop.dao.*;
 import com.epam.tm.shop.entity.*;
+import com.epam.tm.shop.exception.*;
 import org.joda.money.Money;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

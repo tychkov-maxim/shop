@@ -1,6 +1,6 @@
-package com.epam.tm.shop.dao.jdbc;
+package com.epam.tm.shop.exception;
 
-import com.epam.tm.shop.dao.DaoNoDataException;
+import com.epam.tm.shop.exception.DaoNoDataException;
 
 public class JdbcNoDataException extends DaoNoDataException {
 

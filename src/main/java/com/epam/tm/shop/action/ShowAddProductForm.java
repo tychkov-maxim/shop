@@ -1,9 +1,10 @@
 package com.epam.tm.shop.action;
 
 import com.epam.tm.shop.entity.ProductCategory;
+import com.epam.tm.shop.exception.ActionException;
 import com.epam.tm.shop.service.ProductCategoryService;
-import com.epam.tm.shop.service.ServiceException;
-import com.epam.tm.shop.service.ServiceNoDataException;
+import com.epam.tm.shop.exception.ServiceException;
+import com.epam.tm.shop.exception.ServiceNoDataException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

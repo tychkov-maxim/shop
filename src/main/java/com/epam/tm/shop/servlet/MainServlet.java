@@ -1,9 +1,9 @@
 package com.epam.tm.shop.servlet;
 
 import com.epam.tm.shop.action.Action;
-import com.epam.tm.shop.action.ActionException;
+import com.epam.tm.shop.exception.ActionException;
 import com.epam.tm.shop.action.ActionFactory;
-import com.epam.tm.shop.action.ActionFactoryException;
+import com.epam.tm.shop.exception.ActionFactoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

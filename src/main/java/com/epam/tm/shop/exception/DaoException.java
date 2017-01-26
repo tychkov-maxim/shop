@@ -1,4 +1,4 @@
-package com.epam.tm.shop.dao;
+package com.epam.tm.shop.exception;
 
 public class DaoException extends Exception {
     public DaoException(String message) {

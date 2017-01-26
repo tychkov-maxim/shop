@@ -1,6 +1,6 @@
-package com.epam.tm.shop.dao.jdbc;
+package com.epam.tm.shop.exception;
 
-import com.epam.tm.shop.dao.DaoNonUniqueFieldException;
+import com.epam.tm.shop.exception.DaoNonUniqueFieldException;
 
 public class JdbcNonUniqueFieldException extends DaoNonUniqueFieldException {
     public JdbcNonUniqueFieldException(String message) {

@@ -2,9 +2,10 @@ package com.epam.tm.shop.action;
 
 import com.epam.tm.shop.entity.Role;
 import com.epam.tm.shop.entity.User;
-import com.epam.tm.shop.service.ServiceException;
-import com.epam.tm.shop.service.ServiceNoDataException;
-import com.epam.tm.shop.service.ServiceNonUniqueFieldException;
+import com.epam.tm.shop.exception.ActionException;
+import com.epam.tm.shop.exception.ServiceException;
+import com.epam.tm.shop.exception.ServiceNoDataException;
+import com.epam.tm.shop.exception.ServiceNonUniqueFieldException;
 import com.epam.tm.shop.service.UserService;
 import com.epam.tm.shop.validator.MoneyValidator;
 import com.epam.tm.shop.validator.NotEmptyParameterValidator;

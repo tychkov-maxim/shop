@@ -1,6 +1,8 @@
 package com.epam.tm.shop.pool;
 
 
+import com.epam.tm.shop.exception.PoolException;
+import com.epam.tm.shop.exception.PooledConnectionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

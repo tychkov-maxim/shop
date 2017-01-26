@@ -2,10 +2,14 @@ package com.epam.tm.shop.action;
 
 import com.epam.tm.shop.entity.Product;
 import com.epam.tm.shop.entity.ProductCategory;
+import com.epam.tm.shop.exception.ActionException;
+import com.epam.tm.shop.exception.ServiceException;
+import com.epam.tm.shop.exception.ServiceNoDataException;
+import com.epam.tm.shop.exception.ServiceNonUniqueFieldException;
 import com.epam.tm.shop.service.*;
 import com.epam.tm.shop.validator.FormValidator;
 import com.epam.tm.shop.validator.FormValidatorFactory;
-import com.epam.tm.shop.validator.ValidatorException;
+import com.epam.tm.shop.exception.ValidatorException;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.slf4j.Logger;

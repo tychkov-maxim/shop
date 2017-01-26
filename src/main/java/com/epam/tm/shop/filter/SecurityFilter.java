@@ -3,7 +3,7 @@ package com.epam.tm.shop.filter;
 import com.epam.tm.shop.entity.Role;
 import com.epam.tm.shop.entity.User;
 import com.epam.tm.shop.util.PropertyManager;
-import com.epam.tm.shop.util.PropertyManagerException;
+import com.epam.tm.shop.exception.PropertyManagerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

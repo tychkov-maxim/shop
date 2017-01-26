@@ -1,5 +1,6 @@
 package com.epam.tm.shop.util;
 
+import com.epam.tm.shop.exception.PropertyManagerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
