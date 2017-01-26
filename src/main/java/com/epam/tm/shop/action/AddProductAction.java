@@ -57,10 +57,11 @@ public class AddProductAction implements Action {
     private static final int NO_MORE_DATA_IN_STREAM = -1;
     private static final int START_OFFSET_IN_THE_DATA = 0;
 
+    private List<String> errorMessages;
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse res) throws ActionException {
 
-        List<String> errorMessages = new ArrayList<>();
+        errorMessages = new ArrayList<>();
         List<ProductCategory> allProductCategory;
         ProductCategory productCategory = null;
         log.trace("start to add product action");
@@ -75,8 +76,7 @@ public class AddProductAction implements Action {
             throw new ActionException(e);
         } catch (ServiceNoDataException e) {
             log.trace("no one category");
-            errorMessages.add(NO_ONE_PRODUCT_CATEGORY_ERROR_MESSAGE);
-            req.setAttribute(ADD_PRODUCT_ERROR_ATTRIBUTE, errorMessages);
+            setErrorToAttributes(NO_ONE_PRODUCT_CATEGORY_ERROR_MESSAGE, ADD_PRODUCT_ERROR_ATTRIBUTE, req);
             return FORM_NAME;
         }
 
@@ -132,8 +132,7 @@ public class AddProductAction implements Action {
                     file = new File(realPath + IMAGE_FOLDER + uniqueFileName);
                 } else {
                     log.trace("file doesn't have jpg or png extension");
-                    errorMessages.add(NOT_CORRECT_IMAGE_MESSAGE);
-                    req.setAttribute(NOT_CORRECT_IMAGE_ATTRIBUTE, errorMessages);
+                    setErrorToAttributes(NOT_CORRECT_IMAGE_MESSAGE, NOT_CORRECT_IMAGE_ATTRIBUTE, req);
                     return FORM_NAME;
                 }
 
@@ -148,8 +147,7 @@ public class AddProductAction implements Action {
                     throw new ActionException(e);
                 } catch (ServiceNonUniqueFieldException e) {
                     log.trace("product {} already exist", product.getName());
-                    errorMessages.add(PRODUCT_EXIST_ERROR_MESSAGE);
-                    req.setAttribute(ADD_PRODUCT_ERROR_ATTRIBUTE, errorMessages);
+                    setErrorToAttributes(PRODUCT_EXIST_ERROR_MESSAGE, ADD_PRODUCT_ERROR_ATTRIBUTE, req);
                     return FORM_NAME;
                 }
 
@@ -162,22 +160,19 @@ public class AddProductAction implements Action {
                     }
                     log.trace("file was uploaded");
                 }
-
-                errorMessages.add(PRODUCT_ADDED_SUCCESSFULLY);
-                req.setAttribute(ADD_PRODUCT_MESSAGE_ATTRIBUTE, errorMessages);
+                setErrorToAttributes(PRODUCT_ADDED_SUCCESSFULLY, ADD_PRODUCT_MESSAGE_ATTRIBUTE, req);
                 return FORM_NAME;
-
             } else {
                 log.trace("don't have multipart of form or file too size");
-                errorMessages.add(NOT_CORRECT_IMAGE_MESSAGE);
-                req.setAttribute(NOT_CORRECT_IMAGE_ATTRIBUTE, errorMessages);
+                setErrorToAttributes(NOT_CORRECT_IMAGE_MESSAGE, NOT_CORRECT_IMAGE_ATTRIBUTE, req);
                 return FORM_NAME;
             }
-        } catch (IllegalStateException | IOException | ServletException e) {
+        } catch (IllegalStateException | IOException e) {
             log.trace("some exception", e);
-            errorMessages.add(NOT_CORRECT_IMAGE_MESSAGE);
-            req.setAttribute(NOT_CORRECT_IMAGE_ATTRIBUTE, errorMessages);
+            setErrorToAttributes(NOT_CORRECT_IMAGE_MESSAGE, NOT_CORRECT_IMAGE_ATTRIBUTE, req);
             return FORM_NAME;
+        } catch (ServletException e){
+            throw new ActionException(e);
         }
 
     }
@@ -185,6 +180,11 @@ public class AddProductAction implements Action {
     private String getUniqueFileName(String extension) {
         UUID id = UUID.randomUUID();
         return id.toString().replaceAll("-", "") + extension;
+    }
+
+    private void setErrorToAttributes(String errorMessage, String attribute, HttpServletRequest req){
+        errorMessages.add(errorMessage);
+        req.setAttribute(attribute, errorMessages);
     }
 
 }

@@ -43,7 +43,7 @@ public class UserRegisterAction implements Action {
 
         log.trace("start to register user");
         String login = req.getParameter(LOGIN_PARAMETER);
-        String passwd = req.getParameter(PASS_PARAMETER);
+        String password = req.getParameter(PASS_PARAMETER);
         String firstName = req.getParameter(FIRST_NAME_PARAMETER);
         String secondName = req.getParameter(SECOND_NAME_PARAMETER);
         String address = req.getParameter(ADDRESS_PARAMETER);
@@ -63,7 +63,7 @@ public class UserRegisterAction implements Action {
         }
 
 
-        User user = new User(login, passwd, firstName, secondName, Role.getUserRole(), Money.of(CurrencyUnit.USD, 0), address);
+        User user = new User(login, password, firstName, secondName, Role.getUserRole(), Money.of(CurrencyUnit.USD, 0), address);
         UserService userService = new UserService();
         List<String> errorMessage = new ArrayList<>();
         try {
