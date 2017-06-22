@@ -2,15 +2,45 @@ package com.epam.tm.shop.entity;
 
 import org.joda.money.Money;
 
+import javax.persistence.*;
+import java.math.BigDecimal;
+
+@Entity
+@Table(name = "USERS")
 public class User extends BaseEntity {
+
+
+    @Column(name = "FIRST_NAME")
     private String firstName;
+
+    @Column(name = "LAST_NAME")
     private String lastName;
+
+    @Column(name = "LOGIN")
     private String login;
+
+    @Column(name = "PASSWORD")
     private String password;
+
+    @Column(name = "ROLE")
+    @OneToOne
     private Role role;
+
+    @Transient
     private Money account;
+
+    @Column(name = "ADDRESS")
     private String address;
 
+    @Column(name = "ACCOUNT")
+    public BigDecimal getAmountOfAccount(){
+        return account.getAmount();
+    }
+
+    @Column(name = "ACCOUNT_UNIT")
+    public String getCurrencyOfAccount(){
+        return account.getCurrencyUnit().toString();
+    }
 
     public User() {
     }
@@ -80,6 +110,8 @@ public class User extends BaseEntity {
     public void setAddress(String address) {
         this.address = address;
     }
+
+
 
 
     @Override

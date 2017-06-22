@@ -1,6 +1,13 @@
 package com.epam.tm.shop.entity;
 
+import javax.persistence.*;
+
+@MappedSuperclass
 public class BaseEntity {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "NEWS_SEQ")
+    @SequenceGenerator(name = "NEWS_SEQ", sequenceName = "NEWS_SEQ", allocationSize = 1)
     private Integer id;
 
     public BaseEntity() {

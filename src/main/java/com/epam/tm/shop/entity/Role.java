@@ -1,7 +1,14 @@
 package com.epam.tm.shop.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "ROLES")
 public class Role extends BaseEntity {
 
+    @Column(name = "NAME")
     private String name;
 
     public Role() {
